@@ -41,10 +41,19 @@ stage 應對應子階段，例如 `p1.2`、`p2.5`、`p3.6.1`。
 
 ## Branch Strategy
 
-- 每個子階段用獨立 branch
-- branch 範例：`p1.2-parser`、`p2.1-fs-access-api`
-- 驗收通過後再合回 `main`
-- 不直接把大型子階段工作做在 `main`
+兩層結構：
+
+```
+main
+ └── dev_jett/phase1        ← 從 main 切出；phase 完成後 PR → main（人工審核）
+       ├── dev_jett/p1.1    ← 從 phase1 切出；完成後 PR → phase1（自動，通過驗收清單即可）
+       ├── dev_jett/p1.2    ← 從 phase1 切出（p1.1 merge 後才切）
+       └── ...
+```
+
+- **phase branch**（`dev_jett/phase1`、`dev_jett/phase2`…）：從 `main` 切出，整個 phase 完成後 PR 到 `main`
+- **subtask branch**（`dev_jett/p1.2-parser`…）：從 phase branch 切出，完成後 PR 回 phase branch
+- 不直接把任何工作做在 `main` 或裸 `dev_jett`
 
 ## Acceptance Checklist
 

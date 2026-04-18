@@ -15,7 +15,7 @@ description: "Use this skill when the user wants to create, update, query, or ma
 
 ## Do Not Use
 
-- 管理 Claude Code 自身 session 內的暫存任務（那是內建 TaskCreate 工具的職責）
+- 管理 AI agent session 內的暫存任務（那是 agent 內建 task 工具的職責）
 - 替其他服務（GitHub Issues、Linear、Jira）操作遠端任務
 - 對 `docs/task-plan/task-plan.json` 直接讀寫 JSON，**一律透過 script**
 
@@ -23,10 +23,7 @@ description: "Use this skill when the user wants to create, update, query, or ma
 
 Script 安裝在與這份 SKILL.md 相同目錄下的 `scripts/` 子目錄，從 **專案根目錄** 執行。
 
-路徑慣例（依安裝的 target 決定）：
-
-- Claude Code：`./scripts/` 解析為 `.claude/skills/task-plan/scripts/`
-- Codex：`./scripts/` 解析為 `.agents/skills/task-plan/scripts/`
+路徑慣例：`./scripts/` 解析為 `.agents/skills/task-plan/scripts/`
 
 ### 偵測作業系統
 
@@ -41,7 +38,7 @@ uname -s 2>/dev/null
 | `Linux` 或 `Darwin` | Linux / macOS | `bash <skill-root>/scripts/task-plan.sh <cmd>` |
 | 指令失敗或無輸出 | Windows | `powershell -File <skill-root>\scripts\task-plan.ps1 <cmd>` |
 
-`<skill-root>` 替換為對應 target 的安裝路徑（例如 `.claude/skills/task-plan`）。
+`<skill-root>` 替換為安裝路徑（例如 `.agents/skills/task-plan`）。
 
 > **zsh 注意**：不要把完整指令存成字串變數再展開。
 > zsh 不做 word splitting，`SCRIPT="bash ..."; $SCRIPT cmd` 會把整個字串當成單一指令名稱而失敗。
