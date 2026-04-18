@@ -245,12 +245,28 @@ aspectRatio: "16:9"
 
 **每個子階段完成時必須 commit**。由 `git-workflow-specialist` skill 把關。
 
+### 分支層級說明
+
+本專案採用兩層分支結構：
+
+```
+main
+ └── dev_jett/phase1          ← 從 main 切出；整個 phase 完成後 PR → main（人工審核）
+       ├── dev_jett/p1.1      ← 從 phase1 切出；完成後 PR → phase1（自動，通過驗收清單即可）
+       ├── dev_jett/p1.2      ← 從 phase1 切出（p1.1 merge 後才切）
+       └── ...
+ └── dev_jett/phase2          ← phase1 合入 main 後才切出
+```
+
+- **phase branch**（如 `dev_jett/phase1`）：從 `main` 切出，phase 全部完成後發 PR 到 `main` 等人工審核
+- **subtask branch**（如 `dev_jett/p1.2-parser`）：從 phase branch 切出，完成後 PR merge 回 phase branch，**不需等人工審核**，通過 lint / test / build 即可
+
 ### 規則
 
-1. **`main` 是正式整合分支**：所有任務都必須先從 `main` 切出工作分支，再回到 `main` 進行整合
-2. **所有開發與 commit 僅能發生在 `dev_jett/*` 分支**：每個子階段開一個 branch，例如 `dev_jett/p1.2-parser`、`dev_jett/p2.1-fs-access-api`
-3. **禁止建立裸 `dev_jett` 分支**：`dev_jett` 只作為 branch namespace 使用，合法名稱必須是 `dev_jett/<task-name>`
-4. **`main` 禁止直接 commit**：必須先在對應的 `dev_jett/*` 分支完成階段性任務、驗收與文件更新，之後才能發 PR 到 `main`
+1. **`main` 是正式整合分支**：phase branch 從 `main` 切出，phase 完成後 PR 回 `main`
+2. **所有開發與 commit 僅能發生在 `dev_jett/*` 分支**：subtask 用 `dev_jett/p1.2-parser` 格式，phase 用 `dev_jett/phase1` 格式
+3. **禁止建立裸 `dev_jett` 分支**：`dev_jett` 只作為 branch namespace，合法名稱必須是 `dev_jett/<task-name>`
+4. **`main` 禁止直接 commit**：subtask 完成 → PR → phase branch；phase 完成 → PR → main
 5. **Commit message 格式**：見上方 Roadmap 表格，或 `.agents/skills/git-workflow-specialist/SKILL.md`
 6. **Commit 前驗收清單**（子階段結束時）：
    - 在容器內執行 `pnpm lint` 通過（零 warning）
@@ -258,7 +274,7 @@ aspectRatio: "16:9"
    - 在容器內執行 `pnpm build` 通過
    - 手動驗收該子階段目標（逐條對照 `docs/roadmap.md`）
 7. **每個任務結束後都要使用 `task-plan` skill**：更新 `docs/task-plan/task-plan.json` 中對應任務狀態，並立即查詢目前進度，確認當前完成比例、目前所在階段與下一個待辦，避免資訊遺失
-8. **Commit 後流程**：更新 `docs/progress.md`、更新 `AGENTS.md` 的「當前階段」行，確認 `task-plan` 已同步，再發 PR 從 `dev_jett/*` 合併到 `main`
+8. **Commit 後流程**：更新 `docs/progress.md`、更新 `AGENTS.md` 的「當前階段」行，確認 `task-plan` 已同步，再依層級發 PR（subtask → phase branch；phase → main）
 
 ### 例外
 
@@ -319,6 +335,6 @@ docker compose run --rm app pnpm electron:build
 6. **Dark mode 不是後補**，每個 component 寫完都要兩種配色都檢查。
 7. **每個子階段結束時主動呼叫 `git-workflow-specialist` 跑驗收清單**，不要自己跳過。
 8. **每個任務結束後都要呼叫 `task-plan` skill**：同步任務狀態並查詢當下進度，不可只改程式不改計畫表。
-9. **所有工作分支都必須從 `main` 切出**，不要從其他 `dev_jett/*` 分支再切新分支。
-10. **`main` 只接受來自 `dev_jett/*` 的 PR**，不要直接在 `main` 上開發或 commit，也不要建立裸 `dev_jett` 分支。
+9. **分支層級不可搞混**：subtask branch 從 phase branch 切出，phase branch 從 `main` 切出；不可 subtask 直接從 `main` 切，也不可 phase 從其他 subtask 切。
+10. **`main` 只接受 phase branch 的 PR**，不要直接在 `main` 上開發或 commit，也不要建立裸 `dev_jett` 分支。
 11. **`AGENTS.md` 的「當前階段」行**每個子階段結束後要更新。
