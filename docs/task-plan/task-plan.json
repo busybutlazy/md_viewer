@@ -108,8 +108,8 @@
           "order": "1.3",
           "title": "P1.2 Markdown parser 與測試",
           "description": "依 template-spec 完成 frontmatter、mode detect、quiz、slides parser 與警告機制。驗收：1. parser 邏輯測試覆蓋率 > 90%。 2. template-spec 列出的 quiz/slides 邊界條件全部有測試且通過。 3. 錯誤格式 markdown 不 crash，而是回傳合理警告。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.2 parser 與測試，lint/test/build 與 coverage 驗證通過。",
           "created_at": "2026-04-18",
           "updated_at": "2026-04-18",
           "subtasks": [
@@ -118,8 +118,8 @@
               "order": "1.3.1",
               "title": "完成 frontmatter 與 mode 偵測",
               "description": "實作 gray-matter 包裝與 reading、quiz、slides 模式判定。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 gray-matter frontmatter 包裝與 mode detection。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -129,8 +129,8 @@
               "order": "1.3.2",
               "title": "完成 quiz 與 slides parser",
               "description": "把 markdown 解析成 Quiz 與 SlideDeck 結構，含 warning 驗證函式。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 quiz/slides parser 與 warning 驗證函式。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -140,8 +140,8 @@
               "order": "1.3.3",
               "title": "補齊 parser fixtures 與測試",
               "description": "依 template-spec 建 fixture，覆蓋邊界條件、錯誤輸入與 coverage 目標。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "補齊 parser fixtures、邊界條件測試，coverage 達 98.64%。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []

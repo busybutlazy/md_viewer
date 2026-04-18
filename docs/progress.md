@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.2`（待開始）
+**當前階段**：`P1.3`（待開始）
 
 ---
 
@@ -33,6 +33,28 @@
 
 ## 日誌
 
+## P1.2 — Markdown parser 與測試
+**完成日期**：2026-04-18
+**Commit**：待提交 `feat(p1.2): 實作 markdown parser 與完整測試`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontmatter`、`detect-mode`、`quiz`、`slides`、`validate` parser 模組
+- 以純 TypeScript 實作題目 SHA-1 id 生成，避免瀏覽器端依賴 Node API
+- 建立 parser fixtures 與邊界條件測試，涵蓋 quiz/slides 的主要格式坑點
+- 以 Vitest coverage 驗證 parser 邏輯覆蓋率達 `98.64% statements / 94.31% branches`
+
+### 遇到的問題
+- `vitest` path alias 需要顯式配置，否則 parser 測試無法解析 `@/`
+- 覆蓋率 provider 初次安裝版本與現有 `vitest` 不相容，需要對齊到 `3.2.4`
+
+### 心得 / 決策
+- parser 維持純函式，不做 I/O，也不依賴 Node-only runtime
+- 先把 frontmatter 與 mode detection 鎖穩，再往 quiz/slides parser 擴展，能更快定位錯誤
+
+### 下一步
+- 進入 P1.3 檔案上傳與 document store
+
 ## P1.1 — 設計系統基礎
 **完成日期**：2026-04-18
 **Commit**：待提交 `feat(p1.1): 建立設計系統與共用 UI 元件`
@@ -53,7 +75,7 @@
 - Theme 以 `system` 為預設，再允許使用者覆寫成 `light` / `dark`
 
 ### 下一步
-- 進入 P1.2 Markdown parser 與測試
+- 進入 P1.3 檔案上傳與 document store
 
 ## P1.0 — 專案初始化與容器化基礎
 **完成日期**：2026-04-18

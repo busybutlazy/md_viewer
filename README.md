@@ -14,12 +14,13 @@
 
 ## Current Status
 
-目前階段為 `P1.2`，已完成 `P1.1` 設計系統基礎。  
+目前階段為 `P1.3`，已完成 `P1.2` parser 與測試。  
 目前已具備：
 
 - Docker Compose 開發環境
 - Next.js 15 + TypeScript + Tailwind + Vitest 專案骨架
 - AppShell、dark mode、基礎 UI 元件與設計 tokens
+- frontmatter / mode detection / quiz / slides parser 與 parser 測試
 - 前端應用集中於 `frontend/`，方便後續與 `backend/` 並存
 
 ## Planned Features
