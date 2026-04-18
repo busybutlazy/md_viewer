@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.4`（待開始）
+**當前階段**：`P1.5`（待開始）
 
 ---
 
@@ -32,6 +32,32 @@
 ---
 
 ## 日誌
+
+## P1.4 — 閱讀模式
+**完成日期**：2026-04-19
+**Commit**：待提交 `feat(p1.4): 實作閱讀模式與 typography`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `MarkdownView` 共用渲染核心，整合 `react-markdown`、`remark-gfm`、`rehype-raw`、`rehype-highlight`
+- 建立 `CodeBlock`、`Heading`、`ProseImage`、`TableOfContents`、`ReadingProgress` 等閱讀模式元件
+- 完成 heading slug 萃取與重複 id 處理，支援 H1-H6 anchor 與 H2/H3 TOC 導覽
+- 重做 `/read` 頁面，加入文章 hero、metadata、tag badges、warning banner 與 sticky TOC 版面
+- 補齊 `frontend/src/styles/prose.css`，微調長文、表格、blockquote、task list、inline code 與 code block 樣式
+- 新增 `frontend/samples/reading-deep-dive.md` 作為長文手動驗收 sample，並補上 heading extraction 測試
+
+### 遇到的問題
+- `useMemo` 初版放在 early return 後面，違反 hooks 順序規則，需改為先計算安全輸入
+- `globals.css` 不能用 `@/styles/prose.css` alias，必須改成相對路徑匯入
+- `react-markdown` 的 `img` `src` 型別比預期寬，需在進 `ProseImage` 前先收斂成字串
+
+### 心得 / 決策
+- `extractMarkdownHeadings()` 獨立成共用工具，未來可被 slides / editor preview 重用，而不是把 TOC 邏輯綁死在 `/read`
+- `MarkdownView` 以共用渲染核心設計，後續 exam explanation 與 editor preview 能直接沿用
+- 手機版 TOC 採浮動開關，不強制常駐側邊欄，避免擋內容
+
+### 下一步
+- 進入 P1.5 考試模式作答流程
 
 ## P1.3 — 檔案上傳與 document store
 **完成日期**：2026-04-19

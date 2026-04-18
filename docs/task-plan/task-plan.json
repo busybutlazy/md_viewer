@@ -198,20 +198,20 @@
           "order": "1.5",
           "title": "P1.4 閱讀模式",
           "description": "完成閱讀模式頁面、MarkdownView 與閱讀輔助元件。驗收：1. 1500 字含 code/table/image/list/blockquote 長文渲染正常。 2. 亮暗模式字級、行高、對比舒適。 3. TOC 點擊跳轉正確且當前段落高亮。 4. 手機版 TOC 不遮擋內容。 5. 所有 heading 具 id，支援 hash 直達。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.4 閱讀模式與 typography；lint/test/build 通過並補齊 sample 與 heading 測試。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "leihwe5b",
               "order": "1.5.1",
               "title": "建立閱讀模式頁面骨架",
               "description": "完成 read route、版面配置與文件 meta 呈現區塊。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 /read 頁面骨架、文章 hero、metadata 與 warning banner 佈局。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -219,10 +219,10 @@
               "order": "1.5.2",
               "title": "實作 MarkdownView 客製元件",
               "description": "完成 CodeBlock、Heading、ProseImage 與基本 markdown 渲染管線。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 MarkdownView、CodeBlock、Heading、ProseImage 與 prose typography 樣式。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -230,10 +230,10 @@
               "order": "1.5.3",
               "title": "加入閱讀輔助功能",
               "description": "完成 TOC、ReadingProgress、heading id 與 prose.css 微調。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 TableOfContents、ReadingProgress、heading slug 測試與長文 sample 驗收素材。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
