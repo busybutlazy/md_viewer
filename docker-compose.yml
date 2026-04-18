@@ -1,7 +1,7 @@
 services:
   app:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
     working_dir: /app
     ports:
@@ -10,7 +10,7 @@ services:
       CHOKIDAR_USEPOLLING: "1"
       PNPM_STORE_DIR: /pnpm/store
     volumes:
-      - .:/app
+      - ./frontend:/app
       - app_node_modules:/app/node_modules
       - app_pnpm_store:/pnpm/store
     command: ["pnpm", "dev", "--hostname", "0.0.0.0"]

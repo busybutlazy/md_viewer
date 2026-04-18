@@ -20,6 +20,7 @@
 - Docker Compose 開發環境
 - Next.js 15 + TypeScript + Tailwind + Vitest 專案骨架
 - 首頁字型驗證內容與基礎目錄結構
+- 前端應用集中於 `frontend/`，方便後續與 `backend/` 並存
 
 ## Planned Features
 
@@ -61,6 +62,13 @@
 - [docs/decisions.md](docs/decisions.md)：架構決策紀錄
 - [docs/task-plan/task-plan.json](docs/task-plan/task-plan.json)：任務清單
 
+## Repo Layout
+
+- `frontend/`：Next.js 前端應用與前端容器設定
+- `backend/`：後端服務預留位置
+- `docs/`：roadmap、progress、ADR、template spec
+- 根目錄：repo 文件與 `docker-compose.yml`
+
 ## Development Workflow
 
 此專案採 Docker-first 開發方式，原則上不在本機安裝專案依賴。  
@@ -72,6 +80,8 @@
 - `docker compose run --rm app pnpm lint`
 - `docker compose run --rm app pnpm test`
 - `docker compose run --rm app pnpm build`
+
+前端應用實體檔案位於 `frontend/`，但仍由根目錄的 `docker-compose.yml` 統一啟動。
 
 ## AI Workflow
 

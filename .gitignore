@@ -3,10 +3,12 @@
 
 # Dependencies
 node_modules/
+frontend/node_modules/
 .pnpm-store/
 
 # Build artifacts
 .next/
+frontend/.next/
 out/
 dist/
 build/

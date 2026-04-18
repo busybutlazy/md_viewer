@@ -102,38 +102,44 @@ markdown-reader-pro/
 │   ├── decisions.md             # 架構決策紀錄（ADR-lite）
 │   ├── template-spec.md         # 三種模版的完整規範
 │   └── phase2-notes.md          # 階段 2 自用心得（階段 2 才會產生）
+├── frontend/
+│   ├── Dockerfile               # 前端容器映像
+│   ├── package.json
+│   ├── src/
+│   │   ├── app/                 # Next.js App Router
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx         # 首頁：上傳 / 選資料夾 / 範例
+│   │   │   ├── read/page.tsx
+│   │   │   ├── exam/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── result/page.tsx
+│   │   │   ├── slides/page.tsx
+│   │   │   └── edit/page.tsx    # P1.5 起
+│   │   ├── components/
+│   │   │   ├── ui/              # shadcn/ui 客製
+│   │   │   ├── markdown/        # MarkdownView、CodeBlock、Heading、TOC
+│   │   │   ├── exam/            # QuestionCard、OptionItem、ResultSummary
+│   │   │   ├── slides/          # SlideFrame、SlideNavigator、SpeakerNotes
+│   │   │   ├── editor/          # P1.5 起：CodeMirror wrapper
+│   │   │   └── folder/          # P2 起：FolderTree、FileSearch
+│   │   ├── lib/
+│   │   │   ├── parsers/         # 共用解析邏輯
+│   │   │   ├── fs/              # P2 起：FileSystemAdapter 與實作
+│   │   │   ├── store/           # Zustand stores
+│   │   │   └── utils.ts
+│   │   └── styles/
+│   │       ├── prose.css
+│   │       └── slides.css
+│   ├── public/
+│   └── samples/                 # 三個模式的範例 .md
+├── backend/                     # 後端服務預留位置
 ├── .agents/
 │   └── skills/                  # repo-local skills
-├── src/
-│   ├── app/                     # Next.js App Router
-│   │   ├── layout.tsx
-│   │   ├── page.tsx             # 首頁：上傳 / 選資料夾 / 範例
-│   │   ├── read/page.tsx
-│   │   ├── exam/
-│   │   │   ├── page.tsx
-│   │   │   └── result/page.tsx
-│   │   ├── slides/page.tsx
-│   │   └── edit/page.tsx        # P1.5 起
-│   ├── components/
-│   │   ├── ui/                  # shadcn/ui 客製
-│   │   ├── markdown/            # MarkdownView、CodeBlock、Heading、TOC
-│   │   ├── exam/                # QuestionCard、OptionItem、ResultSummary
-│   │   ├── slides/              # SlideFrame、SlideNavigator、SpeakerNotes
-│   │   ├── editor/              # P1.5 起：CodeMirror wrapper
-│   │   └── folder/              # P2 起：FolderTree、FileSearch
-│   ├── lib/
-│   │   ├── parsers/             # 共用解析邏輯
-│   │   ├── fs/                  # P2 起：FileSystemAdapter 與實作
-│   │   ├── store/               # Zustand stores
-│   │   └── utils.ts
-│   └── styles/
-│       ├── prose.css
-│       └── slides.css
-├── electron/                    # P3 起
+├── electron/                    # P3 起，桌面層整合
 │   ├── main/
 │   ├── preload/
 │   └── shared/
-└── samples/                     # 三個模式的範例 .md
+└── docker-compose.yml           # repo 級開發編排
 ```
 
 ---
@@ -218,6 +224,10 @@ aspectRatio: "16:9"
 - Function declaration，不用 arrow function 賦值
 - 優先 Server Components，需互動性才 `'use client'`
 - 檔案命名：元件 PascalCase，工具 kebab-case
+
+### 路徑
+- 前端實作檔案統一放在 `frontend/`
+- 後端加入後應放在 `backend/`，不要再把前端程式碼散落回 repo root
 
 ### 樣式
 - Tailwind utility classes 為主
@@ -310,10 +320,10 @@ docker compose run --rm app pnpm electron:build
 
 | Skill | 負責範圍 | 主要階段 |
 |-------|---------|---------|
-| `markdown-parser-specialist` | `src/lib/parsers/` 所有解析邏輯、parser 測試 | P1.2、持續 |
-| `reading-mode-specialist` | `/read`、typography、markdown 渲染元件 | P1.4、持續 |
-| `quiz-mode-specialist` | `/exam`、`/exam/result`、作答狀態、結果頁 | P1.5、P1.6 |
-| `slides-mode-specialist` | `/slides`、分頁、鍵盤、主題、匯出 | P1.7、持續 |
+| `markdown-parser-specialist` | `frontend/src/lib/parsers/` 所有解析邏輯、parser 測試 | P1.2、持續 |
+| `reading-mode-specialist` | `frontend/src/app/read/`、typography、markdown 渲染元件 | P1.4、持續 |
+| `quiz-mode-specialist` | `frontend/src/app/exam/`、`frontend/src/app/exam/result/`、作答狀態、結果頁 | P1.5、P1.6 |
+| `slides-mode-specialist` | `frontend/src/app/slides/`、分頁、鍵盤、主題、匯出 | P1.7、持續 |
 | `ui-ux-designer` | 設計系統、視覺一致性、a11y、empty/loading/error 狀態 | P1.1、持續 |
 | `frontend-architect` | 路由、狀態、相依性、效能、跨階段重構 | 全階段 |
 | `git-workflow-specialist` | Commit message、branch、驗收清單、progress 日誌 | 每個子階段結尾 |

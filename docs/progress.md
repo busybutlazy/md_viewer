@@ -41,8 +41,8 @@
 ### 本子階段完成項目
 - 建立 Next.js 15 + React 19 + TypeScript strict + Tailwind CSS v4 專案骨架
 - 接上 Vitest、Testing Library 與首頁字型驗證內容
-- 建立 Dockerfile、docker compose 與容器內依賴安裝入口
-- 補齊 `src/components`、`src/lib`、`src/styles`、`electron/`、`samples/` 空殼目錄
+- 建立前端 Dockerfile、docker compose 與容器內依賴安裝入口
+- 補齊 `frontend/src/components`、`frontend/src/lib`、`frontend/src/styles`、`electron/`、`frontend/samples/` 空殼目錄
 
 ### 遇到的問題
 - `pnpm` 在 bind mount 直接寫入 `node_modules` 時會出現 Docker Desktop 的 copyfile 錯誤
