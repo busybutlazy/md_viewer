@@ -14,11 +14,12 @@
 
 ## Current Status
 
-目前階段為 `P1.0`，尚未開始實作。  
-規劃、規格與任務拆解已先建立，接下來會先完成：
+目前階段為 `P1.1`，已完成 `P1.0` 專案初始化。  
+目前已具備：
 
 - Docker Compose 開發環境
 - Next.js 15 + TypeScript + Tailwind + Vitest 專案骨架
+- 首頁字型驗證內容與基礎目錄結構
 
 ## Planned Features
 
@@ -65,7 +66,12 @@
 此專案採 Docker-first 開發方式，原則上不在本機安裝專案依賴。  
 標準流程會以 `docker compose` 執行開發、lint、test、build。
 
-Docker Compose 相關檔案與指令會在 `P1.0` / `5.1` 完成後補齊。
+目前可直接使用以下容器指令：
+
+- `docker compose up app`
+- `docker compose run --rm app pnpm lint`
+- `docker compose run --rm app pnpm test`
+- `docker compose run --rm app pnpm build`
 
 ## AI Workflow
 

@@ -75,3 +75,29 @@
 **後果**：
 - 正面：最大觸及面、架構乾淨
 - 負面：所有檔案系統操作都要走 adapter，初期多一點工
+
+---
+
+### ADR-002: 採用 Docker Compose + named volume 作為預設開發入口
+
+**日期**：2026-04-18
+**階段**：P1.0
+**狀態**：已採納
+
+**背景**：專案要求 Docker-first，且在 macOS bind mount 上直接以 `pnpm` 建立 `node_modules` 會出現不穩定的檔案複製錯誤。
+
+**考慮過的選項**：
+- 本機直接安裝依賴：最快，但違反專案的容器化前提
+- Docker bind mount 直接管理 `node_modules`：簡單，但在目前環境有 copyfile 問題
+- Docker Compose + named volume：多一點設定，但開發與驗證流程一致
+
+**決策**：採用 Docker Compose 啟動 `app` 服務，並把 `node_modules` 與 `pnpm store` 放到 named volume。
+
+**原因**：
+- 符合「不要在本機安裝專案依賴」的專案規範
+- 避免 bind mount 上的 pnpm copyfile 錯誤
+- `lint`、`test`、`build` 可透過同一服務映像與相同入口執行
+
+**後果**：
+- 正面：開發環境一致、安裝穩定、適合後續 phase 持續沿用
+- 負面：每次容器首次啟動仍需安裝依賴，首次啟動時間較長

@@ -3,6 +3,7 @@
 
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Build artifacts
 .next/
@@ -22,3 +23,6 @@ test-results/
 .env
 .env.*
 !.env.example
+
+# Local scaffolding scratch
+.tmp/
