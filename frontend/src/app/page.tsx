@@ -1,79 +1,121 @@
-function FontSample({
-  label,
-  className,
-  children,
-}: {
-  label: string;
-  className: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <article className="rounded-[28px] border border-border bg-surface p-5 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur sm:p-6">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted">
-        {label}
-      </p>
-      <div className={`mt-3 ${className}`}>{children}</div>
-    </article>
-  );
-}
+import { HomeShowcase } from "@/components/home/HomeShowcase";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/Card";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-12 sm:px-10 lg:px-12">
-      <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-        <div className="space-y-6">
-          <div className="inline-flex rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted">
-            P1.0 Project Bootstrap
-          </div>
-          <div className="space-y-4">
-            <p className="text-sm font-medium uppercase tracking-[0.28em] text-accent">
-              Docker First · Next.js 15 · Vitest
-            </p>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-              Markdown Reader Pro
-            </h1>
-            <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">
-              一個以文件為核心的 Markdown 閱讀器，會依 frontmatter 在閱讀、
-              考試與簡報模式之間切換。這個首頁用來驗證 P1.0 的字型、
-              Tailwind、App Router 與容器化開發環境已接好。
-            </p>
-          </div>
-        </div>
+    <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <Card className="overflow-hidden">
+          <CardHeader className="space-y-4">
+            <Badge className="w-fit" tone="accent">
+              P1.1 Design System
+            </Badge>
+            <div className="space-y-4">
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
+                Reading-first interface foundation
+              </p>
+              <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                Markdown Reader Pro
+              </h1>
+              <p className="max-w-2xl text-base leading-8 text-[var(--muted-foreground)] sm:text-lg">
+                設計系統現在有一致的 shell、可持久化的亮暗主題、以及可重用
+                的 UI primitives。接下來的 Reading、Exam、Slides 都會沿用這套
+                視覺與互動基底。
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-3">
+            <Button>Try Upload Flow</Button>
+            <Button variant="secondary">Explore Samples</Button>
+            <Button variant="ghost">Read ADR</Button>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-[32px] border border-border bg-surface-strong p-6 shadow-[0_20px_60px_rgba(15,23,42,0.18)]">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted">
-            Stack
-          </p>
-          <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
-            <li>Next.js 15 App Router</li>
-            <li>React 19 + TypeScript strict</li>
-            <li>Tailwind CSS v4</li>
-            <li>Vitest + Testing Library</li>
-            <li>Docker Compose development flow</li>
-          </ul>
-        </div>
+        <Card className="justify-between">
+          <CardHeader>
+            <Badge className="w-fit" tone="outline">
+              System Preview
+            </Badge>
+            <CardTitle>Three modes, one product language</CardTitle>
+            <CardDescription>
+              Slate-based surfaces keep the product calm. Accent color is reserved
+              for direction, status, and primary actions.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-3">
+            <div className="rounded-2xl bg-[var(--accent-soft)] p-4">
+              <p className="text-sm font-semibold">Reading</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
+                Prose-first spacing, quiet chrome, stable typography.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-strong)] p-4">
+              <p className="text-sm font-semibold">Exam</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
+                Clear focus states and progress feedback without noisy visuals.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+              <p className="text-sm font-semibold">Slides</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
+                Strong framing and keyboard-friendly controls, ready for fullscreen.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-3">
-        <FontSample
-          label="Noto Sans TC"
-          className="font-sans text-lg leading-8 text-foreground"
-        >
-          繁體中文閱讀體驗需要穩定的筆畫與行距，這裡用來驗證首頁主字型。
-        </FontSample>
-        <FontSample
-          label="Inter"
-          className="font-[var(--font-inter)] text-lg leading-8 text-foreground"
-        >
-          Inter keeps metadata, labels, and dense UI text crisp and legible.
-        </FontSample>
-        <FontSample
-          label="JetBrains Mono"
-          className="font-mono text-sm leading-7 text-foreground"
-        >
-          {`pnpm lint && pnpm test && pnpm build`}
-        </FontSample>
+      <section className="mt-6 grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <Badge className="w-fit" tone="accent">
+              Noto Sans TC
+            </Badge>
+            <CardDescription>
+              繁體中文閱讀體驗需要穩定的筆畫與行距，這組字型負責長文與主要內容。
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-lg leading-8">
+            這裡是閱讀模式的主要排版基底，優先追求舒適與可持續閱讀。
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Badge className="w-fit" tone="outline">
+              Inter
+            </Badge>
+            <CardDescription>
+              Metadata, labels, and dense control surfaces stay crisp at small sizes.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="font-[var(--font-inter)] text-lg leading-8">
+            Interface copy should feel compact, precise, and easy to scan.
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Badge className="w-fit">JetBrains Mono</Badge>
+            <CardDescription>
+              Command, code block, and diagnostic language stays visually distinct.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="font-mono text-sm leading-7">
+            {`docker compose run --rm app pnpm lint`}
+          </CardContent>
+        </Card>
       </section>
+
+      <div className="mt-6">
+        <HomeShowcase />
+      </div>
     </main>
   );
 }

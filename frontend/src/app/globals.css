@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light dark;
-  --background: #f5f1e8;
-  --foreground: #1f2937;
-  --surface: rgba(255, 255, 255, 0.72);
-  --surface-strong: rgba(255, 255, 255, 0.9);
-  --border: rgba(31, 41, 55, 0.12);
-  --muted: #5b6470;
-  --accent: #c46a2f;
-  --accent-strong: #7c3f18;
+  color-scheme: light;
+  --background: #f4efe7;
+  --foreground: #14202b;
+  --surface: rgba(255, 251, 245, 0.82);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --shell: rgba(244, 239, 231, 0.82);
+  --border: rgba(20, 32, 43, 0.1);
+  --border-strong: rgba(20, 32, 43, 0.18);
+  --muted-foreground: #5f6b76;
+  --accent: #be6a32;
+  --accent-strong: #8e4c22;
+  --accent-soft: rgba(190, 106, 50, 0.16);
+  --accent-foreground: #fff8f2;
+  --ring: rgba(190, 106, 50, 0.42);
+  --shadow-soft: 0 20px 60px rgba(20, 32, 43, 0.14);
 }
 
 @theme inline {
@@ -17,25 +23,36 @@
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
   --color-surface-strong: var(--surface-strong);
+  --color-shell: var(--shell);
   --color-border: var(--border);
-  --color-muted: var(--muted);
+  --color-border-strong: var(--border-strong);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
   --font-sans: var(--font-noto-sans-tc), var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #14181f;
-    --foreground: #f5f2eb;
-    --surface: rgba(20, 24, 31, 0.82);
-    --surface-strong: rgba(28, 33, 42, 0.92);
-    --border: rgba(245, 242, 235, 0.14);
-    --muted: #b4bcc8;
-    --accent: #f0b071;
-    --accent-strong: #ffd3a8;
-  }
+.dark,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #11161d;
+  --foreground: #f3eee6;
+  --surface: rgba(21, 28, 36, 0.84);
+  --surface-strong: rgba(27, 35, 45, 0.96);
+  --shell: rgba(17, 22, 29, 0.9);
+  --border: rgba(243, 238, 230, 0.1);
+  --border-strong: rgba(243, 238, 230, 0.18);
+  --muted-foreground: #b5bec8;
+  --accent: #e2a164;
+  --accent-strong: #f0b980;
+  --accent-soft: rgba(226, 161, 100, 0.14);
+  --accent-foreground: #23170f;
+  --ring: rgba(226, 161, 100, 0.4);
+  --shadow-soft: 0 24px 64px rgba(0, 0, 0, 0.32);
 }
 
 * {
@@ -49,11 +66,15 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(196, 106, 47, 0.16), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 45%),
+    radial-gradient(circle at top, var(--accent-soft), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 45%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-sans-tc), var(--font-inter), sans-serif;
+}
+
+::selection {
+  background: var(--accent-soft);
 }
 
 a {
@@ -66,4 +87,8 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
 }

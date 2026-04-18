@@ -1,3 +1,3 @@
-export function identity<T>(value: T): T {
-  return value;
+export function cn(...values: Array<string | false | null | undefined>): string {
+  return values.filter(Boolean).join(" ");
 }

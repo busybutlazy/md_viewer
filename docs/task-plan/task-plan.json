@@ -63,8 +63,8 @@
           "order": "1.2",
           "title": "P1.1 設計系統基礎",
           "description": "建立設計 tokens、globals、dark mode、AppShell 與基礎 UI 元件。驗收：1. 亮暗模式可切換且重整後保留。 2. 跟隨系統深色偏好生效。 3. Button、Card、Badge、Toast、Dialog 皆有亮暗版。 4. 375px 手機尺寸不破版。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.1 設計系統基礎，lint/test/build 與首頁手動驗收通過。",
           "created_at": "2026-04-18",
           "updated_at": "2026-04-18",
           "subtasks": [
@@ -73,8 +73,8 @@
               "order": "1.2.1",
               "title": "定義設計 tokens 與 globals",
               "description": "建立色彩、字級、間距與 dark mode CSS 變數與 Tailwind 對應。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立亮暗模式 CSS tokens、全域色彩與字體基礎。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -84,8 +84,8 @@
               "order": "1.2.2",
               "title": "實作 AppShell 與基礎元件",
               "description": "完成 topbar、logo、mode badge、Button、Card、Badge、Toast、Dialog。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 AppShell、Theme toggle 與 Button/Card/Badge/Dialog/Toast 基礎元件。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -95,8 +95,8 @@
               "order": "1.2.3",
               "title": "完成 dark mode 與響應式驗證",
               "description": "處理 localStorage、系統主題同步與 375px 版面檢查。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成主題持久化、系統主題跟隨與首頁響應式驗證。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
