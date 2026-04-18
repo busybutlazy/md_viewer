@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.5`（待開始）
+**當前階段**：`P1.6`（待開始）
 
 ---
 
@@ -32,6 +32,32 @@
 ---
 
 ## 日誌
+
+## P1.5 — 考試模式作答流程
+**完成日期**：2026-04-19
+**Commit**：待提交 `feat(p1.5): 實作考試模式作答流程`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/store/exam-session.ts`，保存題目順序、選項順序、答案、deadline 與提交狀態到 `sessionStorage`
+- 重做 `/exam` 頁面，完成單頁卷軸作答流程、單選/複選切換、提交前檢查與大面積可點擊選項
+- 建立 `QuestionCard`、`OptionItem`、`ExamProgressBar`、`ExamTimer`、`SubmitConfirmDialog` 元件
+- 依 quiz metadata 支援題目與選項 shuffle，並在刷新後保留順序與答案
+- 實作倒數計時器，剩餘時間低於 30 秒改為紅色，歸零後自動提交並跳轉 `/exam/result`
+- 補上 `exam-session` store 測試，並新增最小 `result` route 承接提交後導頁
+
+### 遇到的問題
+- `/exam` 初版在 early return 後才呼叫 hooks，會違反 hooks 順序規則，需先把 quiz 安全收斂再執行 hooks
+- timer effect 中對 `deadlineAt` 的 narrowing 不會自動保留到內部函式，需先存成區域常數
+- 結果頁返回首頁若用 `Link` 包 `Button` 會形成不好的互動語意，改為 `router.push()` 控制
+
+### 心得 / 決策
+- `exam-session` 把 quiz-specific order 與 answer state 鎖在同一份 store，後續 P1.6 做計分與錯題整理時會簡單很多
+- `SubmitConfirmDialog` 先聚焦在未作答提醒與跳轉，不提前把結果頁邏輯塞進 P1.5
+- `/exam/result` 在 P1.5 只負責承接提交流程與基本摘要，詳細結果結構留到 P1.6
+
+### 下一步
+- 進入 P1.6 考試結果頁
 
 ## P1.4 — 閱讀模式
 **完成日期**：2026-04-19

@@ -243,20 +243,20 @@
           "order": "1.6",
           "title": "P1.5 考試模式作答流程",
           "description": "完成考試模式作答頁與 session 狀態。驗收：1. 單選與複選 UI 清楚區分。 2. 刷新後答案仍保留。 3. 計時器歸零自動提交到結果頁。 4. 可用 Tab、Space、Arrow 操作。 5. 手機版選項區夠大易點擊。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.5 作答流程、session persist、timer auto-submit 與最小結果導頁；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "tcgauha0",
               "order": "1.6.1",
               "title": "建立 exam route 與 session store",
               "description": "完成 exam 頁面骨架、persist 狀態與題目載入流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 exam route、exam-session store 與 result route 基本導頁守衛。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -264,10 +264,10 @@
               "order": "1.6.2",
               "title": "實作題目與選項互動元件",
               "description": "完成 QuestionCard、OptionItem、單選複選切換與整區可點擊 label。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 QuestionCard、OptionItem 與單選/複選作答互動。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -275,10 +275,10 @@
               "order": "1.6.3",
               "title": "完成提交前流程與計時器",
               "description": "加入進度條、ExamTimer、未作答檢查、到時自動提交與鍵盤操作。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成進度條、倒數計時、自動提交與提交前未答題檢查流程。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
