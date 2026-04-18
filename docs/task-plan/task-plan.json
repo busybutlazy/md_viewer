@@ -1,0 +1,1417 @@
+{
+  "version": "1.0",
+  "project": "md_viewer",
+  "updated_at": "2026-04-18",
+  "tasks": [
+    {
+      "id": "rjr6p5ah",
+      "order": "1",
+      "title": "階段 1：網頁上傳檔案版",
+      "description": "階段目標：完成 P1.0–P1.9，交付可上傳 markdown 的網頁版，含閱讀、考試、簡報三模式。驗收：1. 所有 P1 子階段皆完成並各自通過 lint、test、build、手動驗收。 2. 三種模式都可從首頁進入並完成核心流程。 3. docs/progress.md、CLAUDE.md 當前階段、必要決策與 README 均已更新。",
+      "status": "todo",
+      "completion_note": "",
+      "created_at": "2026-04-18",
+      "updated_at": "2026-04-18",
+      "subtasks": [
+        {
+          "id": "720xz87y",
+          "order": "1.1",
+          "title": "P1.0 專案初始化與容器化基礎",
+          "description": "交付 Next.js 15 + React 19 + TypeScript strict + Tailwind + Vitest 專案骨架，並建立 docker compose 開發基礎。驗收：1. 使用 docker compose up 可啟動首頁並顯示 Markdown Reader Pro。 2. 使用 docker compose run --rm app pnpm lint、pnpm test、pnpm build 全通過。 3. 字型 Noto Sans TC、Inter、JetBrains Mono 在首頁可見。 4. 不需在本機安裝專案依賴即可完成開發與驗證。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "ykqudrd9",
+              "order": "1.1.1",
+              "title": "建立 Next.js 專案骨架",
+              "description": "用 App Router、src、TypeScript strict、Tailwind、ESLint 初始化專案，整理基本目錄結構。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "eyaporut",
+              "order": "1.1.2",
+              "title": "接上測試與字型基礎",
+              "description": "安裝並配置 Vitest、React Testing Library、next/font 與首頁字型驗證內容。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "23wp9ukh",
+              "order": "1.1.3",
+              "title": "建立容器化開發入口",
+              "description": "新增 Dockerfile、docker compose、容器內依賴安裝與常用開發指令。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "ekbvf5wt",
+          "order": "1.2",
+          "title": "P1.1 設計系統基礎",
+          "description": "建立設計 tokens、globals、dark mode、AppShell 與基礎 UI 元件。驗收：1. 亮暗模式可切換且重整後保留。 2. 跟隨系統深色偏好生效。 3. Button、Card、Badge、Toast、Dialog 皆有亮暗版。 4. 375px 手機尺寸不破版。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "sepftcic",
+              "order": "1.2.1",
+              "title": "定義設計 tokens 與 globals",
+              "description": "建立色彩、字級、間距與 dark mode CSS 變數與 Tailwind 對應。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "9tp93wlh",
+              "order": "1.2.2",
+              "title": "實作 AppShell 與基礎元件",
+              "description": "完成 topbar、logo、mode badge、Button、Card、Badge、Toast、Dialog。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "7elvl4xf",
+              "order": "1.2.3",
+              "title": "完成 dark mode 與響應式驗證",
+              "description": "處理 localStorage、系統主題同步與 375px 版面檢查。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "kfk97blb",
+          "order": "1.3",
+          "title": "P1.2 Markdown parser 與測試",
+          "description": "依 template-spec 完成 frontmatter、mode detect、quiz、slides parser 與警告機制。驗收：1. parser 邏輯測試覆蓋率 > 90%。 2. template-spec 列出的 quiz/slides 邊界條件全部有測試且通過。 3. 錯誤格式 markdown 不 crash，而是回傳合理警告。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "bq1p8ldd",
+              "order": "1.3.1",
+              "title": "完成 frontmatter 與 mode 偵測",
+              "description": "實作 gray-matter 包裝與 reading、quiz、slides 模式判定。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "p7w916li",
+              "order": "1.3.2",
+              "title": "完成 quiz 與 slides parser",
+              "description": "把 markdown 解析成 Quiz 與 SlideDeck 結構，含 warning 驗證函式。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "wn8xww42",
+              "order": "1.3.3",
+              "title": "補齊 parser fixtures 與測試",
+              "description": "依 template-spec 建 fixture，覆蓋邊界條件、錯誤輸入與 coverage 目標。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "gpfno2k6",
+          "order": "1.4",
+          "title": "P1.3 檔案上傳與 document store",
+          "description": "完成檔案上傳、parse、store persist 與自動導頁。驗收：1. 上傳 frontmatter 含 type: quiz 的檔案會自動到 /exam。 2. sessionStorage 可在刷新後保留文件狀態。 3. 錯誤副檔名有明確 toast。 4. store 為空直接進模式頁時會回首頁並提示。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "s8p51a4b",
+              "order": "1.4.1",
+              "title": "建立 document store",
+              "description": "用 Zustand persist 建立文件狀態、parse 結果與警告儲存。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "7xl4smrs",
+              "order": "1.4.2",
+              "title": "完成首頁上傳流程",
+              "description": "整合 react-dropzone、檔案型別過濾、錯誤 toast 與讀檔流程。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "afslxzcd",
+              "order": "1.4.3",
+              "title": "串接模式導頁與空狀態守衛",
+              "description": "依 frontmatter 自動導到對應頁面，並處理 store 為空時的返回首頁提示。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "xc4wdsr5",
+          "order": "1.5",
+          "title": "P1.4 閱讀模式",
+          "description": "完成閱讀模式頁面、MarkdownView 與閱讀輔助元件。驗收：1. 1500 字含 code/table/image/list/blockquote 長文渲染正常。 2. 亮暗模式字級、行高、對比舒適。 3. TOC 點擊跳轉正確且當前段落高亮。 4. 手機版 TOC 不遮擋內容。 5. 所有 heading 具 id，支援 hash 直達。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "leihwe5b",
+              "order": "1.5.1",
+              "title": "建立閱讀模式頁面骨架",
+              "description": "完成 read route、版面配置與文件 meta 呈現區塊。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "zkzbgulk",
+              "order": "1.5.2",
+              "title": "實作 MarkdownView 客製元件",
+              "description": "完成 CodeBlock、Heading、ProseImage 與基本 markdown 渲染管線。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "rxz37lmc",
+              "order": "1.5.3",
+              "title": "加入閱讀輔助功能",
+              "description": "完成 TOC、ReadingProgress、heading id 與 prose.css 微調。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "o8ha92wh",
+          "order": "1.6",
+          "title": "P1.5 考試模式作答流程",
+          "description": "完成考試模式作答頁與 session 狀態。驗收：1. 單選與複選 UI 清楚區分。 2. 刷新後答案仍保留。 3. 計時器歸零自動提交到結果頁。 4. 可用 Tab、Space、Arrow 操作。 5. 手機版選項區夠大易點擊。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "tcgauha0",
+              "order": "1.6.1",
+              "title": "建立 exam route 與 session store",
+              "description": "完成 exam 頁面骨架、persist 狀態與題目載入流程。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "gg23b1os",
+              "order": "1.6.2",
+              "title": "實作題目與選項互動元件",
+              "description": "完成 QuestionCard、OptionItem、單選複選切換與整區可點擊 label。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "n3z8xzeh",
+              "order": "1.6.3",
+              "title": "完成提交前流程與計時器",
+              "description": "加入進度條、ExamTimer、未作答檢查、到時自動提交與鍵盤操作。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "tplqv8xr",
+          "order": "1.7",
+          "title": "P1.6 考試結果頁",
+          "description": "完成結果頁、計分、錯題與詳解呈現。驗收：1. 錯題正確置頂並清楚顯示你的答案與正解。 2. 詳解中的 code block、連結、圖片可正常渲染。 3. 重新作答後順序規則符合 shuffle 設定。 4. 結果頁 aria-live 設置正確。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "9a1547ke",
+              "order": "1.7.1",
+              "title": "實作計分與結果資料整理",
+              "description": "建立單選與複選評分、答對答錯分組與用時計算。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "6zwmbe3u",
+              "order": "1.7.2",
+              "title": "完成結果頁區塊與詳解渲染",
+              "description": "建立 hero、錯題置頂、答對收合區塊與 MarkdownView 詳解重用。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "r2ql05w6",
+              "order": "1.7.3",
+              "title": "完成重新作答與清理行為",
+              "description": "處理 retry、回首頁、session 清除與 aria-live 結果提示。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "cng4lkpm",
+          "order": "1.8",
+          "title": "P1.7 簡報模式",
+          "description": "完成簡報模式、導航與匯出能力。驗收：1. 鍵盤切頁流暢且不連跳。 2. F 可切換全螢幕，chrome 能自動隱藏。 3. 講者模式顯示下一頁與備忘。 4. 使用 window.print 可產生一頁一張投影片的 PDF。 5. code block 內的三條連字號不會被誤判切頁。 6. 主題切換即時生效。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "818h9tfo",
+              "order": "1.8.1",
+              "title": "建立投影片頁與框架元件",
+              "description": "完成 slides route、SlideFrame、aspect ratio 與基本頁面狀態。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "plevvppx",
+              "order": "1.8.2",
+              "title": "完成導航與互動控制",
+              "description": "實作 SlideNavigator、鍵盤切頁、全螢幕、講者模式與總覽。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "prqvxi13",
+              "order": "1.8.3",
+              "title": "完成主題與 PDF 匯出",
+              "description": "建立 default、dark、minimal 主題與 print stylesheet 匯出流程。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "f056gxbv",
+          "order": "1.9",
+          "title": "P1.8 首頁 polish 與範例檔",
+          "description": "完成首頁完整設計與三份高品質範例檔。驗收：1. 三份 sample 內容具示範價值，不是佔位文字。 2. 點擊範例卡 2 秒內進入對應模式。 3. 首頁在 375px、768px、1280px 都穩定好看。 4. empty/loading states 已處理。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "9mlgk75o",
+              "order": "1.9.1",
+              "title": "完成首頁版面與主 CTA",
+              "description": "設計 hero、模式圖示、上傳區與 footer。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "h13s8bhe",
+              "order": "1.9.2",
+              "title": "製作三份高品質 sample",
+              "description": "撰寫 reading、exam、slides 範例內容並確保可直接載入。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "niiqrml3",
+              "order": "1.9.3",
+              "title": "補齊載入與空狀態體驗",
+              "description": "完成 sample 載入流程、loading UI 與 responsive polish。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "b6774yd4",
+          "order": "1.10",
+          "title": "P1.9 階段 1 驗收與修整",
+          "description": "完成階段 1 整體驗收與修整。驗收：1. 20 份真實 markdown 檔案可正常開啟與操作，無 crash。 2. README 足夠讓新使用者 5 分鐘內跑起來。 3. P1 各子階段 commit 都存在且格式正確。 4. 所有已知 bug 與取捨已記錄到文件。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "6trfmxhy",
+              "order": "1.10.1",
+              "title": "收集真實 markdown 驗收樣本",
+              "description": "準備 20 份真實檔案覆蓋三種模式與常見異常格式。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "5uvukk86",
+              "order": "1.10.2",
+              "title": "修正階段 1 問題並更新 README",
+              "description": "依驗收結果修 bug、補已知限制與快速開始文件。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "6sngmnjp",
+              "order": "1.10.3",
+              "title": "完成階段文件與提交整理",
+              "description": "確認 commit、更新 progress、CLAUDE 當前階段與必要決策紀錄。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dm7krpwj",
+      "order": "2",
+      "title": "階段 1.5：下載式編輯",
+      "description": "階段目標：在不接原生檔案系統前提下加入編輯能力。驗收：1. 使用者可編輯、預覽、下載、新建 markdown。 2. 三個子階段皆完成並通過 lint、test、build、手動驗收。",
+      "status": "todo",
+      "completion_note": "",
+      "created_at": "2026-04-18",
+      "updated_at": "2026-04-18",
+      "subtasks": [
+        {
+          "id": "mxvyz36r",
+          "order": "2.1",
+          "title": "P1.5.1 編輯器整合",
+          "description": "整合 CodeMirror 與即時預覽。驗收：1. 輸入後預覽更新 < 100ms。 2. 具語法高亮、括號配對、自動縮排。 3. 編輯器主題與整體 UI 協調。 4. 手機版提供可用的上下分割或 tab 方案。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "a47amke7",
+              "order": "2.1.1",
+              "title": "整合 CodeMirror 基本編輯器",
+              "description": "配置 markdown 語言支援、語法高亮、括號配對與縮排。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "d4nugl3x",
+              "order": "2.1.2",
+              "title": "建立即時預覽與版面切換",
+              "description": "完成左右分欄或上下分欄與 MarkdownView 預覽重用。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "hzxay0vg",
+              "order": "2.1.3",
+              "title": "處理主題與互動效能",
+              "description": "讓編輯器 dark mode 對齊設計系統並控制預覽更新延遲。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "xsxeeovl",
+          "order": "2.2",
+          "title": "P1.5.2 下載機制",
+          "description": "完成下載與未存檔防護。驗收：1. 下載後再次上傳內容完全一致。 2. 中文檔名正確，不會被 URL encode。 3. 未存變更警告只在真正離開頁面時觸發。 4. Cmd/Ctrl+S 會觸發下載。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "2wqbkf8n",
+              "order": "2.2.1",
+              "title": "建立下載輸出流程",
+              "description": "用 Blob 與 download link 生成 md 檔並處理檔名規則。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "22r6njcf",
+              "order": "2.2.2",
+              "title": "完成未存變更指示",
+              "description": "加入 dirty state、title 標記與 document.title 提示。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "mho5fmwh",
+              "order": "2.2.3",
+              "title": "加入離開警告與快捷鍵",
+              "description": "實作 beforeunload 與 Cmd 或 Ctrl 加 S 下載捷徑。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "cfyonngv",
+          "order": "2.3",
+          "title": "P1.5.3 新建檔案",
+          "description": "提供四種範本新建流程。驗收：1. 空白、閱讀、考試、簡報四種範本都能進入編輯器。 2. 考試與簡報範本產生內容符合 parser 規格。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "nlyavtne",
+              "order": "2.3.1",
+              "title": "建立 templates 檔案骨架",
+              "description": "在 src/lib/templates 準備空白、閱讀、考試、簡報四種範本。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "0assp0r1",
+              "order": "2.3.2",
+              "title": "完成首頁新建流程",
+              "description": "加入新建按鈕、模版選單與建立後進 edit route。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "w93cn9a7",
+              "order": "2.3.3",
+              "title": "驗證範本與 parser 相容",
+              "description": "確認 quiz 與 slides 範本能被現有 parser 正確解析與導頁。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0f89c2n1",
+      "order": "3",
+      "title": "階段 2：網頁授權資料夾版",
+      "description": "階段目標：讓網頁版可直接授權資料夾並作為日常工具。驗收：1. 所有 P2 子階段完成並通過 lint、test、build、手動驗收。 2. 在支援瀏覽器中可授權資料夾、瀏覽、編輯、寫回。 3. 不支援瀏覽器有清楚 fallback。",
+      "status": "todo",
+      "completion_note": "",
+      "created_at": "2026-04-18",
+      "updated_at": "2026-04-18",
+      "subtasks": [
+        {
+          "id": "oq0cwldq",
+          "order": "3.1",
+          "title": "P2.0 檔案系統抽象層",
+          "description": "建立 FileSystemAdapter 抽象層並保留既有功能。驗收：1. P1 / P1.5 功能都維持正常。 2. 沒有地方繞過 adapter 直接操作 File。 3. adapter 有型別測試或 mock 驗證。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "yzhgsec0",
+              "order": "3.1.1",
+              "title": "定義檔案系統抽象型別",
+              "description": "建立 FileSystemAdapter、FileNode、FileEvent 等共用型別。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "7qk3din5",
+              "order": "3.1.2",
+              "title": "實作 Upload 與 Download adapter",
+              "description": "把 P1 與 P1.5 的來源與輸出改封裝到 adapter。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "dp5m3l6o",
+              "order": "3.1.3",
+              "title": "重構 store 與測試接點",
+              "description": "讓 document store 經由 adapter 工作，並加入 mock 驗證。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "l51s8i44",
+          "order": "3.2",
+          "title": "P2.1 FS Access API adapter",
+          "description": "整合 File System Access API 與權限持久化。驗收：1. Chrome 第一次授權後重整仍保留。 2. 權限失效時 UI 能提示重新授權。 3. Safari / Firefox 不顯示資料夾功能入口。 4. 讀寫授權流程對使用者是一次且一致的。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "kb0pukqp",
+              "order": "3.2.1",
+              "title": "實作 FS Access adapter 核心",
+              "description": "封裝 showDirectoryPicker、list、read、write、refresh 能力。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "cnkauegj",
+              "order": "3.2.2",
+              "title": "完成授權持久化與恢復",
+              "description": "使用 IndexedDB 保存 handle，啟動時恢復並驗證 permission。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "cvqxryl8",
+              "order": "3.2.3",
+              "title": "補齊瀏覽器支援與失效處理",
+              "description": "偵測能力、處理撤銷授權與 fallback 到 upload 模式。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "5g762eoh",
+          "order": "3.3",
+          "title": "P2.2 資料夾樹側邊欄",
+          "description": "完成資料夾樹與檔案瀏覽。驗收：1. 1000 檔案資料夾載入 < 1 秒。 2. 切換檔案時閱讀進度與作答狀態正確重置。 3. 深層資料夾層次清楚。 4. 手機版以 drawer 呈現。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "lmv26o95",
+              "order": "3.3.1",
+              "title": "建立 FolderTree 與節點資料模型",
+              "description": "完成遞迴樹結構、忽略規則與檔案高亮狀態。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "hxezvc20",
+              "order": "3.3.2",
+              "title": "加入搜尋與互動狀態",
+              "description": "實作 fuzzy search、展開收合記憶與拖曳改寬度。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "yqfrsriq",
+              "order": "3.3.3",
+              "title": "完成檔案切換與手機體驗",
+              "description": "串接讀檔導頁、狀態重置與 drawer 版側邊欄。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "71q30bso",
+          "order": "3.4",
+          "title": "P2.3 授權管理 UI",
+          "description": "完成授權管理與環境對應 UI。驗收：1. 新使用者可理解上傳單檔與選資料夾差異。 2. Safari 使用者不會看到無效 CTA。 3. 清除授權後下次必須重新授權。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "bowfmwuy",
+              "order": "3.4.1",
+              "title": "調整首頁環境感知 CTA",
+              "description": "依瀏覽器能力切換上傳單檔與選擇資料夾主按鈕。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "vlc1le9u",
+              "order": "3.4.2",
+              "title": "建立授權後 topbar 狀態",
+              "description": "顯示資料夾名稱、切換資料夾與清除授權入口。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "lzpx73mt",
+              "order": "3.4.3",
+              "title": "完善 fallback 與清除流程",
+              "description": "處理不支援瀏覽器提示、清除 IDB 與 store 重置。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "brqgavfs",
+          "order": "3.5",
+          "title": "P2.4 寫回檔案",
+          "description": "完成 FS Access 模式下的原檔寫回。驗收：1. 編輯後 Cmd/Ctrl+S 會真正更新磁碟上的檔案。 2. 權限撤銷或寫入失敗有明確錯誤處理。 3. 未存變更關頁警告正常。 4. 外部同檔編輯衝突至少有提示，不可無聲覆蓋。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "iitxlfe2",
+              "order": "3.5.1",
+              "title": "實作原檔寫回流程",
+              "description": "讓 FS Access 模式可直接寫回檔案並處理成功失敗結果。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "yebiieib",
+              "order": "3.5.2",
+              "title": "整合儲存快捷鍵與 dirty state",
+              "description": "用 Cmd 或 Ctrl 加 S 存檔，並在 UI 顯示未存變更。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "pfyn5w3s",
+              "order": "3.5.3",
+              "title": "加入衝突與錯誤處理",
+              "description": "處理權限撤銷、磁碟問題與外部編輯衝突提示。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "7ncw5yu1",
+          "order": "3.6",
+          "title": "P2.5 重新整理、新建、刪除",
+          "description": "完成重新整理、新建與刪除。驗收：1. 外部新增檔案後 refresh 會出現在樹中。 2. 刪除有清楚確認，不易誤觸。 3. 新建檔案後自動進入編輯模式。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "i1vlj1e2",
+              "order": "3.6.1",
+              "title": "加入資料夾 refresh 操作",
+              "description": "在側邊欄提供重新整理並更新樹狀資料。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "wi3a5muj",
+              "order": "3.6.2",
+              "title": "完成新建檔案流程",
+              "description": "提供檔名輸入、模板套用與建立後自動進入編輯。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "cb656cd3",
+              "order": "3.6.3",
+              "title": "完成刪除與安全確認",
+              "description": "提供確認對話框、刪除後狀態更新與誤觸防護。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "jicqt8w4",
+          "order": "3.7",
+          "title": "P2.6 階段 2 驗收",
+          "description": "完成階段 2 實際使用驗收。驗收：1. docs/phase2-notes.md 至少 500 字真實心得。 2. bug、可延後項目、錯誤設計決策都有分類記錄。 3. README 已更新並能支援階段 2 工作流。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "f3hywml6",
+              "order": "3.7.1",
+              "title": "進行一週真實使用紀錄",
+              "description": "以實際筆記資料夾操作並持續記錄痛點與觀察。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "hscgjccc",
+              "order": "3.7.2",
+              "title": "整理 phase2 notes 與決策",
+              "description": "把可修 bug、延後項目與設計決策寫入對應文件。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "s0d4tbqt",
+              "order": "3.7.3",
+              "title": "完成階段 2 文件收尾",
+              "description": "更新 README、progress 與是否進 P3 的結論。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "is0iga0u",
+      "order": "4",
+      "title": "階段 3：桌面應用程式（Electron）",
+      "description": "階段目標：交付可安裝的 Electron 桌面版。驗收：1. 所有 P3 子階段完成並通過各自驗收。 2. 桌面版可開資料夾、編輯、監看變更、打包安裝。 3. 網頁版仍可獨立運作。",
+      "status": "todo",
+      "completion_note": "",
+      "created_at": "2026-04-18",
+      "updated_at": "2026-04-18",
+      "subtasks": [
+        {
+          "id": "1uonjajg",
+          "order": "4.1",
+          "title": "P3.0 Electron 專案結構",
+          "description": "建立 Electron 專案骨架與建置流程。驗收：1. 使用 pnpm electron:dev 可開視窗並顯示首頁。 2. 可產生當前平台安裝檔。 3. 與既有 Next.js 專案整合清楚。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "smrqzw7w",
+              "order": "4.1.1",
+              "title": "建立 Electron 目錄與主程序",
+              "description": "新增 main、preload、shared 結構與基本啟動流程。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "xho84fya",
+              "order": "4.1.2",
+              "title": "串接 Next 與 Electron 開發腳本",
+              "description": "配置 electron:dev、electron:build 與對應 builder 設定。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "0lhb1274",
+              "order": "4.1.3",
+              "title": "驗證桌面啟動與打包流程",
+              "description": "確認可開視窗並產出當前平台安裝檔。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "ywqeklwy",
+          "order": "4.2",
+          "title": "P3.1 主視窗與選單",
+          "description": "完成主視窗與原生選單。驗收：1. 視窗大小位置可保存。 2. 檔名能反映在標題列。 3. macOS 與 Windows 的選單與行為符合各自習慣。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "kfd5ntje",
+              "order": "4.2.1",
+              "title": "完成主視窗狀態管理",
+              "description": "設定預設尺寸、最小尺寸與視窗位置大小保存。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "snonxmsg",
+              "order": "4.2.2",
+              "title": "建立跨平台應用選單",
+              "description": "完成檔案、編輯、檢視、視窗、說明選單內容。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "osw93wnm",
+              "order": "4.2.3",
+              "title": "處理平台差異與標題更新",
+              "description": "對齊 macOS 行為並讓視窗標題跟隨當前檔案。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "ufh2ivub",
+          "order": "4.3",
+          "title": "P3.2 NodeFSAdapter",
+          "description": "完成 Electron 原生 NodeFSAdapter。驗收：1. 網頁版仍正常。 2. Electron 版開資料夾不需瀏覽器授權。 3. preload / IPC 只暴露必要能力。 4. 讀寫體感快於網頁版。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "5e2ryj2o",
+              "order": "4.3.1",
+              "title": "實作 NodeFSAdapter main process",
+              "description": "在主程序用 fs promises 提供 list、read、write 等操作。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "2qflqk0h",
+              "order": "4.3.2",
+              "title": "建立 preload 與 IPC 安全橋接",
+              "description": "只暴露必要 API 到 renderer，避免直接暴露 fs。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "0qoal93l",
+              "order": "4.3.3",
+              "title": "完成環境偵測與整合驗證",
+              "description": "讓 Electron 用 NodeFSAdapter，網頁版維持既有 adapter。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "twbbpc5s",
+          "order": "4.4",
+          "title": "P3.3 檔案監看",
+          "description": "完成外部檔案監看。驗收：1. VSCode / Obsidian 修改可即時反映。 2. 新增、刪除、修改事件都正確處理。 3. 對當前檔案的外部變更不會讓使用者無聲丟失未存內容。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "pl1w6hx5",
+              "order": "4.4.1",
+              "title": "建立 chokidar 監看流程",
+              "description": "在 main process 監看目前資料夾並整理事件格式。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "l226rmhx",
+              "order": "4.4.2",
+              "title": "串接 renderer 即時更新",
+              "description": "把新增、刪除、修改事件同步到樹與目前文件狀態。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "qa5lwx5m",
+              "order": "4.4.3",
+              "title": "處理 debounce 與衝突 UX",
+              "description": "避免事件風暴並處理外部改動與未存內容衝突提示。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "qeb7bloo",
+          "order": "4.5",
+          "title": "P3.4 最近開啟資料夾",
+          "description": "完成最近開啟資料夾清單。驗收：1. 清單維持最近 5 筆且順序正確。 2. 路徑失效時有提示並自動移除。 3. 首頁與選單都能快速開啟。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "dk6smgeb",
+              "order": "4.5.1",
+              "title": "保存最近開啟資料夾資料",
+              "description": "用 electron-store 維護最近 5 筆資料夾路徑。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "1qms986o",
+              "order": "4.5.2",
+              "title": "加入選單與首頁快捷入口",
+              "description": "在選單與首頁顯示最近資料夾並可直接開啟。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "qg4i37tz",
+              "order": "4.5.3",
+              "title": "處理失效路徑與清除紀錄",
+              "description": "移除不存在路徑並提供清空最近紀錄操作。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "fsdkert3",
+          "order": "4.6",
+          "title": "P3.5 打包與自用驗收",
+          "description": "完成桌面打包與真實使用驗收。驗收：1. 安裝後全流程使用無 crash。 2. README 包含 macOS / Windows 未簽章安裝說明。 3. 一週自用後有明確心得與後續決策。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "foqluy7e",
+              "order": "4.6.1",
+              "title": "完成平台打包與安裝驗證",
+              "description": "產出安裝檔並在目標平台完成首次安裝測試。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "eyg4u558",
+              "order": "4.6.2",
+              "title": "進行一週桌面版真實使用",
+              "description": "用桌面版跑完整流程並記錄穩定性與痛點。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "o3y1qd7x",
+              "order": "4.6.3",
+              "title": "更新安裝文件與驗收結論",
+              "description": "補 README 安裝說明、progress 紀錄與 P3 後續判斷。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "ozahxw8a",
+          "order": "4.7",
+          "title": "P3.6 進階整合",
+          "description": "按需要補做進階整合。驗收：1. 每個 P3.6.x 功能都需獨立定義需求、驗收與 commit。 2. 不影響既有穩定功能。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "nvc71b3d",
+              "order": "4.7.1",
+              "title": "定義 P3.6.x 候選功能清單",
+              "description": "明確列出全域快捷鍵、tray、關聯檔案、通知等候選項目。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "pgmyfe5o",
+              "order": "4.7.2",
+              "title": "逐項評估成本與優先順序",
+              "description": "評估對日常使用價值、平台差異與實作風險。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "hw4x6mm4",
+              "order": "4.7.3",
+              "title": "為選定項目建立獨立子階段",
+              "description": "每個選定功能需另立需求、驗收與 commit 邊界。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "okgilybo",
+      "order": "5",
+      "title": "跨階段基礎建設與治理",
+      "description": "階段目標：維持整個專案在任何階段都能穩定開發、驗收與交付。驗收：1. Docker、文件、git workflow 三條主線全程有效。 2. 每個子階段完成後都能追溯驗收結果與文件更新。",
+      "status": "todo",
+      "completion_note": "",
+      "created_at": "2026-04-18",
+      "updated_at": "2026-04-18",
+      "subtasks": [
+        {
+          "id": "ipgk37q2",
+          "order": "5.1",
+          "title": "Docker Compose 開發環境",
+          "description": "建立 Docker Compose 工作流。驗收：1. 提供用 docker compose 啟動開發、lint、test、build 的做法。 2. 依賴安裝發生在容器內，不要求本機安裝 Node 套件。 3. 掛載與快取策略不造成 node_modules 汙染或權限問題。 4. 新成員照文件可直接跑起來。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "p7qoj898",
+              "order": "5.1.1",
+              "title": "定義容器映像與 compose 服務",
+              "description": "建立 app 服務、工作目錄、port、volume 與快取策略。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "cnqdqn4i",
+              "order": "5.1.2",
+              "title": "容器化常用開發與驗證指令",
+              "description": "整理 dev、lint、test、build 的 docker compose 用法。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "hoph64a2",
+              "order": "5.1.3",
+              "title": "補齊容器文件與權限檢查",
+              "description": "確認不污染本機 node_modules，並把啟動方式寫進 README 或開發文件。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "2vh89t7e",
+          "order": "5.2",
+          "title": "文件與決策維護",
+          "description": "維護 progress、decisions、README 與 CLAUDE.md。驗收：1. 每個子階段完成後 docs/progress.md 有紀錄。 2. CLAUDE.md 當前階段同步更新。 3. 重要架構取捨會留下 ADR。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "8rftshvc",
+              "order": "5.2.1",
+              "title": "維護 progress 文件節奏",
+              "description": "每個子階段完成後補記錄、完成日期、驗收與下一步。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "ixcm0423",
+              "order": "5.2.2",
+              "title": "同步更新當前階段與 ADR",
+              "description": "更新 CLAUDE 當前階段並在需要時新增 decisions 紀錄。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "nw8oyw3t",
+              "order": "5.2.3",
+              "title": "維護使用者與開發者文件",
+              "description": "持續更新 README、已知限制與操作說明，避免文件落後實作。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "fgm239vu",
+          "order": "5.3",
+          "title": "Git workflow 與階段驗收",
+          "description": "維持 branch、commit 與驗收紀律。驗收：1. 每個子階段使用獨立 branch。 2. commit message 符合 roadmap 規範。 3. commit 前完成 lint、test、build、手動驗收。 4. commit 後合回 main 並同步更新文件。",
+          "status": "todo",
+          "completion_note": "",
+          "created_at": "2026-04-18",
+          "updated_at": "2026-04-18",
+          "subtasks": [
+            {
+              "id": "zhx5c77s",
+              "order": "5.3.1",
+              "title": "建立分支與命名規則",
+              "description": "每個子階段使用獨立 branch，名稱與 roadmap 階段對齊。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "r0ja97rf",
+              "order": "5.3.2",
+              "title": "執行提交前驗收清單",
+              "description": "在 commit 前完成 lint、test、build 與手動驗收紀錄。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            },
+            {
+              "id": "oio09t5f",
+              "order": "5.3.3",
+              "title": "完成提交與合併收尾",
+              "description": "使用指定 commit message、合回 main 並同步更新文件。",
+              "status": "todo",
+              "completion_note": "",
+              "created_at": "2026-04-18",
+              "updated_at": "2026-04-18",
+              "subtasks": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

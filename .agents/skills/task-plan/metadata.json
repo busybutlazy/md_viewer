@@ -1,0 +1,14 @@
+{
+  "name": "task-plan",
+  "version": "1.0.0",
+  "description": "Manage a persistent hierarchical project task plan via script-based CRUD; stores tasks in docs/task-plan/task-plan.json",
+  "updated_at": "2026-04-18",
+  "tags": [
+    "task",
+    "planning",
+    "project-management",
+    "workflow"
+  ],
+  "source_package_sha256": "783c5781dd1927013f7400c3c4729bced8454519fbc2b0dfc47920a768e89421",
+  "rendered_from": "canonical-skills/regular-skills/task-plan"
+}
