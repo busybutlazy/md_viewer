@@ -11,10 +11,34 @@ import datetime
 import random
 import string
 import hashlib
+import contextlib
 from pathlib import Path
 
+try:
+    import fcntl as _fcntl
+    _HAS_FCNTL = True
+except ImportError:
+    _HAS_FCNTL = False
+
 TASK_FILE = "docs/task-plan/task-plan.json"
+LOCK_FILE = TASK_FILE + ".lock"
 MAX_DEPTH = 3  # order segments: 1, 1.1, 1.1.1
+
+
+# ─── File lock ───────────────────────────────────────────────────────────────
+
+@contextlib.contextmanager
+def _json_lock():
+    """Exclusive lock covering the full load→modify→save cycle. No-op on Windows."""
+    os.makedirs(os.path.dirname(os.path.abspath(LOCK_FILE)), exist_ok=True)
+    with open(LOCK_FILE, "w") as lf:
+        if _HAS_FCNTL:
+            _fcntl.flock(lf, _fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            if _HAS_FCNTL:
+                _fcntl.flock(lf, _fcntl.LOCK_UN)
 
 
 # ─── I/O helpers ─────────────────────────────────────────────────────────────
@@ -478,8 +502,8 @@ def main():
     rest = args[1:]
 
     _check_project_root()
-    data = load_data()
 
+    READ_ONLY = {"ls", "check"}
     dispatch = {
         "ls":     cmd_ls,
         "add":    cmd_add,
@@ -495,7 +519,13 @@ def main():
         print("Run 'task-plan help' for usage.")
         sys.exit(1)
 
-    dispatch[command](data, rest)
+    if command in READ_ONLY:
+        data = load_data()
+        dispatch[command](data, rest)
+    else:
+        with _json_lock():
+            data = load_data()
+            dispatch[command](data, rest)
 
 
 if __name__ == "__main__":

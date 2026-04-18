@@ -176,6 +176,8 @@ task-plan help
 
 完全依靠 script 執行 CRUD，不直接讀寫 `docs/task-plan/task-plan.json`。
 
+完全依靠 script 執行 CRUD，不直接讀寫 `docs/task-plan/task-plan.json`。
+
 ### 3. 呈現結果
 
 - 每次操作後，根據輸出向使用者摘要結果
