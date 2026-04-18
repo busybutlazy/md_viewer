@@ -1,7 +1,16 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import { ToastProvider } from "@/components/ui/Toast";
 import Home from "./page";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+  }),
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 describe("Home", () => {
   it("renders the project title and design system preview", () => {

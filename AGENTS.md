@@ -14,7 +14,7 @@
 
 > **⚠️ 每次對話開始時，Codex 必須先確認當前階段**。可透過 `docs/progress.md` 查閱，或直接問使用者。
 >
-> **當前階段**：`P1.3`（待開始）
+> **當前階段**：`P1.4`（待開始）
 
 階段標記規則：`P<主階段>.<子階段>`。例：`P1.4` = 階段 1 的子階段 4（閱讀模式）。
 
@@ -335,6 +335,42 @@ docker compose run --rm app pnpm electron:build
 
 ---
 
+## 使用量管理（Rate Limit Guard）
+
+**每完成一個小步驟後**，執行 `/status` 並解析輸出中的兩行：
+
+```
+5h limit:     [...] X% left (resets HH:MM on DD Mon)
+Weekly limit: [...] X% left (resets HH:MM on DD Mon)
+```
+
+規則：
+
+| 條件 | 動作 |
+|------|------|
+| `5h limit` **< 10%** | 解析重置時間 → 計算距今秒數 → `sleep <秒數>` → 繼續 |
+| `Weekly limit` **< 10%** | 解析重置時間 → 計算距今秒數 → `sleep <秒數>` → 繼續 |
+| 兩者均 ≥ 10% | 繼續執行下一個步驟 |
+
+sleep 計算方式（shell 範例）：
+
+```bash
+# 假設 /status 顯示 "resets 04:07 on 19 Apr"
+# 用 date 計算距今秒數後 sleep
+RESET_TIME="04:07 Apr 19"   # 自行從輸出解析
+RESET_EPOCH=$(date -d "$RESET_TIME" +%s 2>/dev/null || date -j -f "%H:%M %b %d" "$RESET_TIME" +%s)
+NOW_EPOCH=$(date +%s)
+SLEEP_SECS=$(( RESET_EPOCH - NOW_EPOCH + 60 ))  # 多等 60s 確保已重置
+echo "sleeping ${SLEEP_SECS}s until rate limit resets..."
+sleep "$SLEEP_SECS"
+```
+
+> macOS 用 `date -j -f`，Linux 用 `date -d`，上方範例已處理兩者。sleep 結束後繼續原本步驟，**不需通知使用者**。
+
+> 「步驟」的粒度：每次 write / edit 檔案、執行指令、或完成一個邏輯單元後即算一步。
+
+---
+
 ## 給 Codex 的重要提醒
 
 1. **對話開始時先確認當前階段**。看 `docs/progress.md` 的最後一筆，或直接問使用者。
@@ -348,3 +384,4 @@ docker compose run --rm app pnpm electron:build
 9. **分支層級不可搞混**：subtask branch 從 phase branch 切出，phase branch 從 `main` 切出；不可 subtask 直接從 `main` 切，也不可 phase 從其他 subtask 切。
 10. **`main` 只接受 phase branch 的 PR**，不要直接在 `main` 上開發或 commit，也不要建立裸 `dev_jett` 分支。
 11. **`AGENTS.md` 的「當前階段」行**每個子階段結束後要更新。
+12. **每個小步驟完成後執行 `/status`**，若 `5h limit` 或 `Weekly limit` 剩餘 < 10%，自動 sleep 到重置時間（+60s 緩衝），醒來後直接繼續，不打擾使用者。

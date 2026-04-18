@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "project": "md_viewer",
-  "updated_at": "2026-04-18",
+  "updated_at": "2026-04-19",
   "tasks": [
     {
       "id": "rjr6p5ah",
@@ -153,20 +153,20 @@
           "order": "1.4",
           "title": "P1.3 檔案上傳與 document store",
           "description": "完成檔案上傳、parse、store persist 與自動導頁。驗收：1. 上傳 frontmatter 含 type: quiz 的檔案會自動到 /exam。 2. sessionStorage 可在刷新後保留文件狀態。 3. 錯誤副檔名有明確 toast。 4. store 為空直接進模式頁時會回首頁並提示。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.3 上傳、document store、模式導頁與空狀態守衛；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "s8p51a4b",
               "order": "1.4.1",
               "title": "建立 document store",
               "description": "用 Zustand persist 建立文件狀態、parse 結果與警告儲存。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 Zustand document store，完成 parse 結果保存與 sessionStorage persist。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -174,10 +174,10 @@
               "order": "1.4.2",
               "title": "完成首頁上傳流程",
               "description": "整合 react-dropzone、檔案型別過濾、錯誤 toast 與讀檔流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成首頁 drag-and-drop / 選檔上傳流程，支援合法副檔名與錯誤 toast。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -185,10 +185,10 @@
               "order": "1.4.3",
               "title": "串接模式導頁與空狀態守衛",
               "description": "依 frontmatter 自動導到對應頁面，並處理 store 為空時的返回首頁提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "串接模式導頁、warning banner 與空 store 重導守衛。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]

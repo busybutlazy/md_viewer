@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { HomeShowcase } from "@/components/home/HomeShowcase";
+import { UploadPanel } from "@/components/home/UploadPanel";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import {
@@ -72,6 +74,12 @@ export default function Home() {
           </CardContent>
         </Card>
       </section>
+
+      <div className="mt-6">
+        <Suspense fallback={null}>
+          <UploadPanel />
+        </Suspense>
+      </div>
 
       <section className="mt-6 grid gap-4 md:grid-cols-3">
         <Card>

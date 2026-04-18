@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.3`（待開始）
+**當前階段**：`P1.4`（待開始）
 
 ---
 
@@ -32,6 +32,32 @@
 ---
 
 ## 日誌
+
+## P1.3 — 檔案上傳與 document store
+**完成日期**：2026-04-19
+**Commit**：待提交 `feat(p1.3): 建立檔案上傳流程與 document store`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `parse-document` 組裝層，統一串接 frontmatter、mode detection、quiz/slides parser 與 warning 驗證
+- 建立 `frontend/src/lib/store/document.ts`，以 Zustand `persist` middleware 將 document 狀態保存到 `sessionStorage`
+- 在首頁加入 `react-dropzone` 上傳區，支援 `.md`、`.markdown`、`.txt`，錯誤檔案類型以 toast 明確提示
+- 上傳後依 frontmatter 自動導向 `/read`、`/exam`、`/slides`，並於目標頁頂部顯示 parse warnings
+- 建立三個模式頁的空狀態守衛與 P1.3 placeholder，直接開啟空路由時會重導回首頁並提示
+- 補上 `parse-document` 與 `document store` 測試，驗證 parse orchestration、store 寫入與 sessionStorage 持久化
+
+### 遇到的問題
+- `useSearchParams()` 在首頁 client upload panel 中需要包在 `Suspense` 內，否則 `next build` 會失敗
+- `DocumentMode` 使用 `quiz` 而非 `exam`，導頁判斷若寫錯會在 typecheck 階段被擋下
+- Docker compose 共用依賴 volume 時，不適合同時平行跑多個驗收命令；改為串行執行較穩定
+
+### 心得 / 決策
+- `parseDocument()` 讓上傳流程只 parse 一次，之後各模式頁直接消費 store 內容，避免重複解析
+- P1.3 只做到導頁、持久化與 guard，模式頁本身維持輕量 placeholder，將 UI 深化留給 P1.4/P1.5/P1.7
+- 空 store 統一回首頁並帶 query toast，避免各模式頁分別實作不同的空狀態邏輯
+
+### 下一步
+- 進入 P1.4 閱讀模式
 
 ## P1.2 — Markdown parser 與測試
 **完成日期**：2026-04-18
