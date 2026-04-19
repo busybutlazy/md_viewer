@@ -1,1 +1,61 @@
-/* Slides mode styles land in P1.7. */
+.slide-frame .mrp-prose {
+  font-size: clamp(1rem, 1vw + 0.6rem, 1.35rem);
+  line-height: 1.6;
+}
+
+.slide-frame .mrp-prose h1 {
+  font-size: clamp(2.8rem, 5vw, 5rem);
+}
+
+.slide-frame .mrp-prose h2 {
+  font-size: clamp(2rem, 3vw, 3.25rem);
+}
+
+.slide-frame .mrp-prose h3 {
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+}
+
+.slide-frame .mrp-prose > * + * {
+  margin-top: 1rem;
+}
+
+.slide-frame .mrp-prose pre,
+.slide-frame .mrp-prose figure,
+.slide-frame .mrp-prose table {
+  break-inside: avoid;
+}
+
+.slide-frame .mrp-prose blockquote {
+  margin-block: 1.25rem;
+}
+
+.slide-frame .mrp-prose h1 a,
+.slide-frame .mrp-prose h2 a,
+.slide-frame .mrp-prose h3 a,
+.slide-frame .mrp-prose h4 a,
+.slide-frame .mrp-prose h5 a,
+.slide-frame .mrp-prose h6 a {
+  display: none;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  header,
+  .slides-chrome {
+    display: none !important;
+  }
+
+  .slides-print-list {
+    display: block !important;
+  }
+
+  .slide-frame {
+    break-after: page;
+    box-shadow: none !important;
+    margin: 0 auto 1rem;
+    page-break-after: always;
+  }
+}

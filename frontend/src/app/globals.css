@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/prose.css";
+@import "../styles/slides.css";
 
 :root {
   color-scheme: light;

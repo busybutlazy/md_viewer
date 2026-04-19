@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.7`（待開始）
+**當前階段**：`P1.8`（待開始）
 
 ---
 
@@ -32,6 +32,31 @@
 ---
 
 ## 日誌
+
+## P1.7 — 簡報模式
+**完成日期**：2026-04-20
+**Commit**：待提交 `feat(p1.7): 實作簡報模式與基本匯出`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `SlideFrame`、`SlideNavigator`、`SpeakerNotes`、`SlideOverview` 與 `slides-session` store
+- 重做 `/slides`，完成單張投影片舞台、speaker mode、overview、fullscreen 與底部控制列
+- 實作鍵盤控制：`←` `→` `PageUp` `PageDown` `Space`、`Home` `End`、`F`、`ESC`、`S`、`O`
+- 加入 fullscreen 中 3 秒無操作自動隱藏 chrome 的行為
+- 建立 `slides.css` 與 print stylesheet，支援 `window.print()` 的基本 PDF 匯出
+- 補上 `slides-session` store 測試，確保頁面索引與 overlay state 正常切換
+
+### 遇到的問題
+- `/slides` 初版同樣踩到 hooks 順序與型別 narrowing 問題，需先把 `deck` 安全收斂再執行 effects
+- slides route 需要同時服務互動模式與 print deck，因此畫面版與列印版必須共用 `SlideFrame`，避免樣式漂移
+
+### 心得 / 決策
+- slides mode 仍重用 `MarkdownView`，只在 `slides.css` 內針對字級與 spacing 做 slide scope 覆寫
+- overview 與 speaker mode 先保持輕量，不提前做多視窗 presenter mode，將範圍控制在 phase1
+- print export 以 `window.print()` + `@media print` 完成，符合 P1.7 的基本匯出目標
+
+### 下一步
+- 進入 P1.8 首頁 polish 與範例檔
 
 ## P1.6 — 考試結果頁
 **完成日期**：2026-04-20

@@ -333,20 +333,20 @@
           "order": "1.8",
           "title": "P1.7 簡報模式",
           "description": "完成簡報模式、導航與匯出能力。驗收：1. 鍵盤切頁流暢且不連跳。 2. F 可切換全螢幕，chrome 能自動隱藏。 3. 講者模式顯示下一頁與備忘。 4. 使用 window.print 可產生一頁一張投影片的 PDF。 5. code block 內的三條連字號不會被誤判切頁。 6. 主題切換即時生效。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.7 slides mode、鍵盤控制、speaker/overview 與基本 print export；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "818h9tfo",
               "order": "1.8.1",
               "title": "建立投影片頁與框架元件",
               "description": "完成 slides route、SlideFrame、aspect ratio 與基本頁面狀態。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 slides route 舞台頁、SlideFrame 與基本 deck 顯示。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -354,10 +354,10 @@
               "order": "1.8.2",
               "title": "完成導航與互動控制",
               "description": "實作 SlideNavigator、鍵盤切頁、全螢幕、講者模式與總覽。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成鍵盤導航、overview、speaker mode、fullscreen 與 chrome hide。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -365,10 +365,10 @@
               "order": "1.8.3",
               "title": "完成主題與 PDF 匯出",
               "description": "建立 default、dark、minimal 主題與 print stylesheet 匯出流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 slides 主題樣式與 print stylesheet 基本 PDF 匯出。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
