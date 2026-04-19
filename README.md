@@ -1,98 +1,155 @@
 # Markdown Reader Pro
 
-多模式 Markdown 閱讀器。使用者載入 `.md` 檔案後，依 frontmatter 自動切換到不同模式：
+多模式 Markdown 閱讀器。載入 `.md` 後，依 frontmatter 自動切換到三種模式：
 
 - Reading：文章閱讀模式
 - Exam：互動選擇題模式
 - Slides：投影片模式
 
-專案採分階段開發：
+目前已完成階段 1：網頁上傳版。下一步是 `P1.5.1` 下載式編輯。
 
-1. 網頁上傳版
-2. 網頁授權資料夾版
-3. 桌面應用程式版（Electron）
+## Quick Start
 
-## Current Status
+此專案採 Docker-first 開發流程，不需要在本機安裝 Node 或 pnpm。
 
-目前階段為 `P1.3`，已完成 `P1.2` parser 與測試。  
-目前已具備：
+```bash
+docker compose up app
+```
 
-- Docker Compose 開發環境
-- Next.js 15 + TypeScript + Tailwind + Vitest 專案骨架
-- AppShell、dark mode、基礎 UI 元件與設計 tokens
-- frontmatter / mode detection / quiz / slides parser 與 parser 測試
-- 前端應用集中於 `frontend/`，方便後續與 `backend/` 並存
+啟動後開啟 `http://localhost:3000`。
 
-## Planned Features
+常用驗收指令：
 
-### Reading Mode
+```bash
+docker compose run --rm app pnpm lint
+docker compose run --rm app pnpm test
+docker compose run --rm app pnpm build
+```
 
-- 文章排版優先的閱讀體驗
-- Table of Contents
-- Reading progress
-- 程式碼區塊高亮與 copy
+## Phase 1 Features
 
-### Exam Mode
+- 首頁支援拖放或選取 `.md`、`.markdown`、`.txt`
+- 上傳後自動解析 frontmatter 並導向 Reading、Exam 或 Slides
+- Zustand + `sessionStorage` 持久化，重整後仍保留目前文件與答題狀態
+- Reading mode 含 typography、code highlight、TOC、reading progress
+- Exam mode 含單選/複選、作答持久化、倒數計時、自動提交、結果頁與詳解
+- Slides mode 含鍵盤切頁、overview、speaker notes、fullscreen、`window.print()` PDF 匯出
+- 首頁內建 sample cards，可直接載入三種模式範例
 
-- 單選與複選題作答
-- 計時器、作答進度
-- 結果頁、錯題置頂、詳解顯示
+## Supported Markdown Formats
 
-### Slides Mode
+模式由 frontmatter `type` 決定；未提供 `type` 時預設為 Reading。
 
-- 一頁一頁的投影片瀏覽
-- 鍵盤切頁
-- Speaker notes
-- 全螢幕與 PDF 匯出
+### Reading
 
-## Markdown Templates
+```md
+---
+title: 文件標題
+author: 作者
+date: 2026-04-19
+tags: [react, ui]
+---
+```
 
-由 frontmatter 的 `type` 決定模式：
+支援一般 GFM 內容，包括：
 
-- 無 `type`：Reading
-- `type: quiz`：Exam
-- `type: slides`：Slides
+- headings
+- fenced code block
+- table
+- task list
+- blockquote
+- image
 
-完整格式規格請看 [docs/template-spec.md](docs/template-spec.md)。
+### Exam
 
-## Docs
+```md
+---
+type: quiz
+title: JavaScript 基礎測驗
+shuffle: true
+shuffleOptions: true
+passingScore: 60
+timeLimit: 600
+---
 
-- [AGENTS.md](AGENTS.md)：專案規格、開發規範、repo-local skills
-- [docs/roadmap.md](docs/roadmap.md)：完整 roadmap 與各子階段驗收標準
-- [docs/progress.md](docs/progress.md)：目前進度
-- [docs/decisions.md](docs/decisions.md)：架構決策紀錄
-- [docs/task-plan/task-plan.json](docs/task-plan/task-plan.json)：任務清單
+## Q1: 題目
+
+- [ ] 選項 A
+- [x] 選項 B
+
+> 解析: 詳解文字
+```
+
+規則：
+
+- 題目以 `## Q{n}:` 或 `## Q{n}：` 開頭
+- 選項使用 `- [ ]` / `- [x]`
+- 兩個以上正解會被視為複選題
+- 詳解使用 `> 解析:`
+
+### Slides
+
+```md
+---
+type: slides
+title: 我的簡報
+theme: default
+aspectRatio: "16:9"
+---
+
+# 第一頁
+
+---
+
+## 第二頁
+<!-- speaker: 講者備忘 -->
+```
+
+規則：
+
+- 單獨一行的 `---` 會切頁
+- code block 內的 `---` 不會切頁
+- `<!-- speaker: ... -->` 會解析成 speaker notes
+- `theme` 支援 `default`、`dark`、`minimal`
+- `aspectRatio` 支援 `16:9`、`4:3`
+
+完整規格請看 [docs/template-spec.md](docs/template-spec.md)。
+
+## Samples
+
+repo 內建範例檔位於 [frontend/samples](frontend/samples)：
+
+- `reading-sample.md`
+- `exam-sample.md`
+- `slides-sample.md`
+- `reading-deep-dive.md`
+- `acceptance/`：phase 1 smoke test 使用的驗收樣本
+
+## Known Limitations
+
+- 階段 1 僅支援上傳單一檔案，不支援直接授權資料夾
+- 文件與考試狀態只保存在 `sessionStorage`，關閉分頁或新視窗後不會跨裝置同步
+- Slides 的 PDF 匯出目前依賴瀏覽器 `window.print()`，不是獨立排版引擎
+- Exam 計分採完全匹配，複選題沒有部分給分
+- 尚未啟用 e2e 測試；目前驗收以 lint、Vitest、build 與 markdown acceptance corpus 為主
 
 ## Repo Layout
 
-- `frontend/`：Next.js 前端應用與前端容器設定
-- `backend/`：後端服務預留位置
-- `docs/`：roadmap、progress、ADR、template spec
-- 根目錄：repo 文件與 `docker-compose.yml`
+- `frontend/`：Next.js 前端應用、samples、parser/store/components
+- `backend/`：後端保留位置
+- `docs/`：roadmap、progress、decisions、template spec、task plan
+- `.agents/skills/`：repo-local workflow skills
 
-## Development Workflow
+## Development Notes
 
-此專案採 Docker-first 開發方式，原則上不在本機安裝專案依賴。  
-標準流程會以 `docker compose` 執行開發、lint、test、build。
+- 前端實作檔案統一放在 `frontend/`
+- 請遵守 [AGENTS.md](AGENTS.md) 的 phase、branch、commit 規則
+- 子階段結束前需通過 `lint`、`test`、`build`
 
-目前可直接使用以下容器指令：
+## Related Docs
 
-- `docker compose up app`
-- `docker compose run --rm app pnpm lint`
-- `docker compose run --rm app pnpm test`
-- `docker compose run --rm app pnpm build`
-
-前端應用實體檔案位於 `frontend/`，但仍由根目錄的 `docker-compose.yml` 統一啟動。
-
-## AI Workflow
-
-本 repo 包含 repo-local skills，放在 `.agents/skills/`，用來輔助：
-
-- 架構決策
-- parser 規格實作
-- UI / UX 一致性
-- 子階段驗收與 git workflow
-
-## License
-
-尚未決定。
+- [AGENTS.md](AGENTS.md)
+- [docs/roadmap.md](docs/roadmap.md)
+- [docs/progress.md](docs/progress.md)
+- [docs/template-spec.md](docs/template-spec.md)
+- [docs/task-plan/task-plan.json](docs/task-plan/task-plan.json)

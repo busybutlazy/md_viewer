@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.9`（待開始）
+**當前階段**：`P1.5.1`（待開始）
 
 ---
 
@@ -32,6 +32,29 @@
 ---
 
 ## 日誌
+
+## P1.9 — 階段 1 驗收與修整
+**完成日期**：2026-04-19
+**Commit**：待提交 `chore(p1.9): 階段 1 驗收與文件更新`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 補上 `frontend/samples/acceptance/` 驗收樣本，搭配既有 sample 與 parser fixtures，建立 20+ 份 markdown acceptance corpus
+- 新增 `phase1-acceptance.test.ts` smoke test，驗證三種模式文件都能 parse 且不會 crash
+- 重新以 Docker 串行執行 `pnpm lint`、`pnpm test`、`pnpm build`，完成 phase 1 最終驗收
+- 重寫 README，補齊快速開始、支援格式、phase 1 功能與已知限制
+- 確認 `dev_jett/phase1` 上已包含 P1.3–P1.8 各子階段 commit，branch/commit 流程符合規範
+
+### 遇到的問題
+- `docker compose run --rm app` 若平行啟動多個驗收指令，容器內 `node_modules` volume 可能出現 `chown ENOENT` race，因此 phase 收尾改回串行執行
+- 初版 warning sample 沒有命中既有 validator 規則，已調整為「無正解、無詳解」案例，避免 acceptance test 自己失真
+
+### 心得 / 決策
+- phase 1 驗收改成 repo 內可重跑的 markdown corpus + smoke test，比一次性人工開檔更可靠
+- README 明確標註 phase 1 邊界，避免把 phase 2 的資料夾授權能力誤解成已完成
+
+### 下一步
+- 進入 P1.5.1 下載式編輯
 
 ## P1.8 — 首頁 polish 與範例檔
 **完成日期**：2026-04-20

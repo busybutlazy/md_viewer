@@ -8,10 +8,10 @@
       "order": "1",
       "title": "階段 1：網頁上傳檔案版",
       "description": "階段目標：完成 P1.0–P1.9，交付可上傳 markdown 的網頁版，含閱讀、考試、簡報三模式。驗收：1. 所有 P1 子階段皆完成並各自通過 lint、test、build、手動驗收。 2. 三種模式都可從首頁進入並完成核心流程。 3. docs/progress.md、CLAUDE.md 當前階段、必要決策與 README 均已更新。",
-      "status": "in_progress",
-      "completion_note": "",
+      "status": "done",
+      "completion_note": "完成 P1.0–P1.9，phase 1 網頁上傳版驗收結束。",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-18",
+      "updated_at": "2026-04-19",
       "subtasks": [
         {
           "id": "720xz87y",
@@ -423,20 +423,20 @@
           "order": "1.10",
           "title": "P1.9 階段 1 驗收與修整",
           "description": "完成階段 1 整體驗收與修整。驗收：1. 20 份真實 markdown 檔案可正常開啟與操作，無 crash。 2. README 足夠讓新使用者 5 分鐘內跑起來。 3. P1 各子階段 commit 都存在且格式正確。 4. 所有已知 bug 與取捨已記錄到文件。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.9 階段 1 驗收、文件更新與最終 lint/test/build 驗證。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "6trfmxhy",
               "order": "1.10.1",
               "title": "收集真實 markdown 驗收樣本",
               "description": "準備 20 份真實檔案覆蓋三種模式與常見異常格式。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 20+ 份 markdown acceptance corpus 與 smoke test 驗收樣本。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -444,10 +444,10 @@
               "order": "1.10.2",
               "title": "修正階段 1 問題並更新 README",
               "description": "依驗收結果修 bug、補已知限制與快速開始文件。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "更新 README，補齊 phase 1 快速開始、支援格式、功能與已知限制。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -455,10 +455,10 @@
               "order": "1.10.3",
               "title": "完成階段文件與提交整理",
               "description": "確認 commit、更新 progress、CLAUDE 當前階段與必要決策紀錄。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 progress、AGENTS 與 phase 1 驗收文件收尾，準備提交。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -470,10 +470,10 @@
       "order": "2",
       "title": "階段 1.5：下載式編輯",
       "description": "階段目標：在不接原生檔案系統前提下加入編輯能力。驗收：1. 使用者可編輯、預覽、下載、新建 markdown。 2. 三個子階段皆完成並通過 lint、test、build、手動驗收。",
-      "status": "todo",
+      "status": "in_progress",
       "completion_note": "",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-18",
+      "updated_at": "2026-04-19",
       "subtasks": [
         {
           "id": "mxvyz36r",
