@@ -1,0 +1,118 @@
+.mrp-prose {
+  color: var(--foreground);
+  font-size: 1.0625rem;
+  line-height: 2;
+}
+
+.mrp-prose > * + * {
+  margin-top: 1.5rem;
+}
+
+.mrp-prose p,
+.mrp-prose li,
+.mrp-prose blockquote {
+  color: color-mix(in srgb, var(--foreground) 88%, transparent);
+}
+
+.mrp-prose a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.mrp-prose strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.mrp-prose hr {
+  margin-block: 2.5rem;
+  border: 0;
+  border-top: 1px solid var(--border-strong);
+}
+
+.mrp-prose ul,
+.mrp-prose ol {
+  padding-left: 1.5rem;
+}
+
+.mrp-prose ul {
+  list-style: disc;
+}
+
+.mrp-prose ol {
+  list-style: decimal;
+}
+
+.mrp-prose li + li {
+  margin-top: 0.5rem;
+}
+
+.mrp-prose blockquote {
+  margin-block: 2rem;
+  border-left: 4px solid var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 65%, var(--surface));
+  border-radius: 0 1.5rem 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.mrp-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.mrp-prose thead {
+  background: color-mix(in srgb, var(--surface) 45%, var(--accent-soft));
+}
+
+.mrp-prose th,
+.mrp-prose td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.mrp-prose tr:last-child td {
+  border-bottom: 0;
+}
+
+.mrp-prose .contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.mrp-prose .task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.mrp-prose .task-list-item input {
+  margin-top: 0.45rem;
+}
+
+.mrp-prose pre code.hljs {
+  background: transparent;
+  padding: 0;
+}
+
+.mrp-prose :not(pre) > code {
+  word-break: break-word;
+}
+
+.mrp-prose img {
+  margin: 0;
+}
+
+.mrp-prose h1,
+.mrp-prose h2,
+.mrp-prose h3,
+.mrp-prose h4,
+.mrp-prose h5,
+.mrp-prose h6 {
+  color: var(--foreground);
+}

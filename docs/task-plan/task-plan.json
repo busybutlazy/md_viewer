@@ -1,25 +1,25 @@
 {
   "version": "1.0",
   "project": "md_viewer",
-  "updated_at": "2026-04-18",
+  "updated_at": "2026-04-19",
   "tasks": [
     {
       "id": "rjr6p5ah",
       "order": "1",
       "title": "階段 1：網頁上傳檔案版",
       "description": "階段目標：完成 P1.0–P1.9，交付可上傳 markdown 的網頁版，含閱讀、考試、簡報三模式。驗收：1. 所有 P1 子階段皆完成並各自通過 lint、test、build、手動驗收。 2. 三種模式都可從首頁進入並完成核心流程。 3. docs/progress.md、CLAUDE.md 當前階段、必要決策與 README 均已更新。",
-      "status": "todo",
-      "completion_note": "",
+      "status": "done",
+      "completion_note": "完成 P1.0–P1.9，phase 1 網頁上傳版驗收結束。",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-18",
+      "updated_at": "2026-04-19",
       "subtasks": [
         {
           "id": "720xz87y",
           "order": "1.1",
           "title": "P1.0 專案初始化與容器化基礎",
           "description": "交付 Next.js 15 + React 19 + TypeScript strict + Tailwind + Vitest 專案骨架，並建立 docker compose 開發基礎。驗收：1. 使用 docker compose up 可啟動首頁並顯示 Markdown Reader Pro。 2. 使用 docker compose run --rm app pnpm lint、pnpm test、pnpm build 全通過。 3. 字型 Noto Sans TC、Inter、JetBrains Mono 在首頁可見。 4. 不需在本機安裝專案依賴即可完成開發與驗證。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.0 初始化，lint/test/build 與 docker compose 啟動驗證通過。",
           "created_at": "2026-04-18",
           "updated_at": "2026-04-18",
           "subtasks": [
@@ -28,8 +28,8 @@
               "order": "1.1.1",
               "title": "建立 Next.js 專案骨架",
               "description": "用 App Router、src、TypeScript strict、Tailwind、ESLint 初始化專案，整理基本目錄結構。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 Next.js 15 App Router 專案骨架與基礎目錄。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -39,8 +39,8 @@
               "order": "1.1.2",
               "title": "接上測試與字型基礎",
               "description": "安裝並配置 Vitest、React Testing Library、next/font 與首頁字型驗證內容。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "接上 Vitest、Testing Library 與 next/font 字型驗證首頁。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -50,8 +50,8 @@
               "order": "1.1.3",
               "title": "建立容器化開發入口",
               "description": "新增 Dockerfile、docker compose、容器內依賴安裝與常用開發指令。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 Dockerfile、docker compose 與容器化開發入口。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -63,8 +63,8 @@
           "order": "1.2",
           "title": "P1.1 設計系統基礎",
           "description": "建立設計 tokens、globals、dark mode、AppShell 與基礎 UI 元件。驗收：1. 亮暗模式可切換且重整後保留。 2. 跟隨系統深色偏好生效。 3. Button、Card、Badge、Toast、Dialog 皆有亮暗版。 4. 375px 手機尺寸不破版。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.1 設計系統基礎，lint/test/build 與首頁手動驗收通過。",
           "created_at": "2026-04-18",
           "updated_at": "2026-04-18",
           "subtasks": [
@@ -73,8 +73,8 @@
               "order": "1.2.1",
               "title": "定義設計 tokens 與 globals",
               "description": "建立色彩、字級、間距與 dark mode CSS 變數與 Tailwind 對應。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立亮暗模式 CSS tokens、全域色彩與字體基礎。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -84,8 +84,8 @@
               "order": "1.2.2",
               "title": "實作 AppShell 與基礎元件",
               "description": "完成 topbar、logo、mode badge、Button、Card、Badge、Toast、Dialog。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 AppShell、Theme toggle 與 Button/Card/Badge/Dialog/Toast 基礎元件。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -95,8 +95,8 @@
               "order": "1.2.3",
               "title": "完成 dark mode 與響應式驗證",
               "description": "處理 localStorage、系統主題同步與 375px 版面檢查。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成主題持久化、系統主題跟隨與首頁響應式驗證。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -108,8 +108,8 @@
           "order": "1.3",
           "title": "P1.2 Markdown parser 與測試",
           "description": "依 template-spec 完成 frontmatter、mode detect、quiz、slides parser 與警告機制。驗收：1. parser 邏輯測試覆蓋率 > 90%。 2. template-spec 列出的 quiz/slides 邊界條件全部有測試且通過。 3. 錯誤格式 markdown 不 crash，而是回傳合理警告。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.2 parser 與測試，lint/test/build 與 coverage 驗證通過。",
           "created_at": "2026-04-18",
           "updated_at": "2026-04-18",
           "subtasks": [
@@ -118,8 +118,8 @@
               "order": "1.3.1",
               "title": "完成 frontmatter 與 mode 偵測",
               "description": "實作 gray-matter 包裝與 reading、quiz、slides 模式判定。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 gray-matter frontmatter 包裝與 mode detection。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -129,8 +129,8 @@
               "order": "1.3.2",
               "title": "完成 quiz 與 slides parser",
               "description": "把 markdown 解析成 Quiz 與 SlideDeck 結構，含 warning 驗證函式。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 quiz/slides parser 與 warning 驗證函式。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -140,8 +140,8 @@
               "order": "1.3.3",
               "title": "補齊 parser fixtures 與測試",
               "description": "依 template-spec 建 fixture，覆蓋邊界條件、錯誤輸入與 coverage 目標。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "補齊 parser fixtures、邊界條件測試，coverage 達 98.64%。",
               "created_at": "2026-04-18",
               "updated_at": "2026-04-18",
               "subtasks": []
@@ -153,20 +153,20 @@
           "order": "1.4",
           "title": "P1.3 檔案上傳與 document store",
           "description": "完成檔案上傳、parse、store persist 與自動導頁。驗收：1. 上傳 frontmatter 含 type: quiz 的檔案會自動到 /exam。 2. sessionStorage 可在刷新後保留文件狀態。 3. 錯誤副檔名有明確 toast。 4. store 為空直接進模式頁時會回首頁並提示。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.3 上傳、document store、模式導頁與空狀態守衛；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "s8p51a4b",
               "order": "1.4.1",
               "title": "建立 document store",
               "description": "用 Zustand persist 建立文件狀態、parse 結果與警告儲存。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 Zustand document store，完成 parse 結果保存與 sessionStorage persist。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -174,10 +174,10 @@
               "order": "1.4.2",
               "title": "完成首頁上傳流程",
               "description": "整合 react-dropzone、檔案型別過濾、錯誤 toast 與讀檔流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成首頁 drag-and-drop / 選檔上傳流程，支援合法副檔名與錯誤 toast。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -185,10 +185,10 @@
               "order": "1.4.3",
               "title": "串接模式導頁與空狀態守衛",
               "description": "依 frontmatter 自動導到對應頁面，並處理 store 為空時的返回首頁提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "串接模式導頁、warning banner 與空 store 重導守衛。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -198,20 +198,20 @@
           "order": "1.5",
           "title": "P1.4 閱讀模式",
           "description": "完成閱讀模式頁面、MarkdownView 與閱讀輔助元件。驗收：1. 1500 字含 code/table/image/list/blockquote 長文渲染正常。 2. 亮暗模式字級、行高、對比舒適。 3. TOC 點擊跳轉正確且當前段落高亮。 4. 手機版 TOC 不遮擋內容。 5. 所有 heading 具 id，支援 hash 直達。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.4 閱讀模式與 typography；lint/test/build 通過並補齊 sample 與 heading 測試。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "leihwe5b",
               "order": "1.5.1",
               "title": "建立閱讀模式頁面骨架",
               "description": "完成 read route、版面配置與文件 meta 呈現區塊。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 /read 頁面骨架、文章 hero、metadata 與 warning banner 佈局。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -219,10 +219,10 @@
               "order": "1.5.2",
               "title": "實作 MarkdownView 客製元件",
               "description": "完成 CodeBlock、Heading、ProseImage 與基本 markdown 渲染管線。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 MarkdownView、CodeBlock、Heading、ProseImage 與 prose typography 樣式。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -230,10 +230,10 @@
               "order": "1.5.3",
               "title": "加入閱讀輔助功能",
               "description": "完成 TOC、ReadingProgress、heading id 與 prose.css 微調。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 TableOfContents、ReadingProgress、heading slug 測試與長文 sample 驗收素材。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -243,20 +243,20 @@
           "order": "1.6",
           "title": "P1.5 考試模式作答流程",
           "description": "完成考試模式作答頁與 session 狀態。驗收：1. 單選與複選 UI 清楚區分。 2. 刷新後答案仍保留。 3. 計時器歸零自動提交到結果頁。 4. 可用 Tab、Space、Arrow 操作。 5. 手機版選項區夠大易點擊。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.5 作答流程、session persist、timer auto-submit 與最小結果導頁；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "tcgauha0",
               "order": "1.6.1",
               "title": "建立 exam route 與 session store",
               "description": "完成 exam 頁面骨架、persist 狀態與題目載入流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 exam route、exam-session store 與 result route 基本導頁守衛。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -264,10 +264,10 @@
               "order": "1.6.2",
               "title": "實作題目與選項互動元件",
               "description": "完成 QuestionCard、OptionItem、單選複選切換與整區可點擊 label。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 QuestionCard、OptionItem 與單選/複選作答互動。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -275,10 +275,10 @@
               "order": "1.6.3",
               "title": "完成提交前流程與計時器",
               "description": "加入進度條、ExamTimer、未作答檢查、到時自動提交與鍵盤操作。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成進度條、倒數計時、自動提交與提交前未答題檢查流程。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -288,20 +288,20 @@
           "order": "1.7",
           "title": "P1.6 考試結果頁",
           "description": "完成結果頁、計分、錯題與詳解呈現。驗收：1. 錯題正確置頂並清楚顯示你的答案與正解。 2. 詳解中的 code block、連結、圖片可正常渲染。 3. 重新作答後順序規則符合 shuffle 設定。 4. 結果頁 aria-live 設置正確。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.6 結果頁、計分、錯題詳解與清理流程；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "9a1547ke",
               "order": "1.7.1",
               "title": "實作計分與結果資料整理",
               "description": "建立單選與複選評分、答對答錯分組與用時計算。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成計分純函式與結果資料整理，支援單選/複選完全匹配規則。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -309,10 +309,10 @@
               "order": "1.7.2",
               "title": "完成結果頁區塊與詳解渲染",
               "description": "建立 hero、錯題置頂、答對收合區塊與 MarkdownView 詳解重用。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成結果頁 hero、錯題置頂區塊與詳解 Markdown 渲染。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -320,10 +320,10 @@
               "order": "1.7.3",
               "title": "完成重新作答與清理行為",
               "description": "處理 retry、回首頁、session 清除與 aria-live 結果提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成重新作答與回首頁清理流程，答對題目區塊預設收合。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -333,20 +333,20 @@
           "order": "1.8",
           "title": "P1.7 簡報模式",
           "description": "完成簡報模式、導航與匯出能力。驗收：1. 鍵盤切頁流暢且不連跳。 2. F 可切換全螢幕，chrome 能自動隱藏。 3. 講者模式顯示下一頁與備忘。 4. 使用 window.print 可產生一頁一張投影片的 PDF。 5. code block 內的三條連字號不會被誤判切頁。 6. 主題切換即時生效。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.7 slides mode、鍵盤控制、speaker/overview 與基本 print export；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "818h9tfo",
               "order": "1.8.1",
               "title": "建立投影片頁與框架元件",
               "description": "完成 slides route、SlideFrame、aspect ratio 與基本頁面狀態。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 slides route 舞台頁、SlideFrame 與基本 deck 顯示。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -354,10 +354,10 @@
               "order": "1.8.2",
               "title": "完成導航與互動控制",
               "description": "實作 SlideNavigator、鍵盤切頁、全螢幕、講者模式與總覽。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成鍵盤導航、overview、speaker mode、fullscreen 與 chrome hide。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -365,10 +365,10 @@
               "order": "1.8.3",
               "title": "完成主題與 PDF 匯出",
               "description": "建立 default、dark、minimal 主題與 print stylesheet 匯出流程。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 slides 主題樣式與 print stylesheet 基本 PDF 匯出。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -378,20 +378,20 @@
           "order": "1.9",
           "title": "P1.8 首頁 polish 與範例檔",
           "description": "完成首頁完整設計與三份高品質範例檔。驗收：1. 三份 sample 內容具示範價值，不是佔位文字。 2. 點擊範例卡 2 秒內進入對應模式。 3. 首頁在 375px、768px、1280px 都穩定好看。 4. empty/loading states 已處理。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.8 首頁 polish、sample cards 與三份正式 sample；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "9mlgk75o",
               "order": "1.9.1",
               "title": "完成首頁版面與主 CTA",
               "description": "設計 hero、模式圖示、上傳區與 footer。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成首頁 hero、上傳區、sample section 與 footer 重設計。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -399,10 +399,10 @@
               "order": "1.9.2",
               "title": "製作三份高品質 sample",
               "description": "撰寫 reading、exam、slides 範例內容並確保可直接載入。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "補齊 reading/exam/slides 三份正式 sample 檔案。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -410,10 +410,10 @@
               "order": "1.9.3",
               "title": "補齊載入與空狀態體驗",
               "description": "完成 sample 載入流程、loading UI 與 responsive polish。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 sample cards 載入流程與首頁空狀態入口整理。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -423,20 +423,20 @@
           "order": "1.10",
           "title": "P1.9 階段 1 驗收與修整",
           "description": "完成階段 1 整體驗收與修整。驗收：1. 20 份真實 markdown 檔案可正常開啟與操作，無 crash。 2. README 足夠讓新使用者 5 分鐘內跑起來。 3. P1 各子階段 commit 都存在且格式正確。 4. 所有已知 bug 與取捨已記錄到文件。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.9 階段 1 驗收、文件更新與最終 lint/test/build 驗證。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "6trfmxhy",
               "order": "1.10.1",
               "title": "收集真實 markdown 驗收樣本",
               "description": "準備 20 份真實檔案覆蓋三種模式與常見異常格式。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立 20+ 份 markdown acceptance corpus 與 smoke test 驗收樣本。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -444,10 +444,10 @@
               "order": "1.10.2",
               "title": "修正階段 1 問題並更新 README",
               "description": "依驗收結果修 bug、補已知限制與快速開始文件。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "更新 README，補齊 phase 1 快速開始、支援格式、功能與已知限制。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -455,10 +455,10 @@
               "order": "1.10.3",
               "title": "完成階段文件與提交整理",
               "description": "確認 commit、更新 progress、CLAUDE 當前階段與必要決策紀錄。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 progress、AGENTS 與 phase 1 驗收文件收尾，準備提交。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]
@@ -470,10 +470,10 @@
       "order": "2",
       "title": "階段 1.5：下載式編輯",
       "description": "階段目標：在不接原生檔案系統前提下加入編輯能力。驗收：1. 使用者可編輯、預覽、下載、新建 markdown。 2. 三個子階段皆完成並通過 lint、test、build、手動驗收。",
-      "status": "todo",
+      "status": "in_progress",
       "completion_note": "",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-18",
+      "updated_at": "2026-04-19",
       "subtasks": [
         {
           "id": "mxvyz36r",

@@ -44,7 +44,7 @@
 
 **任務**：
 - 在 `tailwind.config.ts` 定義色彩 tokens（依 `ui-ux-designer.md` 規範）
-- 建立 `src/styles/globals.css` 的 CSS 變數與 dark mode class
+- 建立 `frontend/src/app/globals.css` 的 CSS 變數與 dark mode class
 - 建立 AppShell layout：topbar（logo + 模式 badge + 回首頁按鈕）
 - 建立共用 UI 元件：Button、Card、Badge、Toast、Dialog（shadcn/ui 安裝對應）
 - Dark mode toggle（存 localStorage + 跟隨系統預設）
@@ -62,12 +62,12 @@
 ### P1.2 Markdown parser 完整實作
 
 **任務**：
-- `src/lib/parsers/frontmatter.ts`：包 `gray-matter`
-- `src/lib/parsers/detect-mode.ts`：依 `type` 欄位決定模式
-- `src/lib/parsers/quiz.ts`：markdown → `Quiz` 結構
-- `src/lib/parsers/slides.ts`：markdown → `SlideDeck` 結構
+- `frontend/src/lib/parsers/frontmatter.ts`：包 `gray-matter`
+- `frontend/src/lib/parsers/detect-mode.ts`：依 `type` 欄位決定模式
+- `frontend/src/lib/parsers/quiz.ts`：markdown → `Quiz` 結構
+- `frontend/src/lib/parsers/slides.ts`：markdown → `SlideDeck` 結構
 - `validateQuiz` / `validateSlides` 警告函式
-- 所有 parser 配 Vitest 測試與 fixture `.md` 檔，放 `src/lib/parsers/__tests__/`
+- 所有 parser 配 Vitest 測試與 fixture `.md` 檔，放 `frontend/src/lib/parsers/__tests__/`
 - 涵蓋 `docs/template-spec.md` 列出的所有邊界條件
 
 **驗收標準**：
@@ -82,7 +82,7 @@
 ### P1.3 檔案上傳與狀態管理
 
 **任務**：
-- `src/lib/store/document.ts` Zustand store（`persist` middleware → sessionStorage）
+- `frontend/src/lib/store/document.ts` Zustand store（`persist` middleware → sessionStorage）
 - 首頁上傳區（`react-dropzone`，支援 drag-and-drop 與點擊選檔）
 - 接受 `.md` / `.markdown` / `.txt`，其他檔案類型顯示 toast 錯誤
 - 上傳 → parse frontmatter → detect mode → 存進 store → 自動路由到對應模式頁
@@ -109,7 +109,7 @@
   - `ProseImage`（圓角、alt → caption、lazy loading）
   - `TableOfContents`（右側 sticky，掃描頁面 H2/H3 自動生成、當前項目高亮）
   - `ReadingProgress`（top bar 顯示捲動進度）
-- `src/styles/prose.css` 微調 Tailwind Typography
+- `frontend/src/styles/prose.css` 微調 Tailwind Typography
 
 **驗收標準**：
 - 用一份 1500 字、含多種元素（code、table、image、list、blockquote）的文章測試
@@ -126,7 +126,7 @@
 
 **任務**：
 - `/exam` 頁面
-- `src/lib/store/exam-session.ts` Zustand store（`persist` → sessionStorage）
+- `frontend/src/lib/store/exam-session.ts` Zustand store（`persist` → sessionStorage）
 - 元件：
   - `QuestionCard`：包 question text + options + 作答狀態顯示
   - `OptionItem`：單選 radio / 複選 checkbox，自動依 `isMulti` 切換
@@ -203,9 +203,9 @@
   - 範例卡片：三張（閱讀、考試、簡報各一），點擊直接載入對應範例檔
   - Footer：最小化（GitHub 連結、版本）
 - 建立三份高品質範例：
-  - `samples/reading-sample.md`：一篇 1500+ 字的技術文章，展示閱讀模式最美的樣子
-  - `samples/exam-sample.md`：10 題選擇題（含 2 題複選），覆蓋各種詳解格式
-  - `samples/slides-sample.md`：12 頁簡報，展示所有主題與排版特色
+  - `frontend/samples/reading-sample.md`：一篇 1500+ 字的技術文章，展示閱讀模式最美的樣子
+  - `frontend/samples/exam-sample.md`：10 題選擇題（含 2 題複選），覆蓋各種詳解格式
+  - `frontend/samples/slides-sample.md`：12 頁簡報，展示所有主題與排版特色
 
 **驗收標準**：
 - 範例檔內容本身具備示範價值（不是 lorem ipsum）
@@ -286,7 +286,7 @@
   - 考試（含 frontmatter + 1 題範例）
   - 簡報（含 frontmatter + 3 頁範例）
 - 選完後直接進 `/edit` 模式
-- 每個模版的骨架內容存在 `src/lib/templates/` 裡
+- 每個模版的骨架內容存在 `frontend/src/lib/templates/` 裡
 
 **驗收標準**：
 - 四個範本都能成功進入編輯器
@@ -303,7 +303,7 @@
 ### P2.0 檔案系統抽象層（重構）
 
 **任務**：
-- 建立 `src/lib/fs/types.ts`：定義 `FileSystemAdapter` interface
+- 建立 `frontend/src/lib/fs/types.ts`：定義 `FileSystemAdapter` interface
   ```ts
   interface FileSystemAdapter {
     type: 'upload' | 'fsaccess' | 'node'
@@ -458,7 +458,7 @@
   - `preload/index.ts`：preload script，透過 `contextBridge` 暴露安全 API
   - `shared/types.ts`：main 與 renderer 共用型別
 - 配置 Next.js 為靜態匯出（`output: 'export'`）或採 `next-electron-server`（由 `desktop-integration-specialist` 決定）
-- 調整 `package.json` scripts：`electron:dev`、`electron:build`
+- 調整 `frontend/package.json` scripts：`electron:dev`、`electron:build`
 - 配置 `electron-builder.yml`：app id、產品名、輸出目錄
 
 **驗收標準**：
@@ -592,7 +592,7 @@
 
 以下在各階段幾乎不動，這是整個架構的穩定骨幹：
 
-1. **Markdown parser**（`src/lib/parsers/`）：P1.2 定版
+1. **Markdown parser**（`frontend/src/lib/parsers/`）：P1.2 定版
 2. **渲染元件**（`MarkdownView`、`QuestionCard`、`SlideFrame`）：P1.4 – P1.7 定版
 3. **考試與簡報的 UX 邏輯**：P1.5 – P1.7 定版
 4. **設計 tokens**：P1.1 定版
