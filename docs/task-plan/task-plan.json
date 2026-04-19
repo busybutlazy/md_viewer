@@ -288,20 +288,20 @@
           "order": "1.7",
           "title": "P1.6 考試結果頁",
           "description": "完成結果頁、計分、錯題與詳解呈現。驗收：1. 錯題正確置頂並清楚顯示你的答案與正解。 2. 詳解中的 code block、連結、圖片可正常渲染。 3. 重新作答後順序規則符合 shuffle 設定。 4. 結果頁 aria-live 設置正確。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.6 結果頁、計分、錯題詳解與清理流程；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "9a1547ke",
               "order": "1.7.1",
               "title": "實作計分與結果資料整理",
               "description": "建立單選與複選評分、答對答錯分組與用時計算。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成計分純函式與結果資料整理，支援單選/複選完全匹配規則。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -309,10 +309,10 @@
               "order": "1.7.2",
               "title": "完成結果頁區塊與詳解渲染",
               "description": "建立 hero、錯題置頂、答對收合區塊與 MarkdownView 詳解重用。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成結果頁 hero、錯題置頂區塊與詳解 Markdown 渲染。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -320,10 +320,10 @@
               "order": "1.7.3",
               "title": "完成重新作答與清理行為",
               "description": "處理 retry、回首頁、session 清除與 aria-live 結果提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成重新作答與回首頁清理流程，答對題目區塊預設收合。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]

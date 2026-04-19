@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.6`（待開始）
+**當前階段**：`P1.7`（待開始）
 
 ---
 
@@ -32,6 +32,31 @@
 ---
 
 ## 日誌
+
+## P1.6 — 考試結果頁
+**完成日期**：2026-04-20
+**Commit**：待提交 `feat(p1.6): 實作考試結果頁與錯題詳解`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/exam/score.ts`，統一處理單選/複選完全匹配計分規則
+- 重做 `/exam/result`，加入大分數 hero、pass/fail badge、用時、答題統計
+- 完成錯題置頂區塊，顯示題目、你的答案、正解與詳解
+- 以 `MarkdownView` 渲染詳解內容，沿用閱讀模式的 code block、連結、圖片與 typography 邏輯
+- 建立已答對題目收合區塊，避免結果頁被正確題目淹沒
+- 補上 `score` 純函式測試，鎖定無部分分數與未作答視為錯誤的規則
+
+### 遇到的問題
+- `MarkdownView` 導入結果頁後，`/exam/result` 的 client bundle 明顯變大，後續可再評估是否切分 explanation rendering
+- 結果頁要同時兼顧答題摘要與詳解內容，若沒有錯題預設空畫面會很薄，因此補了 all-correct empty state
+
+### 心得 / 決策
+- 計分規則獨立成純函式後，P1.5 的 submit flow 與 P1.6 的結果頁不再互相耦合
+- 詳解直接共用 `MarkdownView`，後續如果閱讀排版或 code block UX 有更新，結果頁會自動受益
+- 錯題區塊加上 `aria-live=\"polite\"`，讓結果頁在提交後更符合 roadmap 的可達性要求
+
+### 下一步
+- 進入 P1.7 簡報模式
 
 ## P1.5 — 考試模式作答流程
 **完成日期**：2026-04-19
