@@ -378,20 +378,20 @@
           "order": "1.9",
           "title": "P1.8 首頁 polish 與範例檔",
           "description": "完成首頁完整設計與三份高品質範例檔。驗收：1. 三份 sample 內容具示範價值，不是佔位文字。 2. 點擊範例卡 2 秒內進入對應模式。 3. 首頁在 375px、768px、1280px 都穩定好看。 4. empty/loading states 已處理。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.8 首頁 polish、sample cards 與三份正式 sample；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-04-19",
           "subtasks": [
             {
               "id": "9mlgk75o",
               "order": "1.9.1",
               "title": "完成首頁版面與主 CTA",
               "description": "設計 hero、模式圖示、上傳區與 footer。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成首頁 hero、上傳區、sample section 與 footer 重設計。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -399,10 +399,10 @@
               "order": "1.9.2",
               "title": "製作三份高品質 sample",
               "description": "撰寫 reading、exam、slides 範例內容並確保可直接載入。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "補齊 reading/exam/slides 三份正式 sample 檔案。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             },
             {
@@ -410,10 +410,10 @@
               "order": "1.9.3",
               "title": "補齊載入與空狀態體驗",
               "description": "完成 sample 載入流程、loading UI 與 responsive polish。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 sample cards 載入流程與首頁空狀態入口整理。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-04-19",
               "subtasks": []
             }
           ]

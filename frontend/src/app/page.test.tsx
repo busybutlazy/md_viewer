@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("Home", () => {
-  it("renders the project title and design system preview", () => {
+  it("renders the product hero, upload flow, and sample section", () => {
     render(
       <ToastProvider>
         <Home />
@@ -23,11 +23,12 @@ describe("Home", () => {
     expect(
       screen.getByRole("heading", { name: "Markdown Reader Pro" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("P1.1 Design System")).toBeInTheDocument();
-    expect(screen.getByText("System Preview")).toBeInTheDocument();
-    expect(screen.getByText("Noto Sans TC")).toBeInTheDocument();
-    expect(screen.getByText("Inter")).toBeInTheDocument();
-    expect(screen.getByText("JetBrains Mono")).toBeInTheDocument();
+    expect(screen.getByText("Phase 1 Web App")).toBeInTheDocument();
+    expect(screen.getByText("Launch Fast")).toBeInTheDocument();
+    expect(screen.getByText("Sample Files")).toBeInTheDocument();
+    expect(screen.getByText("React 19 閱讀深潛")).toBeInTheDocument();
+    expect(screen.getByText("JavaScript 與 React 小測")).toBeInTheDocument();
+    expect(screen.getByText("Product Narrative Deck")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Open Dialog" })).toBeInTheDocument();
   });
 });

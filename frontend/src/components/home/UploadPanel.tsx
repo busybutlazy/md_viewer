@@ -30,6 +30,10 @@ function getRouteByMode(mode: DocumentMode): string {
   return "/read";
 }
 
+export function getRouteByDocumentMode(mode: DocumentMode): string {
+  return getRouteByMode(mode);
+}
+
 export function UploadPanel() {
   const loadDocument = useDocumentStore((state) => state.loadDocument);
   const { pushToast } = useToast();

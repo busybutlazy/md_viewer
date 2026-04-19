@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.8`（待開始）
+**當前階段**：`P1.9`（待開始）
 
 ---
 
@@ -32,6 +32,28 @@
 ---
 
 ## 日誌
+
+## P1.8 — 首頁 polish 與範例檔
+**完成日期**：2026-04-20
+**Commit**：待提交 `feat(p1.8): 完成首頁與範例檔`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 重做首頁 hero、上傳區、sample section 與 footer，讓首頁從 showcase 轉成產品入口
+- 建立 `SampleCards`，直接重用 document store 與 routing 流程載入 sample 檔
+- 補齊三份正式 sample：`reading-sample.md`、`exam-sample.md`、`slides-sample.md`
+- 更新首頁測試，確認產品 hero、upload flow 與 sample 區塊都會渲染
+
+### 遇到的問題
+- sample 載入若重造資料流會跟 upload flow 分裂，因此改為直接共用 `loadDocument()` 與既有 route mapping
+- 首頁舊測試綁定在 design-system preview 文案，需要一併改成產品首頁驗收點
+
+### 心得 / 決策
+- `P1.8` 的 sample cards 直接 fetch `public/samples/*`，讓使用者與未來文件都能共用同一批範例內容
+- 首頁 CTA 先聚焦 upload 與 sample，不提前把 phase2 的 folder access 混進 phase1 主視覺
+
+### 下一步
+- 進入 P1.9 階段 1 驗收與修整
 
 ## P1.7 — 簡報模式
 **完成日期**：2026-04-20
