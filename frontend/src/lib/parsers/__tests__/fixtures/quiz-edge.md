@@ -7,26 +7,38 @@ passingScore: 80
 timeLimit: 90
 ---
 
-## Q1: 哪個 URL 是正確的: https://example.com
+## Q1
+type: single
+answer: A
+
+哪個 URL 是正確的: https://example.com
 第二行也屬於題目內容。
 
-- [x] https://example.com
-- [ ] ftp://example.com
-- [ ] arr[0] 的型別
+A. https://example.com
+B. ftp://example.com
+C. arr[0] 的型別
 
 > 解析: 第一題的題幹包含冒號。
 
-## Q1：以下哪些是 ES6 新增的特性？
+## Q1
+type: multi
+answer: [A, B]
 
-- [x] `let`
-- [x] arrow function
-- [ ] `var`
+以下哪些是 ES6 新增的特性？
+
+A. `let`
+B. arrow function
+C. `var`
 
 > 解析：`var` 不是 ES6 新增。
 >
 > > 延伸閱讀：MDN
 
-## Q3: 這題沒有正確答案
+## Q3
+type: single
+answer: Z
 
-- [ ] option a
-- [ ] option b
+這題的 answer 指向不存在的選項
+
+A. option a
+B. option b

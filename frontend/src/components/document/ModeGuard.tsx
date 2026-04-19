@@ -6,14 +6,19 @@ import { useDocumentStore } from "@/lib/store/document";
 
 export function useRequireDocument() {
   const router = useRouter();
+  const hasHydrated = useDocumentStore((state) => state.hasHydrated);
   const mode = useDocumentStore((state) => state.mode);
   const parsed = useDocumentStore((state) => state.parsed);
 
   useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
+
     if (!mode || !parsed) {
       router.replace("/?toast=missing-document");
     }
-  }, [mode, parsed, router]);
+  }, [hasHydrated, mode, parsed, router]);
 
-  return { mode, parsed };
+  return { hasHydrated, mode, parsed };
 }

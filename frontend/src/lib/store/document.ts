@@ -20,6 +20,7 @@ type ParsedDocument = Quiz | ReadingDocument | SlideDeck;
 interface DocumentState {
   fileName?: string;
   frontmatter?: FrontmatterData;
+  hasHydrated: boolean;
   loadDocument: (input: { fileName: string; markdown: string }) => DocumentMode;
   markdown?: string;
   mode?: DocumentMode;
@@ -31,6 +32,7 @@ interface DocumentState {
 const INITIAL_STATE = {
   fileName: undefined,
   frontmatter: undefined,
+  hasHydrated: false,
   markdown: undefined,
   mode: undefined,
   parsed: undefined,
@@ -44,13 +46,14 @@ export const useDocumentStore = create<DocumentState>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
-      clearDocument: () => set({ ...INITIAL_STATE }),
+      clearDocument: () => set({ ...INITIAL_STATE, hasHydrated: true }),
       loadDocument: ({ fileName, markdown }) => {
         const parsed = parseDocument(markdown);
 
         set({
           fileName,
           frontmatter: parsed.frontmatter.data,
+          hasHydrated: true,
           markdown,
           mode: parsed.mode,
           parsed: parsed.parsed,
@@ -63,6 +66,17 @@ export const useDocumentStore = create<DocumentState>()(
     }),
     {
       name: "mrp-document",
+      onRehydrateStorage: () => () => {
+        useDocumentStore.setState({ hasHydrated: true });
+      },
+      partialize: (state) => ({
+        fileName: state.fileName,
+        frontmatter: state.frontmatter,
+        markdown: state.markdown,
+        mode: state.mode,
+        parsed: state.parsed,
+        warnings: state.warnings,
+      }),
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

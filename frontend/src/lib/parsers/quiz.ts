@@ -1,7 +1,9 @@
 import type { FrontmatterData, Option, Question, Quiz } from "@/lib/parsers/types";
 
-const QUESTION_HEADING_RE = /^##\s*Q(\d+)\s*[:：]\s*(.*)$/;
-const OPTION_RE = /^\s*-\s*\[([xX ])\]\s+(.*)$/;
+const QUESTION_HEADING_RE = /^##\s*Q(\d+)\s*$/;
+const QUESTION_TYPE_RE = /^\s*type\s*:\s*(.+)\s*$/i;
+const ANSWER_RE = /^\s*answer\s*:\s*(.+)\s*$/i;
+const OPTION_RE = /^\s*([A-Z]+)\.\s+(.*)$/;
 const EXPLANATION_RE = /^\s*>\s*(解析|Explanation)\s*[:：]\s*(.*)$/;
 const BLOCKQUOTE_RE = /^\s*>\s?(.*)$/;
 
@@ -13,16 +15,17 @@ function createQuestionId(text: string): string {
   return sha1(text.trim()).slice(0, 12);
 }
 
-function createOptionId(index: number): string {
-  let current = index;
-  let id = "";
+function parseAnswerField(value: string): string[] {
+  const normalized = value.trim();
+  const body =
+    normalized.startsWith("[") && normalized.endsWith("]")
+      ? normalized.slice(1, -1)
+      : normalized;
 
-  do {
-    id = String.fromCharCode(97 + (current % 26)) + id;
-    current = Math.floor(current / 26) - 1;
-  } while (current >= 0);
-
-  return id;
+  return body
+    .split(",")
+    .map((part) => part.trim().toUpperCase())
+    .filter(Boolean);
 }
 
 function leftRotate(value: number, bits: number): number {
@@ -107,24 +110,33 @@ function sha1(value: string): string {
 }
 
 function finalizeQuestion(question: {
+  declaredAnswerIds: string[];
+  declaredType?: string;
   explanationLines: string[];
-  optionLines: Array<{ correct: boolean; text: string }>;
+  optionLines: Array<{ id: string; text: string }>;
   sourceNumber: number;
   textLines: string[];
 }): Question {
   const text = question.textLines.join("\n").trim();
-  const options: Option[] = question.optionLines.map((option, index) => ({
-    correct: option.correct,
-    id: createOptionId(index),
+  const options: Option[] = question.optionLines.map((option) => ({
+    correct: question.declaredAnswerIds.includes(option.id),
+    id: option.id,
     text: option.text.trim(),
   }));
-  const correctCount = options.filter((option) => option.correct).length;
   const explanation = question.explanationLines.join("\n").trim();
+  const normalizedType = question.declaredType?.trim().toLowerCase();
 
   return {
+    declaredAnswerIds: question.declaredAnswerIds,
+    declaredType: question.declaredType,
     explanation: explanation.length > 0 ? explanation : undefined,
     id: createQuestionId(text),
-    isMulti: correctCount >= 2,
+    isMulti:
+      normalizedType === "multi"
+        ? true
+        : normalizedType === "single"
+          ? false
+          : question.declaredAnswerIds.length >= 2,
     number: 0,
     options,
     sourceNumber: question.sourceNumber,
@@ -137,8 +149,10 @@ export function parseQuiz(content: string, data: FrontmatterData): Quiz {
   const questions: Question[] = [];
   let currentQuestion:
     | {
+        declaredAnswerIds: string[];
+        declaredType?: string;
         explanationLines: string[];
-        optionLines: Array<{ correct: boolean; text: string }>;
+        optionLines: Array<{ id: string; text: string }>;
         sourceNumber: number;
         textLines: string[];
       }
@@ -161,16 +175,32 @@ export function parseQuiz(content: string, data: FrontmatterData): Quiz {
     if (questionMatch) {
       pushCurrentQuestion();
       currentQuestion = {
+        declaredAnswerIds: [],
+        declaredType: undefined,
         explanationLines: [],
         optionLines: [],
         sourceNumber: Number(questionMatch[1]),
-        textLines: questionMatch[2] ? [questionMatch[2]] : [],
+        textLines: [],
       };
       continue;
     }
 
     if (!currentQuestion) {
       continue;
+    }
+
+    if (currentQuestion.textLines.length === 0 && currentQuestion.optionLines.length === 0) {
+      const typeMatch = line.match(QUESTION_TYPE_RE);
+      if (typeMatch) {
+        currentQuestion.declaredType = typeMatch[1].trim();
+        continue;
+      }
+
+      const answerMatch = line.match(ANSWER_RE);
+      if (answerMatch) {
+        currentQuestion.declaredAnswerIds = parseAnswerField(answerMatch[1]);
+        continue;
+      }
     }
 
     const explanationMatch = line.match(EXPLANATION_RE);
@@ -198,7 +228,7 @@ export function parseQuiz(content: string, data: FrontmatterData): Quiz {
     const optionMatch = line.match(OPTION_RE);
     if (optionMatch) {
       currentQuestion.optionLines.push({
-        correct: optionMatch[1].toLowerCase() === "x",
+        id: optionMatch[1].toUpperCase(),
         text: optionMatch[2],
       });
       continue;

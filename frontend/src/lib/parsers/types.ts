@@ -33,6 +33,8 @@ export interface Quiz {
 }
 
 export interface Question {
+  declaredAnswerIds?: string[];
+  declaredType?: string;
   explanation?: string;
   id: string;
   isMulti: boolean;

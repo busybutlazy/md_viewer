@@ -20,7 +20,7 @@ import { useSlidesSessionStore } from "@/lib/store/slides-session";
 import { cn } from "@/lib/utils";
 
 export default function SlidesPage() {
-  const { mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed } = useRequireDocument();
   const warnings = useDocumentStore((state) => state.warnings);
   const activeIndex = useSlidesSessionStore((state) => state.activeIndex);
   const chromeVisible = useSlidesSessionStore((state) => state.chromeVisible);
@@ -158,7 +158,7 @@ export default function SlidesPage() {
     };
   }, [activeIndex, chromeVisible, deck, hideChrome, isOverviewOpen, isSpeakerMode]);
 
-  if (!deck) {
+  if (!hasHydrated || !deck) {
     return null;
   }
 

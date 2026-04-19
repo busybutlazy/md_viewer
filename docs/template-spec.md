@@ -84,20 +84,32 @@ function App() {
 
 #### 題目 heading
 
-- 格式：`## Q{數字}{冒號} 題目文字`
-- **冒號支援半形 `:` 與全形 `：`**
+- 格式：`## Q{數字}`
 - 題目數字由使用者自填（允許重複；parser 以出現順序重新編號）
-- 題目文字可跨多行（到第一個選項前為止）
+- heading 本身不承載題目文字，題目正文寫在 `type` / `answer` 後方
+
+#### 題目 metadata
+
+- 每題 heading 下方需宣告：
+  - `type: single` 或 `type: multi`
+  - `answer: D` 或 `answer: [B, D]`
+- `type` 決定單選或複選，不再透過答案數量隱式推導
+- `answer` 使用選項 id，而不是在選項列上做標記
+- parser 會保留題目，即使 `type` 或 `answer` 寫錯，但 validator 必須回傳明確警告
+
+#### 題目文字
+
+- `type` / `answer` 之後，到第一個選項前的所有內容都視為題目文字
+- 題目文字可跨多行
+- 題目文字支援 markdown
 
 #### 選項
 
-- 格式：`- [ ] 選項文字`（錯誤）或 `- [x] 選項文字`（正確）
-- `x` 大小寫皆接受
+- 格式：`A. 選項文字`
+- 選項 id 採英文字母，至少支援 `A`–`Z`
+- `answer` 內引用的選項 id 必須對應到實際存在的選項
 - 選項順序由 markdown 順序決定（除非 `shuffleOptions: true`）
 - 選項文字支援 inline markdown（粗體、斜體、inline code、連結）
-- **有 ≥2 個選項標記 `[x]` → 視為複選題**
-- **僅 1 個 `[x]` → 單選題**
-- **0 個 `[x]` → 警告，但仍保留該題（使用者可能寫錯）**
 
 #### 詳解
 
@@ -126,12 +138,14 @@ interface Question {
   number: number    // 1-based，依出現順序
   text: string      // markdown 允許
   options: Option[]
+  declaredType?: string
+  declaredAnswerIds?: string[]
   isMulti: boolean
   explanation?: string
 }
 
 interface Option {
-  id: string        // 'a' | 'b' | 'c' ...（原始順序）
+  id: string        // 'A' | 'B' | 'C' ...（原始順序）
   text: string
   correct: boolean
 }
@@ -139,15 +153,15 @@ interface Option {
 
 ### 計分規則
 
-- **單選**：使用者選的 option.id === 唯一 `correct: true` 的 option.id
-- **複選**：使用者選的 id 集合 === 所有 `correct: true` 的 id 集合（無部分分數）
+- **單選**：使用者選的 option.id === `answer` 指定的唯一選項
+- **複選**：使用者選的 id 集合 === `answer` 指定的選項集合（無部分分數）
 - 分數 = 答對題數 / 總題數 × 100，四捨五入為整數
 
 ### 邊界條件（parser 必測）
 
-1. 題目文字含冒號：`## Q1: 哪個 URL 是正確的: https://example.com`（冒號不應被誤判為結尾）
-2. 選項含 square bracket：`- [ ] arr[0] 的型別`
-3. 選項含 inline code：`` - [x] `useState` ``
+1. 題目文字含冒號：`哪個 URL 是正確的: https://example.com`
+2. 選項含 square bracket：`C. arr[0] 的型別`
+3. 選項含 inline code：`A. \`useState\``
 4. 詳解含 fenced code block（`---` 或 `` ``` `` 都可能出現在程式碼裡，不可誤判）
 5. 詳解含巢狀 blockquote：
    ```
@@ -158,10 +172,10 @@ interface Option {
 6. 沒有詳解的題目
 7. 零題（只有 frontmatter）
 8. 題號不連續或重複（`## Q1`、`## Q1`、`## Q3`）
-9. 全部選項都正確 / 全部都錯誤
-10. 複選題只有 1 個 `[x]`（degrade 成單選）
-11. 全形冒號 `Q1：` 與半形 `Q1:` 混用
-12. 超過 10 個選項（`a` – `z`）
+9. `type: single` 但 `answer: [A, B]`
+10. `type: multi` 但 `answer: A`
+11. `answer` 指向不存在的選項（如 `answer: Z`）
+12. 缺少 `type` 或缺少 `answer`
 
 ### 範例
 
@@ -175,32 +189,44 @@ passingScore: 60
 timeLimit: 600
 ---
 
-## Q1: 以下哪個不是 JavaScript 的原始型別？
+## Q1
+type: single
+answer: C
 
-- [ ] string
-- [ ] number
-- [x] array
-- [ ] boolean
+以下哪個不是 JavaScript 的原始型別？
+
+A. string
+B. number
+C. array
+D. boolean
 
 > 解析: array 是 object 的一種，不是原始型別。原始型別有
 > string、number、boolean、null、undefined、symbol、bigint。
 
-## Q2: 以下哪些是 ES6 新增的特性？（複選）
+## Q2
+type: multi
+answer: [A, B, D]
 
-- [x] `let` / `const`
-- [x] arrow function
-- [ ] `var`
-- [x] `Promise`
+以下哪些是 ES6 新增的特性？（複選）
+
+A. `let` / `const`
+B. arrow function
+C. `var`
+D. `Promise`
 
 > 解析: `var` 是 ES5 以前就存在的。
 >
 > 其餘皆為 ES6（2015）引入。
 
-## Q3：什麼是 React hook？
+## Q3
+type: single
+answer: A
 
-- [x] 在函式元件中使用 state 與生命週期的 API
-- [ ] 一種 React 授權模式
-- [ ] HTML 的新標籤
+什麼是 React hook？
+
+A. 在函式元件中使用 state 與生命週期的 API
+B. 一種 React 授權模式
+C. HTML 的新標籤
 ```
 
 ---
@@ -345,7 +371,8 @@ validateSlides(deck: SlideDeck): ValidationResult
 
 ### Quiz 常見警告
 
-- `第 3 題沒有正確選項（缺少 [x]）`
+- `第 3 題缺少 answer`
+- `第 3 題的 answer 包含不存在的選項：Z`
 - `第 5 題與第 8 題題號皆為 Q5（已依順序重新編號）`
 - `第 2 題沒有詳解`
 

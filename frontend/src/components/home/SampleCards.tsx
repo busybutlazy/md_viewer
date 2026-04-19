@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/Card";
 import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
 import { useDocumentStore } from "@/lib/store/document";
+import { useExamSessionStore } from "@/lib/store/exam-session";
 
 interface SampleCard {
   badge: string;
@@ -50,12 +51,14 @@ const SAMPLE_CARDS: SampleCard[] = [
 ];
 
 export function SampleCards() {
+  const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const router = useRouter();
   const loadDocument = useDocumentStore((state) => state.loadDocument);
 
   async function handleOpenSample(fileName: string) {
     const response = await fetch(`/samples/${fileName}`);
     const markdown = await response.text();
+    clearExamSession();
     const nextMode = loadDocument({ fileName, markdown });
 
     router.push(getRouteByDocumentMode(nextMode));

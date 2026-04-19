@@ -15,6 +15,7 @@ import {
 import { useToast } from "@/components/ui/Toast";
 import type { DocumentMode } from "@/lib/parsers/types";
 import { useDocumentStore } from "@/lib/store/document";
+import { useExamSessionStore } from "@/lib/store/exam-session";
 
 const ACCEPTED_EXTENSIONS = [".md", ".markdown", ".txt"];
 
@@ -35,6 +36,7 @@ export function getRouteByDocumentMode(mode: DocumentMode): string {
 }
 
 export function UploadPanel() {
+  const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const loadDocument = useDocumentStore((state) => state.loadDocument);
   const { pushToast } = useToast();
   const router = useRouter();
@@ -69,6 +71,7 @@ export function UploadPanel() {
       }
 
       const markdown = await file.text();
+      clearExamSession();
       const nextMode = loadDocument({ fileName: file.name, markdown });
 
       pushToast({

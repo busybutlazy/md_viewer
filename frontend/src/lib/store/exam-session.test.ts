@@ -92,4 +92,24 @@ describe("useExamSessionStore", () => {
     expect(state.autoSubmitted).toBe(true);
     expect(state.submittedAt).toBe(Date.parse("2026-04-19T12:00:00Z"));
   });
+
+  it("restarts the session when the same quiz is opened again after submission", () => {
+    useExamSessionStore.getState().initializeSession(quizFixture);
+    useExamSessionStore.getState().selectOption({
+      isMulti: false,
+      optionId: "b",
+      questionId: "q1",
+    });
+    useExamSessionStore.getState().submitSession();
+
+    vi.setSystemTime(new Date("2026-04-19T12:05:00Z"));
+    useExamSessionStore.getState().initializeSession(quizFixture);
+
+    const state = useExamSessionStore.getState();
+
+    expect(state.answers).toEqual({});
+    expect(state.submittedAt).toBeUndefined();
+    expect(state.startedAt).toBe(Date.parse("2026-04-19T12:05:00Z"));
+    expect(state.deadlineAt).toBe(Date.parse("2026-04-19T12:07:00Z"));
+  });
 });

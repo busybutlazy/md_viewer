@@ -72,19 +72,24 @@ passingScore: 60
 timeLimit: 600
 ---
 
-## Q1: 題目
+## Q1
+type: single
+answer: B
 
-- [ ] 選項 A
-- [x] 選項 B
+題目文字
+
+A. 選項 A
+B. 選項 B
 
 > 解析: 詳解文字
 ```
 
 規則：
 
-- 題目以 `## Q{n}:` 或 `## Q{n}：` 開頭
-- 選項使用 `- [ ]` / `- [x]`
-- 兩個以上正解會被視為複選題
+- 題目以 `## Q{n}` 開頭
+- 題目下方需明確宣告 `type: single` 或 `type: multi`
+- `answer` 單選寫 `answer: B`，複選寫 `answer: [B, D]`
+- 選項使用 `A.` `B.` `C.` `D.` 這類結構化前綴
 - 詳解使用 `> 解析:`
 
 ### Slides

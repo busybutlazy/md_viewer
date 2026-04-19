@@ -3,6 +3,10 @@ type: quiz
 title: Warning Case
 ---
 
-## Q1: A malformed question sample
+## Q1
+type: single
+answer: Z
 
-- [ ] Only one option
+A malformed question sample
+
+A. Only one option

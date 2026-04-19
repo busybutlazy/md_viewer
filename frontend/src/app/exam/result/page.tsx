@@ -13,6 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
+import {
+  getQuestionDisplayNumbers,
+} from "@/lib/exam/display";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { evaluateExamAnswers } from "@/lib/exam/score";
 import { useDocumentStore } from "@/lib/store/document";
@@ -20,10 +23,14 @@ import { useExamSessionStore } from "@/lib/store/exam-session";
 
 export default function ExamResultPage() {
   const router = useRouter();
+  const hasDocumentHydrated = useDocumentStore((state) => state.hasHydrated);
   const parsed = useDocumentStore((state) => state.parsed);
   const clearDocument = useDocumentStore((state) => state.clearDocument);
+  const hasExamSessionHydrated = useExamSessionStore((state) => state.hasHydrated);
   const clearSession = useExamSessionStore((state) => state.clearSession);
   const answers = useExamSessionStore((state) => state.answers);
+  const optionOrder = useExamSessionStore((state) => state.optionOrder);
+  const questionOrder = useExamSessionStore((state) => state.questionOrder);
   const startedAt = useExamSessionStore((state) => state.startedAt);
   const submittedAt = useExamSessionStore((state) => state.submittedAt);
   const autoSubmitted = useExamSessionStore((state) => state.autoSubmitted);
@@ -32,17 +39,50 @@ export default function ExamResultPage() {
     parsed && "questions" in parsed ? parsed : undefined;
 
   useEffect(() => {
+    if (!hasDocumentHydrated || !hasExamSessionHydrated) {
+      return;
+    }
+
     if (!quiz || !submittedAt) {
       router.replace("/exam");
     }
-  }, [quiz, router, submittedAt]);
+  }, [hasDocumentHydrated, hasExamSessionHydrated, quiz, router, submittedAt]);
 
   const evaluation = useMemo(
     () => (quiz ? evaluateExamAnswers(quiz, answers) : undefined),
     [answers, quiz],
   );
+  const orderedQuestions = useMemo(() => {
+    if (!quiz) {
+      return [];
+    }
 
-  if (!quiz || !submittedAt || !evaluation) {
+    const questionMap = new Map(
+      quiz.questions.map((question) => [question.id, question]),
+    );
+    const orderedIds =
+      questionOrder.length > 0
+        ? questionOrder
+        : quiz.questions.map((question) => question.id);
+
+    return orderedIds
+      .map((questionId) => questionMap.get(questionId))
+      .filter((question): question is typeof quiz.questions[number] =>
+        Boolean(question),
+      );
+  }, [questionOrder, quiz]);
+  const questionDisplayNumbers = useMemo(
+    () => getQuestionDisplayNumbers(orderedQuestions),
+    [orderedQuestions],
+  );
+
+  if (
+    !hasDocumentHydrated ||
+    !hasExamSessionHydrated ||
+    !quiz ||
+    !submittedAt ||
+    !evaluation
+  ) {
     return null;
   }
 
@@ -56,6 +96,30 @@ export default function ExamResultPage() {
       ? evaluation.percentage >= quiz.meta.passingScore
       : undefined;
   const correctQuestions = evaluation.questions.filter((question) => question.isCorrect);
+  const activeQuiz = quiz;
+
+  function getOrderedOptionsByQuestionId(questionId: string) {
+    const question = activeQuiz.questions.find((item) => item.id === questionId);
+
+    if (!question) {
+      return [];
+    }
+
+    return (optionOrder[questionId] ?? question.options.map((option) => option.id))
+      .map((optionId) => question.options.find((option) => option.id === optionId))
+      .filter((option): option is typeof question.options[number] => Boolean(option));
+  }
+
+  function getOptionTextByDisplayOrder(
+    questionId: string,
+    selectedOptionIds: string[],
+  ): string[] {
+    const orderedOptions = getOrderedOptionsByQuestionId(questionId);
+
+    return orderedOptions
+      .filter((option) => selectedOptionIds.includes(option.id))
+      .map((option) => option.text);
+  }
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -127,7 +191,7 @@ export default function ExamResultPage() {
               >
                 <CardHeader>
                   <Badge className="w-fit" tone="outline">
-                    Q{item.question.number}
+                    Q{questionDisplayNumbers[item.question.id]}
                   </Badge>
                   <CardTitle className="text-2xl">
                     <ExamMarkdown content={item.question.text} />
@@ -141,9 +205,12 @@ export default function ExamResultPage() {
                       </p>
                       <div className="mt-3 space-y-2">
                         {item.selectedOptions.length > 0 ? (
-                          item.selectedOptions.map((option) => (
-                            <p key={option.id}>
-                              {option.id}. <ExamMarkdown content={option.text} />
+                          getOptionTextByDisplayOrder(
+                            item.question.id,
+                            item.selectedOptions.map((option) => option.id),
+                          ).map((text, index) => (
+                            <p key={`${item.question.id}-selected-${index}`}>
+                              <ExamMarkdown content={text} />
                             </p>
                           ))
                         ) : (
@@ -156,9 +223,12 @@ export default function ExamResultPage() {
                         正解
                       </p>
                       <div className="mt-3 space-y-2">
-                        {item.correctOptions.map((option) => (
-                          <p key={option.id}>
-                            {option.id}. <ExamMarkdown content={option.text} />
+                        {getOptionTextByDisplayOrder(
+                          item.question.id,
+                          item.correctOptions.map((option) => option.id),
+                        ).map((text, index) => (
+                          <p key={`${item.question.id}-correct-${index}`}>
+                            <ExamMarkdown content={text} />
                           </p>
                         ))}
                       </div>
@@ -214,7 +284,7 @@ export default function ExamResultPage() {
                 <Card className="bg-[var(--surface-strong)]" key={item.question.id}>
                   <CardHeader>
                     <Badge className="w-fit" tone="accent">
-                      Q{item.question.number}
+                      Q{questionDisplayNumbers[item.question.id]}
                     </Badge>
                     <CardTitle className="text-xl">
                       <ExamMarkdown content={item.question.text} />

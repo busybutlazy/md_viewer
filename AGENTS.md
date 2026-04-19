@@ -165,8 +165,10 @@ tags: [react, ui]        # 可選
 
 ### 2. 考試模式
 
-- 每題以 `## Q{n}:` 或 `## Q{n}：` 開頭（支援全形冒號）
-- 選項 `- [ ]` / `- [x]`。有 ≥2 個 `[x]` 視為複選題
+- 每題以 `## Q{n}` 開頭
+- 題目下方用 `type: single` / `type: multi` 宣告題型
+- `answer: D` 表單選；`answer: [B, D]` 表複選
+- 選項以 `A.` `B.` `C.` `D.` 開頭
 - 詳解用 `> 解析:` blockquote
 
 ```markdown
@@ -179,12 +181,16 @@ passingScore: 60
 timeLimit: 600
 ---
 
-## Q1: 以下哪個不是 JavaScript 的原始型別？
+## Q1
+type: single
+answer: C
 
-- [ ] string
-- [ ] number
-- [x] array
-- [ ] boolean
+以下哪個不是 JavaScript 的原始型別？
+
+A. string
+B. number
+C. array
+D. boolean
 
 > 解析: array 是 object 的一種，不是原始型別。
 ```

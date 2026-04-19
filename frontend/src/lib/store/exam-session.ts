@@ -17,6 +17,7 @@ export interface ExamSessionSnapshot {
 
 interface ExamSessionState extends ExamSessionSnapshot {
   clearSession: () => void;
+  hasHydrated: boolean;
   initializeSession: (quiz: Quiz) => void;
   selectOption: (input: {
     isMulti: boolean;
@@ -89,20 +90,25 @@ function buildSessionSnapshot(quiz: Quiz): ExamSessionSnapshot {
 export const useExamSessionStore = create<ExamSessionState>()(
   persist(
     (set, get) => ({
+      hasHydrated: false,
       ...INITIAL_STATE,
-      clearSession: () => set({ ...INITIAL_STATE }),
+      clearSession: () => set({ ...INITIAL_STATE, hasHydrated: true }),
       initializeSession: (quiz) => {
         const quizId = createQuizId(quiz);
         const currentSession = get();
 
         if (
           currentSession.quizId === quizId &&
+          !currentSession.submittedAt &&
           currentSession.questionOrder.length > 0
         ) {
           return;
         }
 
-        set(buildSessionSnapshot(quiz));
+        set({
+          ...buildSessionSnapshot(quiz),
+          hasHydrated: true,
+        });
       },
       selectOption: ({ isMulti, optionId, questionId }) => {
         const currentAnswers = get().answers[questionId] ?? [];
@@ -117,6 +123,7 @@ export const useExamSessionStore = create<ExamSessionState>()(
             ...state.answers,
             [questionId]: nextAnswers,
           },
+          hasHydrated: true,
         }));
       },
       submitSession: ({ autoSubmitted = false } = {}) => {
@@ -126,12 +133,26 @@ export const useExamSessionStore = create<ExamSessionState>()(
 
         set({
           autoSubmitted,
+          hasHydrated: true,
           submittedAt: Date.now(),
         });
       },
     }),
     {
       name: "mrp-exam-session",
+      onRehydrateStorage: () => () => {
+        useExamSessionStore.setState({ hasHydrated: true });
+      },
+      partialize: (state) => ({
+        answers: state.answers,
+        autoSubmitted: state.autoSubmitted,
+        deadlineAt: state.deadlineAt,
+        optionOrder: state.optionOrder,
+        questionOrder: state.questionOrder,
+        quizId: state.quizId,
+        startedAt: state.startedAt,
+        submittedAt: state.submittedAt,
+      }),
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

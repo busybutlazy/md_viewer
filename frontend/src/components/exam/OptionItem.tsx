@@ -3,19 +3,19 @@ import { cn } from "@/lib/utils";
 
 interface OptionItemProps {
   checked: boolean;
+  displayLabel: string;
   inputType: "checkbox" | "radio";
   name: string;
   onChange: () => void;
-  optionId: string;
   text: string;
 }
 
 export function OptionItem({
   checked,
+  displayLabel,
   inputType,
   name,
   onChange,
-  optionId,
   text,
 }: OptionItemProps) {
   return (
@@ -36,7 +36,7 @@ export function OptionItem({
       />
       <div className="flex-1 text-sm leading-7 text-[var(--foreground)]">
         <p className="mb-1 font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted-foreground)]">
-          {optionId}
+          {displayLabel}
         </p>
         <ExamMarkdown content={text} />
       </div>

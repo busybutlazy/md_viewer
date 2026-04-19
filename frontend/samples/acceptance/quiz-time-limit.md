@@ -5,10 +5,14 @@ timeLimit: 120
 passingScore: 100
 ---
 
-## Q1: What happens when the timer reaches zero?
+## Q1
+type: single
+answer: B
 
-- [ ] The page reloads
-- [x] The quiz auto-submits
-- [ ] The answers are deleted
+What happens when the timer reaches zero?
+
+A. The page reloads
+B. The quiz auto-submits
+C. The answers are deleted
 
 > 解析: the exam route auto-submits when countdown reaches zero.

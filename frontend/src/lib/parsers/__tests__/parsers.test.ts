@@ -11,7 +11,7 @@ function readFixture(name: string): string {
 }
 
 describe("parseQuiz", () => {
-  it("parses quiz metadata, renumbers repeated headings, and detects multi-select", () => {
+  it("parses structured quiz metadata, renumbers repeated headings, and detects explicit multi-select", () => {
     const source = readFixture("quiz-edge.md");
     const { content, data } = parseFrontmatter(source);
     const quiz = parseQuiz(content, data);
@@ -24,46 +24,57 @@ describe("parseQuiz", () => {
     expect(quiz.questions[0].text).toContain("https://example.com");
     expect(quiz.questions[1].number).toBe(2);
     expect(quiz.questions[1].isMulti).toBe(true);
-    expect(quiz.questions[1].options[0].id).toBe("a");
+    expect(quiz.questions[1].options[0].id).toBe("A");
     expect(quiz.questions[1].explanation).toContain("延伸閱讀：MDN");
     expect(quiz.questions[2].isMulti).toBe(false);
   });
 
-  it("emits warnings for duplicate numbering, missing explanations, and no correct option", () => {
+  it("emits warnings for duplicate numbering, missing explanations, and invalid answers", () => {
     const source = readFixture("quiz-edge.md");
     const { content, data } = parseFrontmatter(source);
     const quiz = parseQuiz(content, data);
     const result = validateQuiz(quiz);
 
-    expect(result.warnings).toContain("第 3 題沒有正確選項（缺少 [x]）");
+    expect(result.warnings).toContain("第 3 題的 answer 包含不存在的選項：Z");
+    expect(result.warnings).toContain("第 3 題沒有有效正確答案");
     expect(result.warnings).toContain("第 3 題沒有詳解");
     expect(result.warnings).toContain("第 1 題 與 第 2 題 題號皆為 Q1（已依順序重新編號）");
   });
 
-  it("handles zero-question quizzes and option ids beyond j", () => {
+  it("handles zero-question quizzes and keeps explicit option ids", () => {
     const emptyQuiz = parseQuiz("", {
       title: "Empty Quiz",
       type: "quiz",
     });
     const longQuiz = parseQuiz(
-      `## Q9: 請選出正確答案\n\n${Array.from({ length: 11 }, (_, index) =>
-        `- [${index === 10 ? "x" : " "}] option ${index + 1}`,
+      `## Q9
+type: single
+answer: K
+
+請選出正確答案
+
+${Array.from({ length: 11 }, (_, index) =>
+        `${String.fromCharCode(65 + index)}. option ${index + 1}`,
       ).join("\n")}`,
       { type: "quiz" },
     );
 
     expect(emptyQuiz.questions).toEqual([]);
-    expect(longQuiz.questions[0].options[10].id).toBe("k");
+    expect(longQuiz.questions[0].options[10].id).toBe("K");
     expect(longQuiz.questions[0].options[10].correct).toBe(true);
   });
 
   it("keeps explanation code blocks and nested blockquotes intact", () => {
     const quiz = parseQuiz(
       [
-        "## Q1: 什麼情況下 --- 不應該出錯？",
+        "## Q1",
+        "type: single",
+        "answer: A",
         "",
-        "- [x] 程式碼區塊內",
-        "- [ ] 分頁符本身",
+        "什麼情況下 --- 不應該出錯？",
+        "",
+        "A. 程式碼區塊內",
+        "B. 分頁符本身",
         "",
         "> 解析: 這裡要保留 code block",
         ">",
@@ -80,6 +91,25 @@ describe("parseQuiz", () => {
     expect(quiz.questions[0].explanation).toContain("```yaml");
     expect(quiz.questions[0].explanation).toContain("---");
     expect(quiz.questions[0].explanation).toContain("> 延伸閱讀：parser spec");
+  });
+
+  it("warns when a question is missing structured metadata", () => {
+    const quiz = parseQuiz(
+      [
+        "## Q1",
+        "",
+        "沒有 type 與 answer 的題目",
+        "",
+        "A. option a",
+        "B. option b",
+      ].join("\n"),
+      { type: "quiz" },
+    );
+
+    const result = validateQuiz(quiz);
+
+    expect(result.warnings).toContain("第 1 題缺少 type（需為 single 或 multi）");
+    expect(result.warnings).toContain("第 1 題缺少 answer");
   });
 });
 

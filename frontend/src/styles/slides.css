@@ -1,6 +1,20 @@
 .slide-frame .mrp-prose {
+  color: currentColor;
   font-size: clamp(1rem, 1vw + 0.6rem, 1.35rem);
   line-height: 1.6;
+}
+
+.slide-frame .mrp-prose p,
+.slide-frame .mrp-prose li,
+.slide-frame .mrp-prose blockquote,
+.slide-frame .mrp-prose strong,
+.slide-frame .mrp-prose h1,
+.slide-frame .mrp-prose h2,
+.slide-frame .mrp-prose h3,
+.slide-frame .mrp-prose h4,
+.slide-frame .mrp-prose h5,
+.slide-frame .mrp-prose h6 {
+  color: inherit;
 }
 
 .slide-frame .mrp-prose h1 {

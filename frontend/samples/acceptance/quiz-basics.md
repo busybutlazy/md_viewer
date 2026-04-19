@@ -4,18 +4,26 @@ title: Product Basics
 passingScore: 50
 ---
 
-## Q1: Which page loads uploaded reading documents?
+## Q1
+type: single
+answer: A
 
-- [x] /read
-- [ ] /home
-- [ ] /editor
+Which page loads uploaded reading documents?
+
+A. /read
+B. /home
+C. /editor
 
 > 解析: reading documents route to /read.
 
-## Q2: Which state layer stores the uploaded document?
+## Q2
+type: single
+answer: B
 
-- [ ] Redux
-- [x] Zustand
-- [ ] Context only
+Which state layer stores the uploaded document?
+
+A. Redux
+B. Zustand
+C. Context only
 
 > 解析: the project uses Zustand with sessionStorage persistence in phase 1.

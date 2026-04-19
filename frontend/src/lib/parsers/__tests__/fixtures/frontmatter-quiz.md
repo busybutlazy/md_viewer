@@ -7,7 +7,11 @@ passingScore: 60
 timeLimit: 600
 ---
 
-## Q1: 以下哪個不是 JavaScript 的原始型別？
+## Q1
+type: single
+answer: A
 
-- [x] array
-- [ ] string
+以下哪個不是 JavaScript 的原始型別？
+
+A. array
+B. string

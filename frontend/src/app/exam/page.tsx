@@ -17,12 +17,13 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { useRequireDocument } from "@/components/document/ModeGuard";
+import { getQuestionDisplayNumbers } from "@/lib/exam/display";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
 export default function ExamPage() {
   const router = useRouter();
-  const { mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed } = useRequireDocument();
   const warnings = useDocumentStore((state) => state.warnings);
   const initializeSession = useExamSessionStore((state) => state.initializeSession);
   const selectOption = useExamSessionStore((state) => state.selectOption);
@@ -38,12 +39,12 @@ export default function ExamPage() {
     mode === "quiz" && parsed && "questions" in parsed ? parsed : undefined;
 
   useEffect(() => {
-    if (!quiz) {
+    if (!hasHydrated || !quiz) {
       return;
     }
 
     initializeSession(quiz);
-  }, [initializeSession, quiz]);
+  }, [hasHydrated, initializeSession, quiz]);
 
   useEffect(() => {
     if (submittedAt) {
@@ -95,8 +96,12 @@ export default function ExamPage() {
       .map((questionId) => questionMap.get(questionId))
       .filter((question): question is typeof quiz.questions[number] => Boolean(question));
   }, [quiz, questionOrder]);
+  const questionDisplayNumbers = useMemo(
+    () => getQuestionDisplayNumbers(orderedQuestions),
+    [orderedQuestions],
+  );
 
-  if (!quiz) {
+  if (!hasHydrated || !quiz) {
     return null;
   }
 
@@ -106,7 +111,7 @@ export default function ExamPage() {
   }).length;
   const unansweredNumbers = orderedQuestions
     .filter((question) => (answers[question.id] ?? []).length === 0)
-    .map((question) => question.number);
+    .map((question) => questionDisplayNumbers[question.id]);
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -150,6 +155,7 @@ export default function ExamPage() {
             return (
               <QuestionCard
                 answerCount={selectedOptionIds.length}
+                displayNumber={questionDisplayNumbers[question.id]}
                 key={question.id}
                 onSelect={(optionId) =>
                   selectOption({

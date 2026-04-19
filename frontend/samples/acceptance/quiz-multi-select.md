@@ -5,20 +5,28 @@ shuffle: true
 shuffleOptions: true
 ---
 
-## Q1: Which are phase 1 modes?
+## Q1
+type: multi
+answer: [A, B, C]
 
-- [x] Reading
-- [x] Exam
-- [x] Slides
-- [ ] Folder
+Which are phase 1 modes?
+
+A. Reading
+B. Exam
+C. Slides
+D. Folder
 
 > 解析: folder access is phase 2 work.
 
-## Q2: Which checks are required before a subphase commit?
+## Q2
+type: multi
+answer: [A, B, C]
 
-- [x] lint
-- [x] test
-- [x] build
-- [ ] deploy
+Which checks are required before a subphase commit?
+
+A. lint
+B. test
+C. build
+D. deploy
 
 > 解析: deploy is not part of the commit gate.

@@ -18,7 +18,7 @@ import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { useDocumentStore } from "@/lib/store/document";
 
 export default function ReadPage() {
-  const { mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed } = useRequireDocument();
   const warnings = useDocumentStore((state) => state.warnings);
   const fileName = useDocumentStore((state) => state.fileName);
   const frontmatter = useDocumentStore((state) => state.frontmatter);
@@ -29,7 +29,7 @@ export default function ReadPage() {
     [readingContent],
   );
 
-  if (mode !== "reading" || !parsed || !("content" in parsed)) {
+  if (!hasHydrated || mode !== "reading" || !parsed || !("content" in parsed)) {
     return null;
   }
 
