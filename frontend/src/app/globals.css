@@ -4,20 +4,20 @@
 
 :root {
   color-scheme: light;
-  --background: #f4efe7;
-  --foreground: #14202b;
-  --surface: rgba(255, 251, 245, 0.82);
-  --surface-strong: rgba(255, 255, 255, 0.96);
-  --shell: rgba(244, 239, 231, 0.82);
-  --border: rgba(20, 32, 43, 0.1);
-  --border-strong: rgba(20, 32, 43, 0.18);
-  --muted-foreground: #5f6b76;
-  --accent: #be6a32;
-  --accent-strong: #8e4c22;
-  --accent-soft: rgba(190, 106, 50, 0.16);
-  --accent-foreground: #fff8f2;
-  --ring: rgba(190, 106, 50, 0.42);
-  --shadow-soft: 0 20px 60px rgba(20, 32, 43, 0.14);
+  --background: #f2ece0;
+  --foreground: #1a1712;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --shell: rgba(242, 236, 224, 0.94);
+  --border: rgba(26, 23, 18, 0.08);
+  --border-strong: rgba(26, 23, 18, 0.14);
+  --muted-foreground: #877e6e;
+  --accent: #6e9e5c;
+  --accent-strong: #4e7840;
+  --accent-soft: rgba(110, 158, 92, 0.12);
+  --accent-foreground: #ffffff;
+  --ring: rgba(110, 158, 92, 0.32);
+  --shadow-soft: 0 20px 60px rgba(26, 23, 18, 0.08);
 }
 
 @theme inline {
@@ -41,20 +41,20 @@
 .dark,
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --background: #11161d;
-  --foreground: #f3eee6;
-  --surface: rgba(21, 28, 36, 0.84);
-  --surface-strong: rgba(27, 35, 45, 0.96);
-  --shell: rgba(17, 22, 29, 0.9);
-  --border: rgba(243, 238, 230, 0.1);
-  --border-strong: rgba(243, 238, 230, 0.18);
-  --muted-foreground: #b5bec8;
-  --accent: #e2a164;
-  --accent-strong: #f0b980;
-  --accent-soft: rgba(226, 161, 100, 0.14);
-  --accent-foreground: #23170f;
-  --ring: rgba(226, 161, 100, 0.4);
-  --shadow-soft: 0 24px 64px rgba(0, 0, 0, 0.32);
+  --background: #07080f;
+  --foreground: #dce1ee;
+  --surface: rgba(11, 13, 22, 0.92);
+  --surface-strong: rgba(15, 18, 30, 0.97);
+  --shell: rgba(7, 8, 15, 0.95);
+  --border: rgba(220, 225, 238, 0.08);
+  --border-strong: rgba(220, 225, 238, 0.14);
+  --muted-foreground: #7d88a0;
+  --accent: #c44272;
+  --accent-strong: #e0588a;
+  --accent-soft: rgba(196, 66, 114, 0.14);
+  --accent-foreground: #ffffff;
+  --ring: rgba(196, 66, 114, 0.36);
+  --shadow-soft: 0 24px 64px rgba(0, 0, 0, 0.44);
 }
 
 * {
@@ -69,11 +69,19 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, var(--accent-soft), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 45%),
+    radial-gradient(ellipse 70% 30% at 0% 0%, var(--accent-soft), transparent),
+    radial-gradient(ellipse 50% 20% at 100% 0%, rgba(184, 152, 106, 0.1), transparent),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-sans-tc), var(--font-inter), sans-serif;
+}
+
+.dark body,
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 60% 30% at 0% 0%, rgba(74, 128, 196, 0.12), transparent),
+    radial-gradient(ellipse 50% 20% at 100% 0%, var(--accent-soft), transparent),
+    var(--background);
 }
 
 ::selection {

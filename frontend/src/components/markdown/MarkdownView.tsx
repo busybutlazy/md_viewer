@@ -99,6 +99,19 @@ export function MarkdownView({
         />
       );
     },
+    p({ children, node }) {
+      type HastChild = { type: string; tagName?: string };
+      const kids = (node as { children?: HastChild[] } | undefined)?.children ?? [];
+      const hasImageChild = kids.some(
+        (child) => child.type === "element" && child.tagName === "img",
+      );
+
+      if (hasImageChild) {
+        return <>{children}</>;
+      }
+
+      return <p>{children}</p>;
+    },
     pre({ children }) {
       return <Fragment>{children}</Fragment>;
     },

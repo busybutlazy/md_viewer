@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.5.1`（待開始）
+**當前階段**：`P2.0`（待開始）— 階段 1.5 完成，進入階段 2
 
 ---
 
@@ -32,6 +32,77 @@
 ---
 
 ## 日誌
+
+## P1.5.3 — 從範本新建 markdown
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.3): 支援從範本新建 markdown`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/templates/index.ts`，定義空白、閱讀、考試、簡報四個模板
+- 建立 `templates.test.ts`，驗證四個模板皆可 parse 且 0 warning
+- 建立 `NewDocumentDialog` 元件（2×2 grid 選項卡 + 背景點擊關閉）
+- 首頁加入 "New .md" 入口按鈕，位於 upload 區下方的 "or start from scratch" divider
+- 選擇模板後呼叫 `loadDocument` 載入內容，直接 navigate 到 `/edit`
+
+### 遇到的問題
+- Quiz 模板初版用 checkbox list `- [x]` 格式，但 parser 只識別 `A. 選項` 格式；需將模板改為 `type: single / answer: C` 放在 `## Q1` 與題目文字之間
+- 考試 parser 的 `type` 與 `answer` 欄位只在 `textLines.length === 0 && optionLines.length === 0` 時解析，因此必須放在選項行之前
+
+### 心得 / 決策
+- 模板測試涵蓋 parse 結果（mode、warnings、question/slide 數量），確保「從模板建出來的檔案能直接切去對應模式」這個驗收標準可重複驗證
+
+### 下一步
+- 階段 1.5 完成；進入 P2.0 檔案系統抽象層（重構）
+
+## P1.5.2 — 下載機制
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.2): 新增 markdown 下載功能`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/editor/download.ts`：`slugifyTitle`（Unicode-aware）、`getDownloadFilename`（title → fileName → untitled-timestamp fallback）、`downloadMarkdown`（Blob + URL.createObjectURL）
+- 補上 `download.test.ts`，9 個測試覆蓋 slugify 邊界與 filename fallback 邏輯
+- Edit page 加入 toolbar：檔名顯示、「Download .md」按鈕
+- `isDirty` 計算（content !== storedMarkdown，初始化完成後才生效）
+- `document.title` 跟隨 isDirty 加入 `●` 前綴
+- `beforeunload` 在 isDirty 時攔截關閉 tab
+- `Cmd/Ctrl+S` 快捷鍵觸發下載
+
+### 遇到的問題
+- `isDirty` 若在 hydration 前計算會因 content="" 與 storedMarkdown=undefined 誤判為 dirty；加入 `initialized` state，等 useEffect 設定初始 content 後才啟用 isDirty
+
+### 心得 / 決策
+- slugify 以 `\p{L}\p{N}` Unicode property escape 保留中日韓字元，避免中文檔名被全部刪除
+- `beforeunload` 只掛在 `isDirty === true` 時，避免誤攔截
+
+### 下一步
+- 進入 P1.5.3 從範本新建 markdown
+
+## P1.5.1 — 編輯器整合
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.1): 整合 CodeMirror 編輯器與即時預覽`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 安裝 `@uiw/react-codemirror`、`@codemirror/lang-markdown`、`@uiw/codemirror-theme-github`
+- 建立 `EditorPane` 元件，封裝 CodeMirror 6；主題跟隨 `ThemeProvider` 的 `resolvedTheme` 自動切換 `githubLight` / `githubDark`
+- 新增 `/edit` 路由：桌面左右分割（Editor｜Preview），手機上方 tab 切換
+- Preview 重用既有 `MarkdownView`，editor `onChange` 直接觸發 preview 重渲染（< 100ms）
+- AppShell nav bar 加入 Edit 連結；閱讀模式頁加入 Edit 按鈕
+- 修正 `UploadTriggerButton` 的 variant 型別錯誤（pre-existing bug）
+- 更新首頁測試以符合現在的 UI 文案
+
+### 遇到的問題
+- `useState(storedMarkdown)` 初始值在 hydration 前是 `undefined`；改以 `useEffect` 在 hydration 完成後設定初始 content
+- CodeMirror 在 `"use client"` 元件中需要動態 import 或直接用 `@uiw/react-codemirror` wrapper，後者已包裝好 SSR fallback
+
+### 心得 / 決策
+- 使用 `@uiw/react-codemirror` React wrapper 而非裸 CodeMirror API，符合 P1 的快速驗證精神；CodeMirror 底層套件（view、state、commands）仍全數透過 wrapper 帶入
+- editor 只維護 local state，不影響 document store；P1.5.2 的下載邏輯可直接從 edit page 的 content state 取得內容
+
+### 下一步
+- 進入 P1.5.2 下載 .md 功能
 
 ## P1.9 — 階段 1 驗收與修整
 **完成日期**：2026-04-19

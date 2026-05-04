@@ -1,24 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import type { DocumentMode } from "@/lib/parsers/types";
 import { useDocumentStore } from "@/lib/store/document";
 
-export function useRequireDocument() {
-  const router = useRouter();
+export function useRequireDocument(expectedMode?: DocumentMode) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const hasHydrated = useDocumentStore((state) => state.hasHydrated);
   const mode = useDocumentStore((state) => state.mode);
   const parsed = useDocumentStore((state) => state.parsed);
 
-  useEffect(() => {
-    if (!hasHydrated) {
-      return;
-    }
+  // Defer content until mounted to prevent SSR/CSR hydration mismatch
+  const ready = mounted && hasHydrated;
 
-    if (!mode || !parsed) {
-      router.replace("/?toast=missing-document");
-    }
-  }, [hasHydrated, mode, parsed, router]);
+  const shouldShowPrompt =
+    ready &&
+    (!mode || !parsed || (expectedMode !== undefined && mode !== expectedMode));
 
-  return { hasHydrated, mode, parsed };
+  return { hasHydrated: ready, mode, parsed, shouldShowPrompt };
 }

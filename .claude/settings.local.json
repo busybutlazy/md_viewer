@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm typecheck *)",
+      "Bash(npx tsc *)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(/Users/busybutlazy/gitproject/md_viewer/frontend/node_modules/.bin/tsc --noEmit)",
+      "Bash(pnpm --version)",
+      "Bash(npm --version)",
+      "Bash(docker compose *)",
+      "Bash(echo \"BUILD_EXIT:$?\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(echo \"EXIT:$?\")"
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}

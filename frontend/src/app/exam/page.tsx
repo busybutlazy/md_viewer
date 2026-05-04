@@ -18,12 +18,14 @@ import {
 } from "@/components/ui/Card";
 import { useRequireDocument } from "@/components/document/ModeGuard";
 import { getQuestionDisplayNumbers } from "@/lib/exam/display";
+import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
+import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
 export default function ExamPage() {
   const router = useRouter();
-  const { hasHydrated, mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("quiz");
   const warnings = useDocumentStore((state) => state.warnings);
   const initializeSession = useExamSessionStore((state) => state.initializeSession);
   const selectOption = useExamSessionStore((state) => state.selectOption);
@@ -101,9 +103,9 @@ export default function ExamPage() {
     [orderedQuestions],
   );
 
-  if (!hasHydrated || !quiz) {
-    return null;
-  }
+  if (!hasHydrated) return null;
+  if (shouldShowPrompt) return <UploadPrompt />;
+  if (!quiz) return null;
 
   const answeredCount = orderedQuestions.filter((question) => {
     const selectedOptionIds = answers[question.id] ?? [];
@@ -141,7 +143,10 @@ export default function ExamPage() {
             <p className="text-sm text-[var(--muted-foreground)]">
               未作答 {unansweredNumbers.length} 題，已作答 {answeredCount} 題。
             </p>
-            <Button onClick={() => setIsSubmitDialogOpen(true)}>Submit Exam</Button>
+            <div className="flex gap-3">
+              <UploadTriggerButton />
+              <Button onClick={() => setIsSubmitDialogOpen(true)}>Submit Exam</Button>
+            </div>
           </CardContent>
         </Card>
 
