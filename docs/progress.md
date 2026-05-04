@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.5.3`（待開始）
+**當前階段**：`P2.0`（待開始）— 階段 1.5 完成，進入階段 2
 
 ---
 
@@ -32,6 +32,28 @@
 ---
 
 ## 日誌
+
+## P1.5.3 — 從範本新建 markdown
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.3): 支援從範本新建 markdown`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/templates/index.ts`，定義空白、閱讀、考試、簡報四個模板
+- 建立 `templates.test.ts`，驗證四個模板皆可 parse 且 0 warning
+- 建立 `NewDocumentDialog` 元件（2×2 grid 選項卡 + 背景點擊關閉）
+- 首頁加入 "New .md" 入口按鈕，位於 upload 區下方的 "or start from scratch" divider
+- 選擇模板後呼叫 `loadDocument` 載入內容，直接 navigate 到 `/edit`
+
+### 遇到的問題
+- Quiz 模板初版用 checkbox list `- [x]` 格式，但 parser 只識別 `A. 選項` 格式；需將模板改為 `type: single / answer: C` 放在 `## Q1` 與題目文字之間
+- 考試 parser 的 `type` 與 `answer` 欄位只在 `textLines.length === 0 && optionLines.length === 0` 時解析，因此必須放在選項行之前
+
+### 心得 / 決策
+- 模板測試涵蓋 parse 結果（mode、warnings、question/slide 數量），確保「從模板建出來的檔案能直接切去對應模式」這個驗收標準可重複驗證
+
+### 下一步
+- 階段 1.5 完成；進入 P2.0 檔案系統抽象層（重構）
 
 ## P1.5.2 — 下載機制
 **完成日期**：2026-05-04

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { NewDocumentDialog } from "@/components/home/NewDocumentDialog";
 import { SampleCards } from "@/components/home/SampleCards";
 import { UploadPanel } from "@/components/home/UploadPanel";
 
@@ -17,10 +18,20 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="mb-14">
+      <section className="mb-14 space-y-4">
         <Suspense fallback={null}>
           <UploadPanel />
         </Suspense>
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-[var(--border)]" />
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--muted-foreground)]">
+            or start from scratch
+          </p>
+          <div className="h-px flex-1 bg-[var(--border)]" />
+        </div>
+        <div className="flex justify-center">
+          <NewDocumentDialog />
+        </div>
       </section>
 
       <section className="space-y-6">
