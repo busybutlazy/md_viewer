@@ -1,16 +1,25 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { MarkdownView } from "@/components/markdown/MarkdownView";
-import { EditorPane } from "@/components/editor/EditorPane";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { downloadMarkdown, getDownloadFilename } from "@/lib/editor/download";
 import { useDocumentStore } from "@/lib/store/document";
 
+const EditorPane = dynamic(
+  () => import("@/components/editor/EditorPane").then((m) => ({ default: m.EditorPane })),
+  {
+    loading: () => <div className="flex-1 animate-pulse bg-[var(--surface)]" />,
+    ssr: false,
+  },
+);
+
 type ActiveTab = "editor" | "preview";
 
 export default function EditPage() {
+  const [mounted, setMounted] = useState(false);
   const hasHydrated = useDocumentStore((state) => state.hasHydrated);
   const storedMarkdown = useDocumentStore((state) => state.markdown);
   const fileName = useDocumentStore((state) => state.fileName);
@@ -21,6 +30,10 @@ export default function EditPage() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("editor");
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (hasHydrated && storedMarkdown) {
       setContent(storedMarkdown);
       setInitialized(true);
@@ -29,7 +42,6 @@ export default function EditPage() {
 
   const isDirty = initialized && content !== storedMarkdown;
 
-  // Update document.title with dirty indicator
   useEffect(() => {
     const base = fileName ?? "Untitled";
     document.title = isDirty ? `● ${base} — Markdown Reader Pro` : `${base} — Markdown Reader Pro`;
@@ -38,7 +50,6 @@ export default function EditPage() {
     };
   }, [isDirty, fileName]);
 
-  // Warn before closing tab when dirty
   useEffect(() => {
     if (!isDirty) return;
     function handleBeforeUnload(e: BeforeUnloadEvent) {
@@ -53,7 +64,6 @@ export default function EditPage() {
     downloadMarkdown(content, name);
   }, [content, fileName, frontmatter?.title]);
 
-  // Cmd/Ctrl+S triggers download
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === "s") {
@@ -67,14 +77,13 @@ export default function EditPage() {
 
   const headings = useMemo(() => extractMarkdownHeadings(content), [content]);
 
-  if (!hasHydrated) return null;
+  if (!mounted || !hasHydrated) return null;
   if (!storedMarkdown) return <UploadPrompt />;
 
   const displayName = fileName ?? "Untitled";
 
   return (
     <main className="flex h-[calc(100vh-64px)] flex-col">
-      {/* Toolbar */}
       <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-2">
         <p className="min-w-0 truncate text-sm font-medium text-[var(--foreground)]">
           {isDirty ? (
@@ -93,7 +102,6 @@ export default function EditPage() {
         </button>
       </div>
 
-      {/* Mobile tabs */}
       <div className="flex border-b border-[var(--border)] md:hidden">
         <TabButton
           active={activeTab === "editor"}
@@ -109,9 +117,7 @@ export default function EditPage() {
         </TabButton>
       </div>
 
-      {/* Desktop: side-by-side / Mobile: single panel */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Editor panel */}
         <div
           className={[
             "flex-1 overflow-auto border-r border-[var(--border)]",
@@ -124,7 +130,6 @@ export default function EditPage() {
           </div>
         </div>
 
-        {/* Preview panel */}
         <div
           className={[
             "flex-1 overflow-auto bg-[var(--background)]",
