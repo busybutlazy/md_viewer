@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P2.1`（待開始）— P2.0 檔案系統抽象層完成
+**當前階段**：`P2.2`（待開始）— P2.1 File System Access API adapter 完成
 
 ---
 
@@ -33,9 +33,34 @@
 
 ## 日誌
 
+## P2.1 — File System Access API adapter
+**完成日期**：2026-05-05
+**Commit**：待提交 `feat(p2.1): 整合 File System Access API 與授權持久化`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `FSAccessAdapter`，封裝 `showDirectoryPicker`、遞迴 list、read、write、create、delete、refresh
+- 以直接 IndexedDB API 保存與恢復 `FileSystemDirectoryHandle`，不新增依賴
+- 啟動首頁時嘗試恢復既有資料夾 handle，並用 readwrite permission 驗證授權
+- 授權撤銷時清除 persisted handle 並顯示 toast，避免繼續使用失效狀態
+- 首頁在支援瀏覽器顯示最小資料夾入口，不支援 `showDirectoryPicker` 時不顯示
+- 選擇或恢復資料夾後，目前先載入第一個 markdown 檔；完整資料夾樹留到 P2.2
+- 新增 `fs-access-adapter.test.ts`，覆蓋 markdown 篩選、忽略隱藏檔 / node_modules、路徑讀取與支援偵測
+
+### 遇到的問題
+- TypeScript DOM lib 沒有暴露 `FileSystemDirectoryHandle.entries()`，因此在 adapter 內用局部 `IterableDirectoryHandle` 型別補足
+- jsdom 的 `File` mock 不穩定支援 `.text()`，測試改以最小 mock 物件提供 `text()`
+
+### 心得 / 決策
+- P2.1 不引入 `idb-keyval`，直接用 IndexedDB 保存 handle，維持依賴少且可控
+- 授權流程統一要求 readwrite，一次完成讀寫心智模型；真正編輯寫回 UX 留到 P2.4
+
+### 下一步
+- 進入 P2.2 資料夾樹側邊欄
+
 ## P2.0 — 檔案系統抽象層
 **完成日期**：2026-05-05
-**Commit**：待提交 `refactor(p2.0): 建立檔案系統抽象層`
+**Commit**：`5946727 refactor(p2.0): 建立檔案系統抽象層`
 **驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
 
 ### 本子階段完成項目

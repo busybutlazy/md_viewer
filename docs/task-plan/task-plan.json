@@ -672,20 +672,20 @@
           "order": "3.2",
           "title": "P2.1 FS Access API adapter",
           "description": "整合 File System Access API 與權限持久化。驗收：1. Chrome 第一次授權後重整仍保留。 2. 權限失效時 UI 能提示重新授權。 3. Safari / Firefox 不顯示資料夾功能入口。 4. 讀寫授權流程對使用者是一次且一致的。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P2.1 File System Access API adapter、IndexedDB handle 持久化、權限恢復/失效處理與首頁最小資料夾入口；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-05",
           "subtasks": [
             {
               "id": "kb0pukqp",
               "order": "3.2.1",
               "title": "實作 FS Access adapter 核心",
               "description": "封裝 showDirectoryPicker、list、read、write、refresh 能力。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 FSAccessAdapter，封裝 showDirectoryPicker、list/read/write/create/delete/refresh。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -693,10 +693,10 @@
               "order": "3.2.2",
               "title": "完成授權持久化與恢復",
               "description": "使用 IndexedDB 保存 handle，啟動時恢復並驗證 permission。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "使用 IndexedDB 保存 directory handle，啟動時恢復並驗證 readwrite permission。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -704,10 +704,10 @@
               "order": "3.2.3",
               "title": "補齊瀏覽器支援與失效處理",
               "description": "偵測能力、處理撤銷授權與 fallback 到 upload 模式。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "補上 showDirectoryPicker 支援偵測、授權失效清理與首頁資料夾入口 fallback。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             }
           ]

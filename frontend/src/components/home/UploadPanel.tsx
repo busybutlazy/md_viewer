@@ -12,28 +12,13 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
+import { FolderAccessPanel } from "@/components/home/FolderAccessPanel";
+import { getRouteByDocumentMode } from "@/lib/document-routes";
 import { createUploadAdapterFromFile } from "@/lib/fs/upload-adapter";
-import type { DocumentMode } from "@/lib/parsers/types";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
 const ACCEPTED_EXTENSIONS = [".md", ".markdown", ".txt"];
-
-function getRouteByMode(mode: DocumentMode): string {
-  if (mode === "quiz") {
-    return "/exam";
-  }
-
-  if (mode === "slides") {
-    return "/slides";
-  }
-
-  return "/read";
-}
-
-export function getRouteByDocumentMode(mode: DocumentMode): string {
-  return getRouteByMode(mode);
-}
 
 export function UploadPanel() {
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
@@ -78,7 +63,7 @@ export function UploadPanel() {
         description: `已解析 ${file.name}，即將帶你進入對應模式。`,
         title: "Upload successful",
       });
-      router.push(getRouteByMode(nextMode));
+      router.push(getRouteByDocumentMode(nextMode));
     },
     onDropRejected: () => {
       pushToast({
@@ -98,6 +83,7 @@ export function UploadPanel() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <FolderAccessPanel />
         <div
           {...dropzone.getRootProps()}
           className="rounded-[2rem] border border-dashed border-[var(--border-strong)] bg-[var(--surface-strong)] p-8 text-center transition hover:border-[var(--accent)] hover:bg-[var(--surface)] focus-within:border-[var(--accent)]"

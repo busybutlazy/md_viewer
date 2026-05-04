@@ -27,5 +27,8 @@ describe("Home", () => {
     expect(screen.getByText("React 19 閱讀深潛")).toBeInTheDocument();
     expect(screen.getByText("JavaScript 與 React 小測")).toBeInTheDocument();
     expect(screen.getByText("Product Narrative Deck")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Choose Folder" }),
+    ).not.toBeInTheDocument();
   });
 });

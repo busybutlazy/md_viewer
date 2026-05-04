@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
-import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import { getRouteByDocumentMode } from "@/lib/document-routes";
 import {
   createUploadAdapterFromFile,
   createUploadAdapterFromMarkdown,

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
-import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import { getRouteByDocumentMode } from "@/lib/document-routes";
 import { createUploadAdapterFromFile } from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";

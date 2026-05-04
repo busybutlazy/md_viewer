@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import { getRouteByDocumentMode } from "@/lib/document-routes";
 import { createUploadAdapterFromMarkdown } from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";

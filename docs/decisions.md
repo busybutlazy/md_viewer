@@ -28,6 +28,31 @@
 
 ## 已記錄的決策
 
+### ADR-005: 直接使用 IndexedDB 保存 File System Access handle
+
+**日期**：2026-05-05
+**階段**：P2.1
+**狀態**：已採納
+
+**背景**：P2.1 需要保存 `FileSystemDirectoryHandle`，讓使用者在 Chrome / Edge 重整後可以恢復資料夾授權。
+
+**考慮過的選項**：
+- 使用 `idb-keyval`：API 簡潔，但新增一個只包薄層 IndexedDB 的依賴
+- 直接使用 IndexedDB：程式碼稍多，但符合專案「依賴少」原則，也能精準控制 store 與錯誤處理
+
+**決策**：直接使用瀏覽器 IndexedDB API，建立 `markdown-reader-pro-fs-access` database 與 `handles` object store 保存 directory handle。
+
+**原因**：
+- 不新增套件即可達成 P2.1 需求
+- File System Access handle 可被 structured clone 存進 IndexedDB
+- 清除失效授權時可以直接刪除固定 key，行為明確
+
+**後果**：
+- 正面：依賴維持不變，授權持久化邏輯集中於 `fs-access-idb.ts`
+- 負面：IndexedDB callback API 較冗長，測試需以 adapter 層為主
+
+---
+
 ### ADR-004: P2 起所有文件 I/O 走 FileSystemAdapter
 
 **日期**：2026-05-05
