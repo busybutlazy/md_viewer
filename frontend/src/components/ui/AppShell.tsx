@@ -30,16 +30,18 @@ export function AppShell({ children }: AppShellProps) {
                   <Link className="transition hover:text-[var(--foreground)]" href="/exam">Exam</Link>
                   <span className="opacity-40">·</span>
                   <Link className="transition hover:text-[var(--foreground)]" href="/slides">Slides</Link>
+                  <span className="opacity-40">·</span>
+                  <Link className="transition hover:text-[var(--foreground)]" href="/edit">Edit</Link>
                 </div>
               </div>
             </div>
             <Badge className="lg:hidden" tone="accent">
-              P1.1
+              P1.5.1
             </Badge>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Badge className="hidden lg:inline-flex" tone="accent">
-              Design System
+              Edit Mode
             </Badge>
             <ThemeToggle />
           </div>

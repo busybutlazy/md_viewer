@@ -18,6 +18,7 @@ import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { useDocumentStore } from "@/lib/store/document";
+import Link from "next/link";
 
 export default function ReadPage() {
   const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("reading");
@@ -92,6 +93,12 @@ export default function ReadPage() {
                   </div>
                 ) : null}
                 <UploadTriggerButton />
+                <Link
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] px-5 text-sm font-semibold transition hover:bg-[var(--surface)]"
+                  href="/edit"
+                >
+                  Edit
+                </Link>
               </CardContent>
             </Card>
 

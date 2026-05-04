@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.5.1`（待開始）
+**當前階段**：`P1.5.2`（待開始）
 
 ---
 
@@ -32,6 +32,31 @@
 ---
 
 ## 日誌
+
+## P1.5.1 — 編輯器整合
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.1): 整合 CodeMirror 編輯器與即時預覽`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 安裝 `@uiw/react-codemirror`、`@codemirror/lang-markdown`、`@uiw/codemirror-theme-github`
+- 建立 `EditorPane` 元件，封裝 CodeMirror 6；主題跟隨 `ThemeProvider` 的 `resolvedTheme` 自動切換 `githubLight` / `githubDark`
+- 新增 `/edit` 路由：桌面左右分割（Editor｜Preview），手機上方 tab 切換
+- Preview 重用既有 `MarkdownView`，editor `onChange` 直接觸發 preview 重渲染（< 100ms）
+- AppShell nav bar 加入 Edit 連結；閱讀模式頁加入 Edit 按鈕
+- 修正 `UploadTriggerButton` 的 variant 型別錯誤（pre-existing bug）
+- 更新首頁測試以符合現在的 UI 文案
+
+### 遇到的問題
+- `useState(storedMarkdown)` 初始值在 hydration 前是 `undefined`；改以 `useEffect` 在 hydration 完成後設定初始 content
+- CodeMirror 在 `"use client"` 元件中需要動態 import 或直接用 `@uiw/react-codemirror` wrapper，後者已包裝好 SSR fallback
+
+### 心得 / 決策
+- 使用 `@uiw/react-codemirror` React wrapper 而非裸 CodeMirror API，符合 P1 的快速驗證精神；CodeMirror 底層套件（view、state、commands）仍全數透過 wrapper 帶入
+- editor 只維護 local state，不影響 document store；P1.5.2 的下載邏輯可直接從 edit page 的 content state 取得內容
+
+### 下一步
+- 進入 P1.5.2 下載 .md 功能
 
 ## P1.9 — 階段 1 驗收與修整
 **完成日期**：2026-04-19

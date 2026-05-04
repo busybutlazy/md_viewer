@@ -9,7 +9,7 @@ import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
 interface UploadTriggerButtonProps {
-  variant?: "default" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost";
 }
 
 export function UploadTriggerButton({ variant = "secondary" }: UploadTriggerButtonProps) {
