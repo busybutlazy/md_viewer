@@ -6,6 +6,10 @@ import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import {
+  createUploadAdapterFromFile,
+  createUploadAdapterFromMarkdown,
+} from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
@@ -18,13 +22,14 @@ const SAMPLES = [
 export function UploadPrompt() {
   const router = useRouter();
   const { pushToast } = useToast();
-  const loadDocument = useDocumentStore((state) => state.loadDocument);
+  const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const [loadingSample, setLoadingSample] = useState<string | null>(null);
 
-  function handleFile(fileName: string, markdown: string) {
+  async function handleMarkdown(fileName: string, markdown: string) {
+    const adapter = createUploadAdapterFromMarkdown(fileName, markdown);
     clearExamSession();
-    const nextMode = loadDocument({ fileName, markdown });
+    const nextMode = await loadDocumentFromAdapter(adapter);
     router.push(getRouteByDocumentMode(nextMode));
   }
 
@@ -38,8 +43,10 @@ export function UploadPrompt() {
     onDropAccepted: async (files) => {
       const [file] = files;
       if (!file) return;
-      const markdown = await file.text();
-      handleFile(file.name, markdown);
+      const adapter = createUploadAdapterFromFile(file);
+      clearExamSession();
+      const nextMode = await loadDocumentFromAdapter(adapter);
+      router.push(getRouteByDocumentMode(nextMode));
     },
     onDropRejected: () => {
       pushToast({
@@ -54,7 +61,7 @@ export function UploadPrompt() {
     try {
       const res = await fetch(`/samples/${fileName}`);
       const markdown = await res.text();
-      handleFile(fileName, markdown);
+      await handleMarkdown(fileName, markdown);
     } finally {
       setLoadingSample(null);
     }

@@ -28,6 +28,31 @@
 
 ## 已記錄的決策
 
+### ADR-004: P2 起所有文件 I/O 走 FileSystemAdapter
+
+**日期**：2026-05-05
+**階段**：P2.0
+**狀態**：已採納
+
+**背景**：P1 / P1.5 已有上傳、sample、template、下載等多個文件來源與輸出路徑。P2 要加入 File System Access API，P3 還會加入 Electron 原生檔案系統；若各 UI 直接處理 `File`、瀏覽器下載或未來 handle，跨階段會快速分裂。
+
+**考慮過的選項**：
+- 維持 UI 直接讀寫：改動最少，但 P2/P3 會讓 route 與 component 直接耦合到不同檔案 API
+- 建立 `FileSystemAdapter`：P2.0 需要一次重構，但能把 upload、download、fs access、node fs 放到同一個 I/O 邊界
+
+**決策**：採用 `FileSystemAdapter` 作為文件 I/O 邊界。P2.0 先提供 `UploadAdapter` 與 `DownloadAdapter`，document store 透過 `loadDocumentFromAdapter` 載入內容。
+
+**原因**：
+- 維持 document store 是唯一原始 markdown / parsed payload 來源
+- P2.1 可新增 `FSAccessAdapter` 而不改各模式頁
+- P3.2 可新增 `NodeFSAdapter`，沿用同一份 store 與 route 消費模型
+
+**後果**：
+- 正面：I/O 邊界清楚，模式頁不碰檔案 API，後續 adapter 可替換
+- 負面：目前 sample/template 這類簡單來源也要包成 adapter，呼叫端多一層 async
+
+---
+
 ### ADR-000: 採納 Next.js App Router 而非 Vite + React Router
 
 **日期**：2026-04-18

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import { createUploadAdapterFromFile } from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
@@ -16,7 +17,7 @@ export function UploadTriggerButton({ variant = "secondary" }: UploadTriggerButt
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { pushToast } = useToast();
-  const loadDocument = useDocumentStore((state) => state.loadDocument);
+  const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -26,9 +27,9 @@ export function UploadTriggerButton({ variant = "secondary" }: UploadTriggerButt
       return;
     }
 
-    const markdown = await file.text();
+    const adapter = createUploadAdapterFromFile(file);
     clearExamSession();
-    const nextMode = loadDocument({ fileName: file.name, markdown });
+    const nextMode = await loadDocumentFromAdapter(adapter);
 
     pushToast({
       description: `已解析 ${file.name}，即將帶你進入對應模式。`,

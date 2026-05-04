@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { getRouteByDocumentMode } from "@/components/home/UploadPanel";
+import { createUploadAdapterFromMarkdown } from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 
@@ -53,13 +54,14 @@ const SAMPLE_CARDS: SampleCard[] = [
 export function SampleCards() {
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const router = useRouter();
-  const loadDocument = useDocumentStore((state) => state.loadDocument);
+  const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
 
   async function handleOpenSample(fileName: string) {
     const response = await fetch(`/samples/${fileName}`);
     const markdown = await response.text();
+    const adapter = createUploadAdapterFromMarkdown(fileName, markdown);
     clearExamSession();
-    const nextMode = loadDocument({ fileName, markdown });
+    const nextMode = await loadDocumentFromAdapter(adapter);
 
     router.push(getRouteByDocumentMode(nextMode));
   }

@@ -4,8 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { MarkdownView } from "@/components/markdown/MarkdownView";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
+import { createDownloadAdapter } from "@/lib/fs/download-adapter";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
-import { downloadMarkdown, getDownloadFilename } from "@/lib/editor/download";
+import { getDownloadFilename } from "@/lib/editor/download";
 import { useDocumentStore } from "@/lib/store/document";
 
 const EditorPane = dynamic(
@@ -61,7 +62,7 @@ export default function EditPage() {
 
   const handleDownload = useCallback(() => {
     const name = getDownloadFilename(frontmatter?.title, fileName);
-    downloadMarkdown(content, name);
+    void createDownloadAdapter().write(name, content);
   }, [content, fileName, frontmatter?.title]);
 
   useEffect(() => {

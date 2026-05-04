@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createUploadAdapterFromMarkdown } from "@/lib/fs/upload-adapter";
 import { TEMPLATES } from "@/lib/templates";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
@@ -10,12 +11,13 @@ export function NewDocumentDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const titleId = useId();
   const router = useRouter();
-  const loadDocument = useDocumentStore((state) => state.loadDocument);
+  const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
 
-  function handleSelect(fileName: string, markdown: string) {
+  async function handleSelect(fileName: string, markdown: string) {
+    const adapter = createUploadAdapterFromMarkdown(fileName, markdown);
     clearExamSession();
-    loadDocument({ fileName, markdown });
+    await loadDocumentFromAdapter(adapter);
     setIsOpen(false);
     router.push("/edit");
   }
@@ -69,7 +71,7 @@ export function NewDocumentDialog() {
                 <button
                   className="flex flex-col items-start rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-4 text-left transition hover:border-[var(--accent)] hover:bg-[var(--background)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
                   key={t.fileName}
-                  onClick={() => handleSelect(t.fileName, t.markdown)}
+                  onClick={() => void handleSelect(t.fileName, t.markdown)}
                   type="button"
                 >
                   <p className="text-sm font-semibold text-[var(--foreground)]">

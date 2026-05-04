@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
+import { createUploadAdapterFromFile } from "@/lib/fs/upload-adapter";
 import type { DocumentMode } from "@/lib/parsers/types";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
@@ -36,7 +37,7 @@ export function getRouteByDocumentMode(mode: DocumentMode): string {
 
 export function UploadPanel() {
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
-  const loadDocument = useDocumentStore((state) => state.loadDocument);
+  const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
   const { pushToast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -69,9 +70,9 @@ export function UploadPanel() {
         return;
       }
 
-      const markdown = await file.text();
+      const adapter = createUploadAdapterFromFile(file);
       clearExamSession();
-      const nextMode = loadDocument({ fileName: file.name, markdown });
+      const nextMode = await loadDocumentFromAdapter(adapter);
 
       pushToast({
         description: `已解析 ${file.name}，即將帶你進入對應模式。`,

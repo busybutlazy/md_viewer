@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import type { FileSystemAdapter, FileSystemAdapterType } from "@/lib/fs/types";
 import { parseDocument } from "@/lib/parsers/parse-document";
 import type {
   DocumentMode,
@@ -17,15 +18,34 @@ interface ReadingDocument {
 
 type ParsedDocument = Quiz | ReadingDocument | SlideDeck;
 
+interface DocumentSource {
+  adapterType: FileSystemAdapterType;
+  path: string;
+}
+
 interface DocumentState {
   fileName?: string;
   frontmatter?: FrontmatterData;
   hasHydrated: boolean;
-  loadDocument: (input: { fileName: string; markdown: string }) => DocumentMode;
+  loadDocumentFromAdapter: (
+    adapter: FileSystemAdapter,
+    path?: string,
+  ) => Promise<DocumentMode>;
   markdown?: string;
   mode?: DocumentMode;
   parsed?: ParsedDocument;
+  source?: DocumentSource;
   clearDocument: () => void;
+  warnings: string[];
+}
+
+interface LoadedDocumentState {
+  fileName: string;
+  frontmatter: FrontmatterData;
+  markdown: string;
+  mode: DocumentMode;
+  parsed: ParsedDocument;
+  source: DocumentSource;
   warnings: string[];
 }
 
@@ -36,31 +56,60 @@ const INITIAL_STATE = {
   markdown: undefined,
   mode: undefined,
   parsed: undefined,
+  source: undefined,
   warnings: [],
 } satisfies Omit<
   DocumentState,
-  "clearDocument" | "loadDocument"
+  "clearDocument" | "loadDocumentFromAdapter"
 >;
+
+function parseLoadedDocument(input: {
+  adapterType: FileSystemAdapterType;
+  fileName: string;
+  markdown: string;
+}): LoadedDocumentState {
+  const parsed = parseDocument(input.markdown);
+
+  return {
+    fileName: input.fileName,
+    frontmatter: parsed.frontmatter.data,
+    markdown: input.markdown,
+    mode: parsed.mode,
+    parsed: parsed.parsed,
+    source: {
+      adapterType: input.adapterType,
+      path: input.fileName,
+    },
+    warnings: parsed.warnings,
+  };
+}
 
 export const useDocumentStore = create<DocumentState>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
       clearDocument: () => set({ ...INITIAL_STATE, hasHydrated: true }),
-      loadDocument: ({ fileName, markdown }) => {
-        const parsed = parseDocument(markdown);
+      loadDocumentFromAdapter: async (adapter, path) => {
+        const nodes = await adapter.list();
+        const fileName = path ?? nodes.find((node) => node.kind === "file")?.path;
 
-        set({
+        if (!fileName) {
+          throw new Error("FileSystemAdapter did not provide a readable file.");
+        }
+
+        const markdown = await adapter.read(fileName);
+        const parsedState = parseLoadedDocument({
+          adapterType: adapter.type,
           fileName,
-          frontmatter: parsed.frontmatter.data,
-          hasHydrated: true,
           markdown,
-          mode: parsed.mode,
-          parsed: parsed.parsed,
-          warnings: parsed.warnings,
         });
 
-        return parsed.mode;
+        set({
+          ...parsedState,
+          hasHydrated: true,
+        });
+
+        return parsedState.mode;
       },
       warnings: [],
     }),
@@ -75,6 +124,7 @@ export const useDocumentStore = create<DocumentState>()(
         markdown: state.markdown,
         mode: state.mode,
         parsed: state.parsed,
+        source: state.source,
         warnings: state.warnings,
       }),
       storage: createJSONStorage(() => sessionStorage),

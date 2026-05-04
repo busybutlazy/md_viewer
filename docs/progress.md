@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P2.0`（待開始）— 階段 1.5 完成，進入階段 2
+**當前階段**：`P2.1`（待開始）— P2.0 檔案系統抽象層完成
 
 ---
 
@@ -32,6 +32,30 @@
 ---
 
 ## 日誌
+
+## P2.0 — 檔案系統抽象層
+**完成日期**：2026-05-05
+**Commit**：待提交 `refactor(p2.0): 建立檔案系統抽象層`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/fs/types.ts`，定義 `FileSystemAdapter`、`FileNode`、`FileEvent` 等共用型別
+- 建立 `UploadAdapter`，封裝目前上傳檔案、sample、template 的單檔讀取流程
+- 建立 `DownloadAdapter`，作為目前瀏覽器下載 `.md` 的預設寫出策略
+- document store 新增 `loadDocumentFromAdapter`，並記錄來源 adapter type / path
+- 首頁上傳、空狀態上傳、sample cards、template 新建與 edit download 都改走 adapter
+- 補上 `upload-adapter.test.ts` 與 document store adapter 載入測試
+
+### 遇到的問題
+- `UploadAdapter` 測試初版 mock 函式型別寫法不被 esbuild 接受，改成一般 `vi.fn()` mock
+- document store 的載入狀態型別初版太寬，導致 `mode` 被推成可選；補上 `LoadedDocumentState` 收窄
+
+### 心得 / 決策
+- P2.0 只做純重構，不新增使用者可見功能；目前單檔上傳仍透過 `UploadAdapter`，寫出仍透過下載
+- store 保留單一 parsed document source of truth，I/O 差異集中在 adapter 層，方便 P2.1 接 File System Access API
+
+### 下一步
+- 進入 P2.1 File System Access API adapter
 
 ## P1.5.3 — 從範本新建 markdown
 **完成日期**：2026-05-04
