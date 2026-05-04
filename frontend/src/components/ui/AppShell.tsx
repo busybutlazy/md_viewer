@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FolderTreeSidebar } from "@/components/folder/FolderTreeSidebar";
 import { Badge } from "@/components/ui/Badge";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
@@ -47,7 +48,10 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </div>
       </header>
-      {children}
+      <div className="lg:flex">
+        <FolderTreeSidebar />
+        <div className="min-w-0 flex-1">{children}</div>
+      </div>
     </div>
   );
 }

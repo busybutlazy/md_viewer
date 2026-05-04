@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P2.2`（待開始）— P2.1 File System Access API adapter 完成
+**當前階段**：`P2.3`（待開始）— P2.2 資料夾樹側邊欄完成
 
 ---
 
@@ -33,9 +33,34 @@
 
 ## 日誌
 
+## P2.2 — 資料夾樹側邊欄
+**完成日期**：2026-05-05
+**Commit**：待提交 `feat(p2.2): 實作資料夾樹側邊欄與檔案瀏覽`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `FolderTreeSidebar`，於 `AppShell` 全域顯示已授權資料夾的 markdown tree
+- 支援遞迴資料夾、目前檔案高亮、Refresh、搜尋與空搜尋結果狀態
+- 建立 `folder-session` store，使用 sessionStorage 保存搜尋與展開收合狀態
+- 手機版提供 `Files` 按鈕與 drawer，不佔用主內容寬度
+- 點擊檔案後透過 `FSAccessAdapter` 讀取、parse、導向對應模式
+- 切換檔案時清除 exam session 並重置 slides session，避免跨文件狀態殘留
+- 新增 `folder/tree.test.ts`，覆蓋 nested filter 與 1000 files count < 1 秒
+
+### 遇到的問題
+- `FolderTreeSidebar` 初版留下未使用的 toast hook，因 zero-warning lint 規則需移除
+- build 會更新 `frontend/tsconfig.tsbuildinfo`，驗收後需還原避免把 build artifact 放進 commit
+
+### 心得 / 決策
+- P2.2 將側邊欄放在 AppShell，而非各模式頁，確保 read/exam/slides/edit 都可共用資料夾瀏覽
+- 搜尋採 filename/path contains 的輕量方案；更完整 fuzzy ranking 可等實際使用後再評估
+
+### 下一步
+- 進入 P2.3 授權管理 UI
+
 ## P2.1 — File System Access API adapter
 **完成日期**：2026-05-05
-**Commit**：待提交 `feat(p2.1): 整合 File System Access API 與授權持久化`
+**Commit**：`8cfc8ea feat(p2.1): 整合 File System Access API 與授權持久化`
 **驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
 
 ### 本子階段完成項目

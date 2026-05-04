@@ -21,5 +21,9 @@ describe("useSlidesSessionStore", () => {
 
     nextState.setChromeVisible(true);
     expect(useSlidesSessionStore.getState().chromeVisible).toBe(true);
+
+    nextState.resetSession();
+    expect(useSlidesSessionStore.getState().activeIndex).toBe(0);
+    expect(useSlidesSessionStore.getState().isOverviewOpen).toBe(false);
   });
 });
