@@ -15,10 +15,12 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
+import { UploadPrompt } from "@/components/document/UploadPrompt";
+import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { useDocumentStore } from "@/lib/store/document";
 
 export default function ReadPage() {
-  const { hasHydrated, mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("reading");
   const warnings = useDocumentStore((state) => state.warnings);
   const fileName = useDocumentStore((state) => state.fileName);
   const frontmatter = useDocumentStore((state) => state.frontmatter);
@@ -29,9 +31,9 @@ export default function ReadPage() {
     [readingContent],
   );
 
-  if (!hasHydrated || mode !== "reading" || !parsed || !("content" in parsed)) {
-    return null;
-  }
+  if (!hasHydrated) return null;
+  if (shouldShowPrompt) return <UploadPrompt />;
+  if (mode !== "reading" || !parsed || !("content" in parsed)) return null;
 
   return (
     <>
@@ -57,7 +59,7 @@ export default function ReadPage() {
                   </CardDescription>
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-col gap-4 border-t border-[var(--border)] pt-5 sm:flex-row sm:flex-wrap sm:items-center">
+              <CardContent className="flex flex-col gap-4 border-t border-[var(--border)] pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                 <p className="text-sm text-[var(--muted-foreground)]">
                   File:{" "}
                   <span className="font-semibold text-[var(--foreground)]">
@@ -89,6 +91,7 @@ export default function ReadPage() {
                     ))}
                   </div>
                 ) : null}
+                <UploadTriggerButton />
               </CardContent>
             </Card>
 

@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDropzone } from "react-dropzone";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import {
   Card,
@@ -91,13 +90,10 @@ export function UploadPanel() {
   return (
     <Card className="border-[var(--border-strong)]">
       <CardHeader>
-        <Badge className="w-fit" tone="accent">
-          P1.3 Upload Flow
-        </Badge>
-        <CardTitle>Drop a markdown file to enter the right mode</CardTitle>
+        <CardTitle>Upload a markdown file</CardTitle>
         <CardDescription>
-          The document is parsed once, stored in sessionStorage, then routed to
-          Reading, Exam, or Slides based on frontmatter.
+          Parsed once and routed to Reading, Exam, or Slides based on
+          frontmatter.
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -67,8 +67,8 @@ export function SampleCards() {
   return (
     <section className="grid gap-4 lg:grid-cols-3">
       {SAMPLE_CARDS.map((sample) => (
-        <Card className="overflow-hidden border-[var(--border-strong)] bg-[var(--surface-strong)]" key={sample.fileName}>
-          <CardHeader className="space-y-4">
+        <Card className="flex flex-col overflow-hidden border-[var(--border-strong)] bg-[var(--surface-strong)]" key={sample.fileName}>
+          <CardHeader className="flex-1 space-y-4">
             <div className="flex items-center justify-between gap-3">
               <Badge tone="accent">{sample.badge}</Badge>
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted-foreground)]">
@@ -84,9 +84,21 @@ export function SampleCards() {
             <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm leading-7 text-[var(--muted-foreground)]">
               {sample.preview}
             </div>
-            <Button onClick={() => void handleOpenSample(sample.fileName)} variant="secondary">
-              Open Sample
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => void handleOpenSample(sample.fileName)}>
+                Try it
+              </Button>
+              <a
+                className="inline-flex items-center gap-1.5 rounded-[1.25rem] border border-[var(--border-strong)] px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition hover:border-[var(--accent)] hover:text-[var(--foreground)]"
+                download={sample.fileName}
+                href={`/samples/${sample.fileName}`}
+              >
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24">
+                  <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 4v11" />
+                </svg>
+                Template
+              </a>
+            </div>
           </CardContent>
         </Card>
       ))}

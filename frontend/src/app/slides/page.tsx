@@ -14,13 +14,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
+
 import { useRequireDocument } from "@/components/document/ModeGuard";
+import { UploadPrompt } from "@/components/document/UploadPrompt";
+import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { useDocumentStore } from "@/lib/store/document";
 import { useSlidesSessionStore } from "@/lib/store/slides-session";
 import { cn } from "@/lib/utils";
 
 export default function SlidesPage() {
-  const { hasHydrated, mode, parsed } = useRequireDocument();
+  const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("slides");
   const warnings = useDocumentStore((state) => state.warnings);
   const activeIndex = useSlidesSessionStore((state) => state.activeIndex);
   const chromeVisible = useSlidesSessionStore((state) => state.chromeVisible);
@@ -158,9 +161,9 @@ export default function SlidesPage() {
     };
   }, [activeIndex, chromeVisible, deck, hideChrome, isOverviewOpen, isSpeakerMode]);
 
-  if (!hasHydrated || !deck) {
-    return null;
-  }
+  if (!hasHydrated) return null;
+  if (shouldShowPrompt) return <UploadPrompt />;
+  if (!deck) return null;
 
   return (
     <div
@@ -187,6 +190,9 @@ export default function SlidesPage() {
                   都在這個模式內完成。
                 </CardDescription>
               </CardHeader>
+              <CardContent className="border-t border-[var(--border)] pt-5">
+                <UploadTriggerButton />
+              </CardContent>
             </Card>
           </div>
 
