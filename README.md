@@ -6,7 +6,7 @@
 - Exam：互動選擇題模式
 - Slides：投影片模式
 
-目前已完成階段 1：網頁上傳版。下一步是 `P1.5.1` 下載式編輯。
+目前已完成階段 1：網頁上傳版，以及階段 1.5：下載式編輯。下一步是 `P2.0` 檔案系統抽象層。
 
 ## Quick Start
 
@@ -26,7 +26,7 @@ docker compose run --rm app pnpm test
 docker compose run --rm app pnpm build
 ```
 
-## Phase 1 Features
+## Phase 1 + 1.5 Features
 
 - 首頁支援拖放或選取 `.md`、`.markdown`、`.txt`
 - 上傳後自動解析 frontmatter 並導向 Reading、Exam 或 Slides
@@ -35,6 +35,7 @@ docker compose run --rm app pnpm build
 - Exam mode 含單選/複選、作答持久化、倒數計時、自動提交、結果頁與詳解
 - Slides mode 含鍵盤切頁、overview、speaker notes、fullscreen、`window.print()` PDF 匯出
 - 首頁內建 sample cards，可直接載入三種模式範例
+- Edit mode 含 CodeMirror 編輯器、即時預覽、下載 `.md`、未存變更警告與四種新建範本
 
 ## Supported Markdown Formats
 

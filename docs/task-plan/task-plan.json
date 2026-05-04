@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "project": "md_viewer",
-  "updated_at": "2026-04-19",
+  "updated_at": "2026-05-04",
   "tasks": [
     {
       "id": "rjr6p5ah",
@@ -470,30 +470,30 @@
       "order": "2",
       "title": "階段 1.5：下載式編輯",
       "description": "階段目標：在不接原生檔案系統前提下加入編輯能力。驗收：1. 使用者可編輯、預覽、下載、新建 markdown。 2. 三個子階段皆完成並通過 lint、test、build、手動驗收。",
-      "status": "in_progress",
-      "completion_note": "",
+      "status": "done",
+      "completion_note": "完成 P1.5.1–P1.5.3，下載式編輯階段結束；目前進入 P2.0 檔案系統抽象層。",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-19",
+      "updated_at": "2026-05-04",
       "subtasks": [
         {
           "id": "mxvyz36r",
           "order": "2.1",
           "title": "P1.5.1 編輯器整合",
           "description": "整合 CodeMirror 與即時預覽。驗收：1. 輸入後預覽更新 < 100ms。 2. 具語法高亮、括號配對、自動縮排。 3. 編輯器主題與整體 UI 協調。 4. 手機版提供可用的上下分割或 tab 方案。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.5.1 CodeMirror 編輯器與即時預覽；lint/test/build 與手動驗收通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-04",
           "subtasks": [
             {
               "id": "a47amke7",
               "order": "2.1.1",
               "title": "整合 CodeMirror 基本編輯器",
               "description": "配置 markdown 語言支援、語法高亮、括號配對與縮排。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 CodeMirror markdown 編輯器整合與基本編輯體驗。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -501,10 +501,10 @@
               "order": "2.1.2",
               "title": "建立即時預覽與版面切換",
               "description": "完成左右分欄或上下分欄與 MarkdownView 預覽重用。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 /edit 即時預覽與桌面分欄、手機 tab 切換。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -512,10 +512,10 @@
               "order": "2.1.3",
               "title": "處理主題與互動效能",
               "description": "讓編輯器 dark mode 對齊設計系統並控制預覽更新延遲。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 CodeMirror 亮暗主題對齊與預覽更新驗證。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             }
           ]
@@ -525,20 +525,20 @@
           "order": "2.2",
           "title": "P1.5.2 下載機制",
           "description": "完成下載與未存檔防護。驗收：1. 下載後再次上傳內容完全一致。 2. 中文檔名正確，不會被 URL encode。 3. 未存變更警告只在真正離開頁面時觸發。 4. Cmd/Ctrl+S 會觸發下載。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.5.2 markdown 下載、dirty state、離開警告與 Cmd/Ctrl+S；lint/test/build 與手動驗收通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-04",
           "subtasks": [
             {
               "id": "2wqbkf8n",
               "order": "2.2.1",
               "title": "建立下載輸出流程",
               "description": "用 Blob 與 download link 生成 md 檔並處理檔名規則。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 Blob 下載流程與 Unicode-aware 檔名規則。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -546,10 +546,10 @@
               "order": "2.2.2",
               "title": "完成未存變更指示",
               "description": "加入 dirty state、title 標記與 document.title 提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 dirty state 與 document.title 未存變更指示。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -557,10 +557,10 @@
               "order": "2.2.3",
               "title": "加入離開警告與快捷鍵",
               "description": "實作 beforeunload 與 Cmd 或 Ctrl 加 S 下載捷徑。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成 beforeunload 離開警告與 Cmd/Ctrl+S 下載快捷鍵。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             }
           ]
@@ -570,20 +570,20 @@
           "order": "2.3",
           "title": "P1.5.3 新建檔案",
           "description": "提供四種範本新建流程。驗收：1. 空白、閱讀、考試、簡報四種範本都能進入編輯器。 2. 考試與簡報範本產生內容符合 parser 規格。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P1.5.3 空白、閱讀、考試、簡報範本與首頁新建流程；lint/test/build 與手動驗收通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-04",
           "subtasks": [
             {
               "id": "nlyavtne",
               "order": "2.3.1",
               "title": "建立 templates 檔案骨架",
               "description": "在 src/lib/templates 準備空白、閱讀、考試、簡報四種範本。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "建立四種 markdown 範本並補 parser 相容測試。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -591,10 +591,10 @@
               "order": "2.3.2",
               "title": "完成首頁新建流程",
               "description": "加入新建按鈕、模版選單與建立後進 edit route。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "完成首頁 New .md 入口、模板選單與建立後導向 /edit。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             },
             {
@@ -602,10 +602,10 @@
               "order": "2.3.3",
               "title": "驗證範本與 parser 相容",
               "description": "確認 quiz 與 slides 範本能被現有 parser 正確解析與導頁。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "確認 quiz 與 slides 範本可被現有 parser 正確解析且 0 warning。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-04",
               "subtasks": []
             }
           ]
@@ -617,10 +617,10 @@
       "order": "3",
       "title": "階段 2：網頁授權資料夾版",
       "description": "階段目標：讓網頁版可直接授權資料夾並作為日常工具。驗收：1. 所有 P2 子階段完成並通過 lint、test、build、手動驗收。 2. 在支援瀏覽器中可授權資料夾、瀏覽、編輯、寫回。 3. 不支援瀏覽器有清楚 fallback。",
-      "status": "todo",
+      "status": "in_progress",
       "completion_note": "",
       "created_at": "2026-04-18",
-      "updated_at": "2026-04-18",
+      "updated_at": "2026-05-04",
       "subtasks": [
         {
           "id": "oq0cwldq",
