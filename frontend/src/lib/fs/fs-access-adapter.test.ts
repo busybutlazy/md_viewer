@@ -57,6 +57,17 @@ describe("FSAccessAdapter", () => {
     expect(file.writes).toEqual(["# Saved"]);
   });
 
+  it("creates a new file before writing when needed", async () => {
+    const entries: Record<string, MockHandle> = {};
+    const adapter = new FSAccessAdapter(directoryHandle("vault", entries));
+
+    await adapter.write("new.md", "# New");
+
+    const created = entries["new.md"];
+    expect(created?.kind).toBe("file");
+    expect(created && "writes" in created ? created.writes : []).toEqual(["# New"]);
+  });
+
   it("finds the first markdown file in a tree", () => {
     expect(
       findFirstMarkdownFile([
@@ -128,7 +139,13 @@ function directoryHandle(
     },
     async getFileHandle(entryName: string) {
       const handle = entriesByName[entryName];
-      if (!handle || handle.kind !== "file") {
+      if (!handle) {
+        const created = fileHandle(entryName, "");
+        entriesByName[entryName] = created;
+        return created;
+      }
+
+      if (handle.kind !== "file") {
         throw new Error(`Missing file: ${entryName}`);
       }
       return handle;

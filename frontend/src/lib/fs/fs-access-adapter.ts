@@ -43,7 +43,7 @@ export class FSAccessAdapter implements FileSystemAdapter {
   }
 
   async write(path: string, content: string): Promise<void> {
-    const fileHandle = await this.getFileHandle(path);
+    const fileHandle = await this.getFileHandle(path, { create: true });
     const writable = await fileHandle.createWritable();
     await writable.write(content);
     await writable.close();

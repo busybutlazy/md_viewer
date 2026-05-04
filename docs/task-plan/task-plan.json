@@ -852,20 +852,20 @@
           "order": "3.6",
           "title": "P2.5 重新整理、新建、刪除",
           "description": "完成重新整理、新建與刪除。驗收：1. 外部新增檔案後 refresh 會出現在樹中。 2. 刪除有清楚確認，不易誤觸。 3. 新建檔案後自動進入編輯模式。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P2.5 Refresh、新建檔案、刪除檔案與安全確認；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-05",
           "subtasks": [
             {
               "id": "i1vlj1e2",
               "order": "3.6.1",
               "title": "加入資料夾 refresh 操作",
               "description": "在側邊欄提供重新整理並更新樹狀資料。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "側邊欄已有 Refresh 操作，會重新 list 目前授權資料夾並更新樹狀資料。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -873,10 +873,10 @@
               "order": "3.6.2",
               "title": "完成新建檔案流程",
               "description": "提供檔名輸入、模板套用與建立後自動進入編輯。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "新增 New file dialog，支援檔名輸入、P1.5.3 模板套用、建立後自動讀入並導到 edit/對應模式。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -884,10 +884,10 @@
               "order": "3.6.3",
               "title": "完成刪除與安全確認",
               "description": "提供確認對話框、刪除後狀態更新與誤觸防護。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "每個檔案列提供 Del 操作，需先進入 Delete? 確認狀態才會刪除，刪除後更新 tree 與目前文件狀態。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             }
           ]

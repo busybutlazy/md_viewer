@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import { useToast } from "@/components/ui/Toast";
 import { getRouteByDocumentMode } from "@/lib/document-routes";
 import {
   type FSAccessAdapter,
@@ -15,6 +16,7 @@ import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
 import { useFolderSessionStore } from "@/lib/store/folder-session";
 import { useSlidesSessionStore } from "@/lib/store/slides-session";
+import { TEMPLATES } from "@/lib/templates";
 
 export function FolderTreeSidebar() {
   const [adapter, setAdapter] = useState<FSAccessAdapter | null>(null);
@@ -29,9 +31,11 @@ export function FolderTreeSidebar() {
   const setSearchQuery = useFolderSessionStore((state) => state.setSearchQuery);
   const currentPath = useDocumentStore((state) => state.source?.path);
   const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
+  const clearDocument = useDocumentStore((state) => state.clearDocument);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const resetSlidesSession = useSlidesSessionStore((state) => state.resetSession);
   const router = useRouter();
+  const { pushToast } = useToast();
 
   useEffect(() => {
     let cancelled = false;
@@ -90,6 +94,37 @@ export function FolderTreeSidebar() {
     }
   }
 
+  async function createFile(path: string, markdown: string) {
+    if (!adapter) {
+      return;
+    }
+
+    await adapter.write(path, markdown);
+    setNodes(await adapter.list());
+    await openFile(path);
+  }
+
+  async function deleteFile(path: string) {
+    if (!adapter) {
+      return;
+    }
+
+    await adapter.delete(path);
+    setNodes(await adapter.list());
+
+    if (currentPath === path) {
+      clearDocument();
+      clearExamSession();
+      resetSlidesSession();
+      router.push("/");
+    }
+
+    pushToast({
+      description: `${path} 已刪除。`,
+      title: "File deleted",
+    });
+  }
+
   async function openFile(path: string) {
     if (!adapter) {
       return;
@@ -110,6 +145,8 @@ export function FolderTreeSidebar() {
       isLoading={isLoading}
       nodes={visibleNodes}
       onFileOpen={(path) => void openFile(path)}
+      onFileCreate={(path, markdown) => void createFile(path, markdown)}
+      onFileDelete={(path) => void deleteFile(path)}
       onRefresh={() => void refreshTree()}
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
@@ -160,6 +197,8 @@ interface FolderTreeContentProps {
   folderName: string;
   isLoading: boolean;
   nodes: FileNode[];
+  onFileCreate: (path: string, markdown: string) => void;
+  onFileDelete: (path: string) => void;
   onFileOpen: (path: string) => void;
   onRefresh: () => void;
   searchQuery: string;
@@ -172,6 +211,8 @@ function FolderTreeContent({
   folderName,
   isLoading,
   nodes,
+  onFileCreate,
+  onFileDelete,
   onFileOpen,
   onRefresh,
   searchQuery,
@@ -189,14 +230,17 @@ function FolderTreeContent({
               {fileCount} markdown files
             </p>
           </div>
-          <Button
-            className="min-h-9 px-3 text-xs"
-            disabled={isLoading}
-            onClick={onRefresh}
-            variant="secondary"
-          >
-            Refresh
-          </Button>
+          <div className="flex shrink-0 gap-2">
+            <NewFileDialog onCreate={onFileCreate} />
+            <Button
+              className="min-h-9 px-3 text-xs"
+              disabled={isLoading}
+              onClick={onRefresh}
+              variant="secondary"
+            >
+              Refresh
+            </Button>
+          </div>
         </div>
         <label className="block">
           <span className="sr-only">Search markdown files</span>
@@ -217,6 +261,7 @@ function FolderTreeContent({
               currentPath={currentPath}
               key={node.path}
               node={node}
+              onFileDelete={onFileDelete}
               onFileOpen={onFileOpen}
             />
           ))
@@ -234,6 +279,7 @@ interface FolderTreeNodeProps {
   currentPath?: string;
   level?: number;
   node: FileNode;
+  onFileDelete: (path: string) => void;
   onFileOpen: (path: string) => void;
 }
 
@@ -241,6 +287,7 @@ function FolderTreeNode({
   currentPath,
   level = 0,
   node,
+  onFileDelete,
   onFileOpen,
 }: FolderTreeNodeProps) {
   const expandedPaths = useFolderSessionStore((state) => state.expandedPaths);
@@ -252,21 +299,31 @@ function FolderTreeNode({
     const isActive = currentPath === node.path;
 
     return (
-      <button
-        aria-current={isActive ? "page" : undefined}
+      <div
         className={[
-          "flex min-h-9 w-full items-center gap-2 truncate px-3 py-1.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--ring)]",
+          "group flex min-h-9 w-full items-center gap-1 transition",
           isActive
-            ? "bg-[var(--accent-soft)] font-semibold text-[var(--accent-strong)]"
-            : "text-[var(--muted-foreground)] hover:bg-[var(--surface-strong)] hover:text-[var(--foreground)]",
+            ? "bg-[var(--accent-soft)]"
+            : "hover:bg-[var(--surface-strong)]",
         ].join(" ")}
-        onClick={() => onFileOpen(node.path)}
         style={{ paddingLeft }}
-        type="button"
       >
-        <span className="font-mono text-xs opacity-60">md</span>
-        <span className="truncate">{node.name}</span>
-      </button>
+        <button
+          aria-current={isActive ? "page" : undefined}
+          className={[
+            "flex min-h-9 min-w-0 flex-1 items-center gap-2 truncate py-1.5 text-left text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--ring)]",
+            isActive
+              ? "font-semibold text-[var(--accent-strong)]"
+              : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
+          ].join(" ")}
+          onClick={() => onFileOpen(node.path)}
+          type="button"
+        >
+          <span className="font-mono text-xs opacity-60">md</span>
+          <span className="truncate">{node.name}</span>
+        </button>
+        <DeleteFileButton fileName={node.name} onDelete={() => onFileDelete(node.path)} />
+      </div>
     );
   }
 
@@ -291,10 +348,149 @@ function FolderTreeNode({
               key={child.path}
               level={level + 1}
               node={child}
+              onFileDelete={onFileDelete}
               onFileOpen={onFileOpen}
             />
           ))
         : null}
     </div>
   );
+}
+
+interface NewFileDialogProps {
+  onCreate: (path: string, markdown: string) => void;
+}
+
+function NewFileDialog({ onCreate }: NewFileDialogProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [fileName, setFileName] = useState("untitled.md");
+  const [selectedTemplate, setSelectedTemplate] = useState(TEMPLATES[0]?.fileName ?? "");
+  const selected = TEMPLATES.find((template) => template.fileName === selectedTemplate) ?? TEMPLATES[0];
+
+  function handleCreate() {
+    if (!selected) {
+      return;
+    }
+
+    onCreate(normalizeMarkdownPath(fileName), selected.markdown);
+    setIsOpen(false);
+  }
+
+  return (
+    <>
+      <Button
+        className="min-h-9 px-3 text-xs"
+        onClick={() => setIsOpen(true)}
+        variant="secondary"
+      >
+        New
+      </Button>
+      {isOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-strong)] p-5 shadow-[var(--shadow-soft)]">
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold">New markdown file</h2>
+              <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                Create at the folder root and open it in the editor.
+              </p>
+            </div>
+            <label className="block">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                File name
+              </span>
+              <input
+                className="mt-2 min-h-10 w-full rounded-xl border border-[var(--border-strong)] bg-[var(--background)] px-3 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--ring)]"
+                onChange={(event) => setFileName(event.target.value)}
+                value={fileName}
+              />
+            </label>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {TEMPLATES.map((template) => (
+                <button
+                  className={[
+                    "rounded-xl border px-3 py-3 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]",
+                    selectedTemplate === template.fileName
+                      ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent-strong)]"
+                      : "border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--background)]",
+                  ].join(" ")}
+                  key={template.fileName}
+                  onClick={() => {
+                    setSelectedTemplate(template.fileName);
+                    setFileName(template.fileName);
+                  }}
+                  type="button"
+                >
+                  <span className="font-semibold">{template.label}</span>
+                  <span className="mt-1 block text-xs text-[var(--muted-foreground)]">
+                    {template.description}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button onClick={() => setIsOpen(false)} variant="ghost">
+                Cancel
+              </Button>
+              <Button onClick={handleCreate}>Create</Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+interface DeleteFileButtonProps {
+  fileName: string;
+  onDelete: () => void;
+}
+
+function DeleteFileButton({ fileName, onDelete }: DeleteFileButtonProps) {
+  const [confirming, setConfirming] = useState(false);
+
+  if (confirming) {
+    return (
+      <span className="flex shrink-0 items-center gap-1 pr-2">
+        <button
+          className="rounded-lg px-2 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] dark:text-red-300 dark:hover:bg-red-950/30"
+          onClick={() => {
+            setConfirming(false);
+            onDelete();
+          }}
+          type="button"
+        >
+          Delete?
+        </button>
+        <button
+          aria-label={`Cancel deleting ${fileName}`}
+          className="rounded-lg px-2 py-1 text-xs text-[var(--muted-foreground)] hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+          onClick={() => setConfirming(false)}
+          type="button"
+        >
+          Cancel
+        </button>
+      </span>
+    );
+  }
+
+  return (
+    <button
+      aria-label={`Delete ${fileName}`}
+      className="mr-2 shrink-0 rounded-lg px-2 py-1 text-xs text-[var(--muted-foreground)] opacity-0 transition hover:bg-red-50 hover:text-red-600 focus:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] group-hover:opacity-100 dark:hover:bg-red-950/30 dark:hover:text-red-300"
+      onClick={() => setConfirming(true)}
+      type="button"
+    >
+      Del
+    </button>
+  );
+}
+
+function normalizeMarkdownPath(fileName: string): string {
+  const trimmed = fileName.trim().replace(/^\/+/, "");
+
+  if (!trimmed) {
+    return "untitled.md";
+  }
+
+  return /\.(md|markdown)$/i.test(trimmed) ? trimmed : `${trimmed}.md`;
 }
