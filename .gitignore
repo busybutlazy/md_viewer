@@ -30,3 +30,4 @@ test-results/
 .tmp/
 
 codex-wake.sh
+.claude/settings.local.json
