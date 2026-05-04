@@ -36,6 +36,7 @@ interface DocumentState {
   parsed?: ParsedDocument;
   source?: DocumentSource;
   clearDocument: () => void;
+  updateMarkdown: (markdown: string) => void;
   warnings: string[];
 }
 
@@ -60,7 +61,7 @@ const INITIAL_STATE = {
   warnings: [],
 } satisfies Omit<
   DocumentState,
-  "clearDocument" | "loadDocumentFromAdapter"
+  "clearDocument" | "loadDocumentFromAdapter" | "updateMarkdown"
 >;
 
 function parseLoadedDocument(input: {
@@ -110,6 +111,18 @@ export const useDocumentStore = create<DocumentState>()(
         });
 
         return parsedState.mode;
+      },
+      updateMarkdown: (markdown) => {
+        const parsed = parseDocument(markdown);
+
+        set({
+          frontmatter: parsed.frontmatter.data,
+          hasHydrated: true,
+          markdown,
+          mode: parsed.mode,
+          parsed: parsed.parsed,
+          warnings: parsed.warnings,
+        });
       },
       warnings: [],
     }),

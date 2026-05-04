@@ -807,20 +807,20 @@
           "order": "3.5",
           "title": "P2.4 寫回檔案",
           "description": "完成 FS Access 模式下的原檔寫回。驗收：1. 編輯後 Cmd/Ctrl+S 會真正更新磁碟上的檔案。 2. 權限撤銷或寫入失敗有明確錯誤處理。 3. 未存變更關頁警告正常。 4. 外部同檔編輯衝突至少有提示，不可無聲覆蓋。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P2.4 FS Access 原檔寫回、Cmd/Ctrl+S save、儲存副本、錯誤 toast 與衝突提示；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-05",
           "subtasks": [
             {
               "id": "iitxlfe2",
               "order": "3.5.1",
               "title": "實作原檔寫回流程",
               "description": "讓 FS Access 模式可直接寫回檔案並處理成功失敗結果。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "FS Access 文件在 edit page 可透過 adapter.write 寫回同一路徑，成功後同步 document store。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -828,10 +828,10 @@
               "order": "3.5.2",
               "title": "整合儲存快捷鍵與 dirty state",
               "description": "用 Cmd 或 Ctrl 加 S 存檔，並在 UI 顯示未存變更。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "Cmd/Ctrl+S 在 FS Access 模式觸發儲存，upload 模式維持下載；dirty state 成功儲存後清除。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -839,10 +839,10 @@
               "order": "3.5.3",
               "title": "加入衝突與錯誤處理",
               "description": "處理權限撤銷、磁碟問題與外部編輯衝突提示。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "儲存失敗會 toast 顯示錯誤；授權失效提示重新選資料夾；外部修改採目前內容覆蓋並在成功 toast 明示。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             }
           ]

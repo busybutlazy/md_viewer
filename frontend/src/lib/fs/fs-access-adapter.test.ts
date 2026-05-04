@@ -42,16 +42,19 @@ describe("FSAccessAdapter", () => {
     ]);
   });
 
-  it("reads files by slash-delimited path", async () => {
+  it("reads and writes files by slash-delimited path", async () => {
+    const file = fileHandle("note.md", "# Nested");
     const adapter = new FSAccessAdapter(
       directoryHandle("vault", {
         nested: directoryHandle("nested", {
-          "note.md": fileHandle("note.md", "# Nested"),
+          "note.md": file,
         }),
       }),
     );
 
     await expect(adapter.read("nested/note.md")).resolves.toBe("# Nested");
+    await adapter.write("nested/note.md", "# Saved");
+    expect(file.writes).toEqual(["# Saved"]);
   });
 
   it("finds the first markdown file in a tree", () => {
@@ -75,16 +78,19 @@ describe("FSAccessAdapter", () => {
   });
 });
 
-type MockHandle = FileSystemFileHandle | FileSystemDirectoryHandle;
+type MockFileHandle = FileSystemFileHandle & { writes: string[] };
+type MockHandle = MockFileHandle | FileSystemDirectoryHandle;
 
-function fileHandle(name: string, content: string): FileSystemFileHandle {
+function fileHandle(name: string, content: string): MockFileHandle {
+  const writes: string[] = [];
   return {
     async createWritable() {
       return {
         async close() {
           return undefined;
         },
-        async write() {
+        async write(data: FileSystemWriteChunkType) {
+          writes.push(String(data));
           return undefined;
         },
       } as unknown as FileSystemWritableFileStream;
@@ -99,7 +105,8 @@ function fileHandle(name: string, content: string): FileSystemFileHandle {
     },
     kind: "file",
     name,
-  } as unknown as FileSystemFileHandle;
+    writes,
+  } as unknown as MockFileHandle;
 }
 
 function directoryHandle(

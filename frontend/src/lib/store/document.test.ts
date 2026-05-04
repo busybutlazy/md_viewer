@@ -69,4 +69,18 @@ describe("useDocumentStore", () => {
     expect(state.warnings).toEqual([]);
     expect(persisted).toContain("\"state\":{\"warnings\":[]}");
   });
+
+  it("updates markdown after a successful save", async () => {
+    const adapter = createUploadAdapterFromMarkdown("reading.md", "# Reading doc");
+    await useDocumentStore.getState().loadDocumentFromAdapter(adapter);
+
+    useDocumentStore.getState().updateMarkdown("# Updated doc");
+
+    const state = useDocumentStore.getState();
+
+    expect(state.markdown).toBe("# Updated doc");
+    expect(state.parsed && "content" in state.parsed ? state.parsed.content : "").toBe(
+      "# Updated doc",
+    );
+  });
 });

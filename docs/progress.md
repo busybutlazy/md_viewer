@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P2.4`（待開始）— P2.3 授權管理 UI 完成
+**當前階段**：`P2.5`（待開始）— P2.4 寫回檔案完成
 
 ---
 
@@ -33,9 +33,33 @@
 
 ## 日誌
 
+## P2.4 — 寫回檔案
+**完成日期**：2026-05-05
+**Commit**：待提交 `feat(p2.4): 實作編輯後寫回原檔`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- Edit page 在 FS Access 文件中以 `FSAccessAdapter.write(source.path, content)` 寫回原檔
+- `Cmd/Ctrl+S` 在 FS Access 模式觸發 save，upload/template 模式維持下載 `.md`
+- FS Access 模式主按鈕顯示 `Save`，另提供 `Save copy` 下載副本
+- 儲存成功後呼叫 `documentStore.updateMarkdown()`，同步 parsed document 並清除 dirty state
+- 儲存失敗會 toast 顯示錯誤；授權失效時提示重新選資料夾
+- 外部同檔修改目前採「以目前編輯器內容覆蓋」，並在成功 toast 明示
+- 補上 FSAccessAdapter write 測試與 document store update 測試
+
+### 遇到的問題
+- `INITIAL_STATE` 型別需排除新增的 `updateMarkdown` action，否則 typecheck 會要求 initial state 帶函式
+- build 過程曾遇到暫時 `socket hang up` retry，但 Next build 最終成功
+
+### 心得 / 決策
+- 目前先採總是覆蓋策略並提示，避免 P2.4 擴大到完整檔案衝突合併；更嚴謹的外部修改偵測可在後續 watcher / conflict UX 補強
+
+### 下一步
+- 進入 P2.5 重新整理、新建、刪除檔案
+
 ## P2.3 — 授權管理 UI
 **完成日期**：2026-05-05
-**Commit**：待提交 `feat(p2.3): 實作授權管理 UI 與瀏覽器 fallback`
+**Commit**：`5a8a6b8 feat(p2.3): 實作授權管理 UI 與瀏覽器 fallback`
 **驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
 
 ### 本子階段完成項目

@@ -4,7 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { MarkdownView } from "@/components/markdown/MarkdownView";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
+import { useToast } from "@/components/ui/Toast";
 import { createDownloadAdapter } from "@/lib/fs/download-adapter";
+import { restoreFSAccessDirectory } from "@/lib/fs/fs-access-adapter";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { getDownloadFilename } from "@/lib/editor/download";
 import { useDocumentStore } from "@/lib/store/document";
@@ -25,10 +27,14 @@ export default function EditPage() {
   const storedMarkdown = useDocumentStore((state) => state.markdown);
   const fileName = useDocumentStore((state) => state.fileName);
   const frontmatter = useDocumentStore((state) => state.frontmatter);
+  const source = useDocumentStore((state) => state.source);
+  const updateMarkdown = useDocumentStore((state) => state.updateMarkdown);
+  const { pushToast } = useToast();
 
   const [content, setContent] = useState("");
   const [initialized, setInitialized] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("editor");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -60,21 +66,62 @@ export default function EditPage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [isDirty]);
 
+  const isFsAccessDocument = source?.adapterType === "fsaccess";
+  const saveLabel = isFsAccessDocument ? "Save" : "Download .md";
+  const secondaryLabel = isFsAccessDocument ? "Save copy" : undefined;
+
   const handleDownload = useCallback(() => {
     const name = getDownloadFilename(frontmatter?.title, fileName);
     void createDownloadAdapter().write(name, content);
   }, [content, fileName, frontmatter?.title]);
 
+  const handleSave = useCallback(async () => {
+    if (!source || source.adapterType !== "fsaccess") {
+      handleDownload();
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const result = await restoreFSAccessDirectory();
+
+      if (result.status !== "restored") {
+        pushToast({
+          description: "資料夾授權已失效，請重新選擇資料夾後再儲存。",
+          title: "Save failed",
+        });
+        return;
+      }
+
+      await result.adapter.write(source.path, content);
+      updateMarkdown(content);
+      pushToast({
+        description: `${source.path} 已寫回原檔。若外部編輯器同時修改，這次儲存會以目前編輯器內容覆蓋。`,
+        title: "Saved",
+      });
+    } catch (error) {
+      pushToast({
+        description:
+          error instanceof Error
+            ? error.message
+            : "寫入檔案時發生未知錯誤。",
+        title: "Save failed",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  }, [content, handleDownload, pushToast, source, updateMarkdown]);
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === "s") {
         e.preventDefault();
-        handleDownload();
+        void handleSave();
       }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleDownload]);
+  }, [handleSave]);
 
   const headings = useMemo(() => extractMarkdownHeadings(content), [content]);
 
@@ -94,13 +141,25 @@ export default function EditPage() {
         </p>
         <button
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] px-4 py-1.5 text-xs font-semibold transition hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-          onClick={handleDownload}
-          title="Download .md  (⌘S / Ctrl+S)"
+          disabled={isSaving}
+          onClick={() => void handleSave()}
+          title={`${saveLabel}  (⌘S / Ctrl+S)`}
           type="button"
         >
           <DownloadIcon />
-          Download .md
+          {isSaving ? "Saving..." : saveLabel}
         </button>
+        {secondaryLabel ? (
+          <button
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[var(--border-strong)] px-4 py-1.5 text-xs font-semibold text-[var(--muted-foreground)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+            onClick={handleDownload}
+            title="Download a copy"
+            type="button"
+          >
+            <DownloadIcon />
+            {secondaryLabel}
+          </button>
+        ) : null}
       </div>
 
       <div className="flex border-b border-[var(--border)] md:hidden">
