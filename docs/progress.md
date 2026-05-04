@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P1.5.2`（待開始）
+**當前階段**：`P1.5.3`（待開始）
 
 ---
 
@@ -32,6 +32,30 @@
 ---
 
 ## 日誌
+
+## P1.5.2 — 下載機制
+**完成日期**：2026-05-04
+**Commit**：`feat(p1.5.2): 新增 markdown 下載功能`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 建立 `frontend/src/lib/editor/download.ts`：`slugifyTitle`（Unicode-aware）、`getDownloadFilename`（title → fileName → untitled-timestamp fallback）、`downloadMarkdown`（Blob + URL.createObjectURL）
+- 補上 `download.test.ts`，9 個測試覆蓋 slugify 邊界與 filename fallback 邏輯
+- Edit page 加入 toolbar：檔名顯示、「Download .md」按鈕
+- `isDirty` 計算（content !== storedMarkdown，初始化完成後才生效）
+- `document.title` 跟隨 isDirty 加入 `●` 前綴
+- `beforeunload` 在 isDirty 時攔截關閉 tab
+- `Cmd/Ctrl+S` 快捷鍵觸發下載
+
+### 遇到的問題
+- `isDirty` 若在 hydration 前計算會因 content="" 與 storedMarkdown=undefined 誤判為 dirty；加入 `initialized` state，等 useEffect 設定初始 content 後才啟用 isDirty
+
+### 心得 / 決策
+- slugify 以 `\p{L}\p{N}` Unicode property escape 保留中日韓字元，避免中文檔名被全部刪除
+- `beforeunload` 只掛在 `isDirty === true` 時，避免誤攔截
+
+### 下一步
+- 進入 P1.5.3 從範本新建 markdown
 
 ## P1.5.1 — 編輯器整合
 **完成日期**：2026-05-04
