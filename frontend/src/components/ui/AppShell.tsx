@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FolderAccessStatus } from "@/components/folder/FolderAccessStatus";
 import { FolderTreeSidebar } from "@/components/folder/FolderTreeSidebar";
 import { Badge } from "@/components/ui/Badge";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -42,8 +43,9 @@ export function AppShell({ children }: AppShellProps) {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Badge className="hidden lg:inline-flex" tone="accent">
-              Edit Mode
+              Phase 2
             </Badge>
+            <FolderAccessStatus />
             <ThemeToggle />
           </div>
         </div>

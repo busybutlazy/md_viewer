@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 import { ToastProvider } from "@/components/ui/Toast";
 import Home from "./page";
@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("Home", () => {
-  it("renders the product hero, upload flow, and sample section", () => {
+  it("renders the product hero, upload flow, and sample section", async () => {
     render(
       <ToastProvider>
         <Home />
@@ -30,5 +30,10 @@ describe("Home", () => {
     expect(
       screen.queryByRole("button", { name: "Choose Folder" }),
     ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByText("想要瀏覽整個資料夾？請使用 Chrome 或 Edge。"),
+      ).toBeInTheDocument();
+    });
   });
 });

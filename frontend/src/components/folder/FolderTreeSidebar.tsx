@@ -8,6 +8,7 @@ import {
   type FSAccessAdapter,
   restoreFSAccessDirectory,
 } from "@/lib/fs/fs-access-adapter";
+import { subscribeToFSAccessChanged } from "@/lib/fs/fs-access-events";
 import type { FileNode } from "@/lib/fs/types";
 import { countFileNodes, filterFileNodes } from "@/lib/folder/tree";
 import { useDocumentStore } from "@/lib/store/document";
@@ -43,6 +44,9 @@ export function FolderTreeSidebar() {
       }
 
       if (result.status !== "restored") {
+        setAdapter(null);
+        setFolderName(null);
+        setNodes([]);
         setIsReady(true);
         return;
       }
@@ -54,9 +58,11 @@ export function FolderTreeSidebar() {
     }
 
     void restore();
+    const unsubscribe = subscribeToFSAccessChanged(() => void restore());
 
     return () => {
       cancelled = true;
+      unsubscribe();
     };
   }, []);
 

@@ -762,20 +762,20 @@
           "order": "3.4",
           "title": "P2.3 授權管理 UI",
           "description": "完成授權管理與環境對應 UI。驗收：1. 新使用者可理解上傳單檔與選資料夾差異。 2. Safari 使用者不會看到無效 CTA。 3. 清除授權後下次必須重新授權。",
-          "status": "todo",
-          "completion_note": "",
+          "status": "done",
+          "completion_note": "完成 P2.3 授權管理 UI、環境感知首頁 CTA、topbar 資料夾選單、切換/清除授權；lint/test/build 通過。",
           "created_at": "2026-04-18",
-          "updated_at": "2026-04-18",
+          "updated_at": "2026-05-05",
           "subtasks": [
             {
               "id": "bowfmwuy",
               "order": "3.4.1",
               "title": "調整首頁環境感知 CTA",
               "description": "依瀏覽器能力切換上傳單檔與選擇資料夾主按鈕。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "首頁依 showDirectoryPicker 支援狀態顯示資料夾 CTA 或 Chrome/Edge fallback 提示。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -783,10 +783,10 @@
               "order": "3.4.2",
               "title": "建立授權後 topbar 狀態",
               "description": "顯示資料夾名稱、切換資料夾與清除授權入口。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "topbar 顯示已授權資料夾，提供 Switch folder 與 Clear permission。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             },
             {
@@ -794,10 +794,10 @@
               "order": "3.4.3",
               "title": "完善 fallback 與清除流程",
               "description": "處理不支援瀏覽器提示、清除 IDB 與 store 重置。",
-              "status": "todo",
-              "completion_note": "",
+              "status": "done",
+              "completion_note": "清除授權會刪除 IndexedDB handle、清 document/exam/slides/folder 狀態並回首頁。",
               "created_at": "2026-04-18",
-              "updated_at": "2026-04-18",
+              "updated_at": "2026-05-05",
               "subtasks": []
             }
           ]

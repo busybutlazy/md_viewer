@@ -11,6 +11,10 @@ import {
   type FSAccessAdapter,
   restoreFSAccessDirectory,
 } from "@/lib/fs/fs-access-adapter";
+import {
+  notifyFSAccessChanged,
+  subscribeToFSAccessChanged,
+} from "@/lib/fs/fs-access-events";
 import { isFileSystemAccessSupported } from "@/lib/fs/fs-access-support";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
@@ -18,7 +22,7 @@ import { useExamSessionStore } from "@/lib/store/exam-session";
 export function FolderAccessPanel() {
   const [adapter, setAdapter] = useState<FSAccessAdapter | null>(null);
   const [folderName, setFolderName] = useState<string | null>(null);
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported, setIsSupported] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
@@ -27,6 +31,7 @@ export function FolderAccessPanel() {
 
   useEffect(() => {
     if (!isFileSystemAccessSupported()) {
+      setIsSupported(false);
       return;
     }
 
@@ -55,14 +60,29 @@ export function FolderAccessPanel() {
     }
 
     void restore();
+    const unsubscribe = subscribeToFSAccessChanged(() => void restore());
 
     return () => {
       cancelled = true;
+      unsubscribe();
     };
   }, [pushToast]);
 
-  if (!isSupported) {
+  if (isSupported === null) {
     return null;
+  }
+
+  if (!isSupported) {
+    return (
+      <div className="mb-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <p className="text-sm font-semibold text-[var(--foreground)]">
+          Upload a single markdown file
+        </p>
+        <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
+          想要瀏覽整個資料夾？請使用 Chrome 或 Edge。
+        </p>
+      </div>
+    );
   }
 
   async function handleChooseFolder() {
@@ -81,6 +101,7 @@ export function FolderAccessPanel() {
 
       setAdapter(nextAdapter);
       setFolderName(nextAdapter.rootName);
+      notifyFSAccessChanged();
       await openFirstMarkdown(nextAdapter);
     } finally {
       setIsLoading(false);

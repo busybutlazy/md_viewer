@@ -2,7 +2,7 @@
 
 本文件記錄開發進度。每個子階段完成後由 `git-workflow-specialist` 附加一筆。
 
-**當前階段**：`P2.3`（待開始）— P2.2 資料夾樹側邊欄完成
+**當前階段**：`P2.4`（待開始）— P2.3 授權管理 UI 完成
 
 ---
 
@@ -33,9 +33,32 @@
 
 ## 日誌
 
+## P2.3 — 授權管理 UI
+**完成日期**：2026-05-05
+**Commit**：待提交 `feat(p2.3): 實作授權管理 UI 與瀏覽器 fallback`
+**驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
+
+### 本子階段完成項目
+- 首頁 `FolderAccessPanel` 改為環境感知：支援 FS Access 顯示資料夾 CTA，不支援則顯示 Chrome / Edge fallback 提示
+- 建立 `FolderAccessStatus`，topbar 顯示目前授權資料夾名稱
+- topbar 下拉選單支援 `Switch folder` 與 `Clear permission`
+- 清除授權會刪除 IndexedDB directory handle，清空 document / exam / slides / folder drawer 狀態並回首頁
+- 建立 `fs-access-events.ts`，讓首頁、topbar 與 sidebar 在切換/清除授權時同步刷新
+- 更新首頁測試，確認不支援環境不會顯示無效的 `Choose Folder` CTA，且顯示 fallback 文案
+
+### 遇到的問題
+- Sidebar 與 topbar 都需要感知授權狀態變化；用輕量 browser event 解耦，避免把 FileSystemHandle 放進 JSON persist store
+
+### 心得 / 決策
+- P2.3 仍維持 client-only，不引入全域 handle store；handle 的 durable source of truth 是 IndexedDB
+- 清除授權採完整狀態清理，確保下次使用必須重新授權
+
+### 下一步
+- 進入 P2.4 寫回檔案
+
 ## P2.2 — 資料夾樹側邊欄
 **完成日期**：2026-05-05
-**Commit**：待提交 `feat(p2.2): 實作資料夾樹側邊欄與檔案瀏覽`
+**Commit**：`b0b8878 feat(p2.2): 實作資料夾樹側邊欄與檔案瀏覽`
 **驗收**：✅ lint / ✅ test / ✅ build / ✅ 手動驗收
 
 ### 本子階段完成項目
