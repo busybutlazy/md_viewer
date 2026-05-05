@@ -9,6 +9,8 @@ aspectRatio: "16:9"
 
 從單一 markdown 檔案，直接切換成閱讀、考試與簡報模式。
 
+![Open book on a desk](https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1400&q=80)
+
 <!-- speaker: 開場時先說明這個產品不是編輯器，而是閱讀與展示工作流。 -->
 
 ---
@@ -33,6 +35,8 @@ aspectRatio: "16:9"
 
 ## Reading Mode
 
+![Reading long-form content](https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1400&q=80)
+
 - 長文排版
 - Table of Contents
 - Reading progress
@@ -41,6 +45,8 @@ aspectRatio: "16:9"
 ---
 
 ## Exam Mode
+
+![Student taking an exam](https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=1400&q=80)
 
 - 單選 / 複選
 - sessionStorage 持久化
@@ -82,6 +88,8 @@ server:
 ---
 
 ## Speaker View
+
+![Presenter on stage](https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1400&q=80)
 
 講者模式需要：
 
