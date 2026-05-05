@@ -9,6 +9,7 @@ import {
   chooseFSAccessDirectory,
   findFirstMarkdownFile,
   type FSAccessAdapter,
+  reauthorizeFSAccessDirectory,
   restoreFSAccessDirectory,
 } from "@/lib/fs/fs-access-adapter";
 import {
@@ -22,6 +23,7 @@ import { useExamSessionStore } from "@/lib/store/exam-session";
 export function FolderAccessPanel() {
   const [adapter, setAdapter] = useState<FSAccessAdapter | null>(null);
   const [folderName, setFolderName] = useState<string | null>(null);
+  const [needsReauth, setNeedsReauth] = useState(false);
   const [isSupported, setIsSupported] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
@@ -48,6 +50,13 @@ export function FolderAccessPanel() {
       if (result.status === "restored") {
         setAdapter(result.adapter);
         setFolderName(result.adapter.rootName);
+        setNeedsReauth(false);
+        return;
+      }
+
+      if (result.reason === "needs-reauth") {
+        setFolderName(result.folderName);
+        setNeedsReauth(true);
         return;
       }
 
@@ -74,7 +83,7 @@ export function FolderAccessPanel() {
 
   if (!isSupported) {
     return (
-      <div className="mb-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
         <p className="text-sm font-semibold text-[var(--foreground)]">
           Upload a single markdown file
         </p>
@@ -101,6 +110,29 @@ export function FolderAccessPanel() {
 
       setAdapter(nextAdapter);
       setFolderName(nextAdapter.rootName);
+      notifyFSAccessChanged();
+      await openFirstMarkdown(nextAdapter);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleReauthorize() {
+    setIsLoading(true);
+    try {
+      const nextAdapter = await reauthorizeFSAccessDirectory();
+      if (!nextAdapter) {
+        setFolderName(null);
+        setNeedsReauth(false);
+        pushToast({
+          description: "授權失敗，請重新選擇資料夾。",
+          title: "Folder permission expired",
+        });
+        return;
+      }
+      setAdapter(nextAdapter);
+      setFolderName(nextAdapter.rootName);
+      setNeedsReauth(false);
       notifyFSAccessChanged();
       await openFirstMarkdown(nextAdapter);
     } finally {
@@ -144,16 +176,11 @@ export function FolderAccessPanel() {
   }
 
   return (
-    <div className="mb-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[var(--foreground)]">
-            {folderName ? `Folder: ${folderName}` : "Open a local folder"}
-          </p>
-          <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
-            Chrome / Edge can keep folder permission for the next session.
-          </p>
-        </div>
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <p className="min-w-0 truncate text-sm font-semibold text-[var(--foreground)]">
+          {folderName ? `Folder: ${folderName}` : "Open a local folder"}
+        </p>
         <div className="flex shrink-0 gap-2">
           {adapter ? (
             <Button
@@ -162,6 +189,14 @@ export function FolderAccessPanel() {
               variant="secondary"
             >
               Continue
+            </Button>
+          ) : needsReauth ? (
+            <Button
+              disabled={isLoading}
+              onClick={() => void handleReauthorize()}
+              variant="secondary"
+            >
+              Re-authorize
             </Button>
           ) : null}
           <Button disabled={isLoading} onClick={() => void handleChooseFolder()}>

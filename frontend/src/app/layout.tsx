@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Noto_Sans_TC } from "next/font/google";
 import { AppShell } from "@/components/ui/AppShell";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
+import { LocaleProvider } from "@/lib/i18n";
 import "./globals.css";
 
 const inter = Inter({
@@ -51,11 +52,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${notoSansTc.variable} ${jetBrainsMono.variable} min-h-screen font-sans text-[var(--foreground)] antialiased`}
       >
-        <ThemeProvider>
-          <ToastProvider>
-            <AppShell>{children}</AppShell>
-          </ToastProvider>
-        </ThemeProvider>
+        <LocaleProvider>
+          <ThemeProvider>
+            <ToastProvider>
+              <AppShell>{children}</AppShell>
+            </ToastProvider>
+          </ThemeProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/Button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
@@ -22,8 +21,10 @@ import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
+import { useT } from "@/lib/i18n";
 
 export default function ExamPage() {
+  const t = useT();
   const router = useRouter();
   const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("quiz");
   const warnings = useDocumentStore((state) => state.warnings);
@@ -127,25 +128,19 @@ export default function ExamPage() {
           <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-3">
               <Badge className="w-fit" tone="accent">
-                Exam Mode
+                {t.exam.badge}
               </Badge>
-              <div className="space-y-2">
-                <CardTitle>{quiz.meta.title}</CardTitle>
-                <CardDescription>
-                  單選與複選都採單頁卷軸作答。答案與倒數時間會保存在
-                  sessionStorage，重新整理後不會遺失。
-                </CardDescription>
-              </div>
+              <CardTitle>{quiz.meta.title}</CardTitle>
             </div>
             <ExamTimer remainingSeconds={remainingSeconds} />
           </CardHeader>
           <CardContent className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border)] pt-5">
             <p className="text-sm text-[var(--muted-foreground)]">
-              未作答 {unansweredNumbers.length} 題，已作答 {answeredCount} 題。
+              {t.exam.progress(unansweredNumbers.length, answeredCount)}
             </p>
             <div className="flex gap-3">
               <UploadTriggerButton />
-              <Button onClick={() => setIsSubmitDialogOpen(true)}>Submit Exam</Button>
+              <Button onClick={() => setIsSubmitDialogOpen(true)}>{t.exam.submit}</Button>
             </div>
           </CardContent>
         </Card>

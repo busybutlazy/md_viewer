@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { MarkdownView } from "@/components/markdown/MarkdownView";
 import { ReadingProgress } from "@/components/markdown/ReadingProgress";
 import { TableOfContents } from "@/components/markdown/TableOfContents";
@@ -10,7 +11,6 @@ import { Badge } from "@/components/ui/Badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
@@ -18,9 +18,10 @@ import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { useDocumentStore } from "@/lib/store/document";
-import Link from "next/link";
+import { useT } from "@/lib/i18n";
 
 export default function ReadPage() {
+  const t = useT();
   const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("reading");
   const warnings = useDocumentStore((state) => state.warnings);
   const fileName = useDocumentStore((state) => state.fileName);
@@ -43,33 +44,26 @@ export default function ReadPage() {
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="space-y-6">
             <Card className="overflow-hidden border-[var(--border-strong)] bg-[var(--surface-strong)]">
-              <CardHeader className="space-y-4">
+              <CardHeader className="space-y-3">
                 <Badge className="w-fit" tone="accent">
-                  Reading Mode
+                  {t.read.badge}
                 </Badge>
-                <div className="space-y-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
-                    Long-form markdown reader
-                  </p>
-                  <CardTitle className="max-w-4xl text-3xl sm:text-5xl">
-                    {parsed.meta.title ?? fileName ?? "Untitled Reading Document"}
-                  </CardTitle>
-                  <CardDescription className="max-w-3xl text-base">
-                    為長文、表格、圖片與程式碼區塊打造的閱讀介面。內容來自
-                    document store，重新整理後仍會保留在 sessionStorage。
-                  </CardDescription>
-                </div>
+                <CardTitle className="max-w-4xl text-3xl sm:text-5xl">
+                  {parsed.meta.title ?? fileName ?? t.read.untitled}
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-4 border-t border-[var(--border)] pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                <p className="text-sm text-[var(--muted-foreground)]">
-                  File:{" "}
-                  <span className="font-semibold text-[var(--foreground)]">
-                    {fileName ?? "Unknown"}
-                  </span>
-                </p>
+                {fileName ? (
+                  <p className="text-sm text-[var(--muted-foreground)]">
+                    {t.read.file}{" "}
+                    <span className="font-semibold text-[var(--foreground)]">
+                      {fileName}
+                    </span>
+                  </p>
+                ) : null}
                 {frontmatter?.author ? (
                   <p className="text-sm text-[var(--muted-foreground)]">
-                    Author:{" "}
+                    {t.read.author}{" "}
                     <span className="font-semibold text-[var(--foreground)]">
                       {frontmatter.author}
                     </span>
@@ -77,7 +71,7 @@ export default function ReadPage() {
                 ) : null}
                 {frontmatter?.date ? (
                   <p className="text-sm text-[var(--muted-foreground)]">
-                    Date:{" "}
+                    {t.read.date}{" "}
                     <span className="font-semibold text-[var(--foreground)]">
                       {frontmatter.date}
                     </span>
@@ -97,7 +91,7 @@ export default function ReadPage() {
                   className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] px-5 text-sm font-semibold transition hover:bg-[var(--surface)]"
                   href="/edit"
                 >
-                  Edit
+                  {t.read.edit}
                 </Link>
               </CardContent>
             </Card>

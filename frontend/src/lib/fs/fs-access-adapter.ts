@@ -21,7 +21,8 @@ interface PermissionHandle {
 
 export type RestoreFSAccessResult =
   | { adapter: FSAccessAdapter; status: "restored" }
-  | { reason: "not-supported" | "missing-handle" | "permission-denied"; status: "unavailable" };
+  | { reason: "not-supported" | "missing-handle" | "permission-denied"; status: "unavailable" }
+  | { folderName: string; reason: "needs-reauth"; status: "unavailable" };
 
 export class FSAccessAdapter implements FileSystemAdapter {
   readonly type = "fsaccess" as const;
@@ -162,13 +163,36 @@ export async function restoreFSAccessDirectory(): Promise<RestoreFSAccessResult>
     return { reason: "missing-handle", status: "unavailable" };
   }
 
-  const permitted = await ensureReadWritePermission(handle);
-  if (!permitted) {
+  const permissionHandle = handle as PermissionHandle;
+  const descriptor = { mode: "readwrite" as const };
+  const current = await permissionHandle.queryPermission?.(descriptor);
+
+  if (current === "granted") {
+    return { adapter: new FSAccessAdapter(handle), status: "restored" };
+  }
+
+  if (current === "denied") {
     await clearDirectoryHandle();
     return { reason: "permission-denied", status: "unavailable" };
   }
 
-  return { adapter: new FSAccessAdapter(handle), status: "restored" };
+  // "prompt" — handle is still valid but requestPermission needs a user gesture
+  return { folderName: handle.name, reason: "needs-reauth", status: "unavailable" };
+}
+
+export async function reauthorizeFSAccessDirectory(): Promise<FSAccessAdapter | undefined> {
+  const handle = await loadDirectoryHandle();
+  if (!handle) {
+    return undefined;
+  }
+
+  const permitted = await ensureReadWritePermission(handle);
+  if (!permitted) {
+    await clearDirectoryHandle();
+    return undefined;
+  }
+
+  return new FSAccessAdapter(handle);
 }
 
 export async function clearPersistedFSAccessDirectory(): Promise<void> {

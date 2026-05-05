@@ -14,44 +14,10 @@ import { getRouteByDocumentMode } from "@/lib/document-routes";
 import { createUploadAdapterFromMarkdown } from "@/lib/fs/upload-adapter";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
-
-interface SampleCard {
-  badge: string;
-  description: string;
-  fileName: string;
-  modeLabel: string;
-  preview: string;
-  title: string;
-}
-
-const SAMPLE_CARDS: SampleCard[] = [
-  {
-    badge: "Reading",
-    description: "長文排版、圖片、表格與 code block 的完整閱讀示範。",
-    fileName: "reading-sample.md",
-    modeLabel: "閱讀模式",
-    preview: "1500+ 字技術文章，適合驗證 TOC、progress 與 typography。",
-    title: "React 19 閱讀深潛",
-  },
-  {
-    badge: "Exam",
-    description: "10 題選擇題，含複選與多種詳解格式。",
-    fileName: "exam-sample.md",
-    modeLabel: "考試模式",
-    preview: "涵蓋單選、複選、長詳解與 Markdown explanation。",
-    title: "JavaScript 與 React 小測",
-  },
-  {
-    badge: "Slides",
-    description: "12 頁簡報，驗證 theme、speaker notes 與 print deck。",
-    fileName: "slides-sample.md",
-    modeLabel: "簡報模式",
-    preview: "展示 default / dark / minimal 風格與 code block 分頁。",
-    title: "Product Narrative Deck",
-  },
-];
+import { useT } from "@/lib/i18n";
 
 export function SampleCards() {
+  const t = useT();
   const clearExamSession = useExamSessionStore((state) => state.clearSession);
   const router = useRouter();
   const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
@@ -62,13 +28,19 @@ export function SampleCards() {
     const adapter = createUploadAdapterFromMarkdown(fileName, markdown);
     clearExamSession();
     const nextMode = await loadDocumentFromAdapter(adapter);
-
     router.push(getRouteByDocumentMode(nextMode));
   }
 
   return (
+    <div className="space-y-6">
+      <div>
+        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
+          {t.home.samples.label}
+        </p>
+        <h2 className="text-2xl font-semibold tracking-tight">{t.home.samples.heading}</h2>
+      </div>
     <section className="grid gap-4 lg:grid-cols-3">
-      {SAMPLE_CARDS.map((sample) => (
+      {t.sampleCards.items.map((sample) => (
         <Card className="flex flex-col overflow-hidden border-[var(--border-strong)] bg-[var(--surface-strong)]" key={sample.fileName}>
           <CardHeader className="flex-1 space-y-4">
             <div className="flex items-center justify-between gap-3">
@@ -88,7 +60,7 @@ export function SampleCards() {
             </div>
             <div className="flex gap-2">
               <Button onClick={() => void handleOpenSample(sample.fileName)}>
-                Try it
+                {t.sampleCards.tryIt}
               </Button>
               <a
                 className="inline-flex items-center gap-1.5 rounded-[1.25rem] border border-[var(--border-strong)] px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition hover:border-[var(--accent)] hover:text-[var(--foreground)]"
@@ -98,12 +70,13 @@ export function SampleCards() {
                 <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 4v11" />
                 </svg>
-                Template
+                {t.sampleCards.template}
               </a>
             </div>
           </CardContent>
         </Card>
       ))}
     </section>
+    </div>
   );
 }

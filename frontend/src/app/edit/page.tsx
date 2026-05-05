@@ -10,6 +10,7 @@ import { restoreFSAccessDirectory } from "@/lib/fs/fs-access-adapter";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { getDownloadFilename } from "@/lib/editor/download";
 import { useDocumentStore } from "@/lib/store/document";
+import { useT } from "@/lib/i18n";
 
 const EditorPane = dynamic(
   () => import("@/components/editor/EditorPane").then((m) => ({ default: m.EditorPane })),
@@ -22,6 +23,7 @@ const EditorPane = dynamic(
 type ActiveTab = "editor" | "preview";
 
 export default function EditPage() {
+  const t = useT();
   const [mounted, setMounted] = useState(false);
   const hasHydrated = useDocumentStore((state) => state.hasHydrated);
   const storedMarkdown = useDocumentStore((state) => state.markdown);
@@ -67,8 +69,8 @@ export default function EditPage() {
   }, [isDirty]);
 
   const isFsAccessDocument = source?.adapterType === "fsaccess";
-  const saveLabel = isFsAccessDocument ? "Save" : "Download .md";
-  const secondaryLabel = isFsAccessDocument ? "Save copy" : undefined;
+  const saveLabel = isFsAccessDocument ? t.edit.save : t.edit.download;
+  const secondaryLabel = isFsAccessDocument ? t.edit.saveCopy : undefined;
 
   const handleDownload = useCallback(() => {
     const name = getDownloadFilename(frontmatter?.title, fileName);
@@ -87,8 +89,8 @@ export default function EditPage() {
 
       if (result.status !== "restored") {
         pushToast({
-          description: "資料夾授權已失效，請重新選擇資料夾後再儲存。",
-          title: "Save failed",
+          description: t.edit.toast.saveFailed.authExpired,
+          title: t.edit.toast.saveFailed.title,
         });
         return;
       }
@@ -96,16 +98,16 @@ export default function EditPage() {
       await result.adapter.write(source.path, content);
       updateMarkdown(content);
       pushToast({
-        description: `${source.path} 已寫回原檔。若外部編輯器同時修改，這次儲存會以目前編輯器內容覆蓋。`,
-        title: "Saved",
+        description: t.edit.toast.saved.desc(source.path),
+        title: t.edit.toast.saved.title,
       });
     } catch (error) {
       pushToast({
         description:
           error instanceof Error
             ? error.message
-            : "寫入檔案時發生未知錯誤。",
-        title: "Save failed",
+            : t.edit.toast.saveFailed.unknown,
+        title: t.edit.toast.saveFailed.title,
       });
     } finally {
       setIsSaving(false);
@@ -147,7 +149,7 @@ export default function EditPage() {
           type="button"
         >
           <DownloadIcon />
-          {isSaving ? "Saving..." : saveLabel}
+          {isSaving ? t.edit.saving : saveLabel}
         </button>
         {secondaryLabel ? (
           <button
@@ -167,13 +169,13 @@ export default function EditPage() {
           active={activeTab === "editor"}
           onClick={() => setActiveTab("editor")}
         >
-          Editor
+          {t.edit.tab.editor}
         </TabButton>
         <TabButton
           active={activeTab === "preview"}
           onClick={() => setActiveTab("preview")}
         >
-          Preview
+          {t.edit.tab.preview}
         </TabButton>
       </div>
 

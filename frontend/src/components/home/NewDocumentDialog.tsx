@@ -6,8 +6,10 @@ import { createUploadAdapterFromMarkdown } from "@/lib/fs/upload-adapter";
 import { TEMPLATES } from "@/lib/templates";
 import { useDocumentStore } from "@/lib/store/document";
 import { useExamSessionStore } from "@/lib/store/exam-session";
+import { useT } from "@/lib/i18n";
 
 export function NewDocumentDialog() {
+  const t = useT();
   const [isOpen, setIsOpen] = useState(false);
   const titleId = useId();
   const router = useRouter();
@@ -30,16 +32,14 @@ export function NewDocumentDialog() {
         type="button"
       >
         <PlusIcon />
-        <span className="ml-1.5">New .md</span>
+        <span className="ml-1.5">{t.newDocDialog.button}</span>
       </button>
 
       {isOpen ? (
         <div
           aria-hidden={false}
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setIsOpen(false);
-          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setIsOpen(false); }}
         >
           <div
             aria-labelledby={titleId}
@@ -49,15 +49,11 @@ export function NewDocumentDialog() {
           >
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold" id={titleId}>
-                  新建 Markdown 檔
-                </h2>
-                <p className="mt-1 text-sm leading-7 text-[var(--muted-foreground)]">
-                  選擇範本，直接進入編輯器。
-                </p>
+                <h2 className="text-xl font-semibold" id={titleId}>{t.newDocDialog.title}</h2>
+                <p className="mt-1 text-sm leading-7 text-[var(--muted-foreground)]">{t.newDocDialog.subtitle}</p>
               </div>
               <button
-                aria-label="Close dialog"
+                aria-label={t.newDocDialog.close}
                 className="rounded-xl p-2 text-[var(--muted-foreground)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
                 onClick={() => setIsOpen(false)}
                 type="button"
@@ -67,21 +63,24 @@ export function NewDocumentDialog() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              {TEMPLATES.map((t) => (
-                <button
-                  className="flex flex-col items-start rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-4 text-left transition hover:border-[var(--accent)] hover:bg-[var(--background)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                  key={t.fileName}
-                  onClick={() => void handleSelect(t.fileName, t.markdown)}
-                  type="button"
-                >
-                  <p className="text-sm font-semibold text-[var(--foreground)]">
-                    {t.label}
-                  </p>
-                  <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
-                    {t.description}
-                  </p>
-                </button>
-              ))}
+              {TEMPLATES.map((tmpl) => {
+                const translated = t.templates[tmpl.fileName];
+                return (
+                  <button
+                    className="flex flex-col items-start rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-4 text-left transition hover:border-[var(--accent)] hover:bg-[var(--background)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                    key={tmpl.fileName}
+                    onClick={() => void handleSelect(tmpl.fileName, tmpl.markdown)}
+                    type="button"
+                  >
+                    <p className="text-sm font-semibold text-[var(--foreground)]">
+                      {translated?.label ?? tmpl.label}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
+                      {translated?.description ?? tmpl.description}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -92,15 +91,7 @@ export function NewDocumentDialog() {
 
 function PlusIcon() {
   return (
-    <svg
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24">
       <path d="M12 5v14M5 12h14" />
     </svg>
   );
@@ -108,16 +99,21 @@ function PlusIcon() {
 
 function CloseIcon() {
   return (
-    <svg
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24">
       <path d="M18 6L6 18M6 6l12 12" />
     </svg>
+  );
+}
+
+export function NewDocumentCard() {
+  const t = useT();
+  return (
+    <div className="flex h-full flex-col justify-between rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] backdrop-blur">
+      <div>
+        <p className="text-sm font-semibold text-[var(--foreground)]">{t.home.newDoc.title}</p>
+        <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">{t.home.newDoc.desc}</p>
+      </div>
+      <NewDocumentDialog />
+    </div>
   );
 }

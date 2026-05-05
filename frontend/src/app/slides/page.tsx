@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/Badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
@@ -21,8 +20,10 @@ import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
 import { useDocumentStore } from "@/lib/store/document";
 import { useSlidesSessionStore } from "@/lib/store/slides-session";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
 
 export default function SlidesPage() {
+  const t = useT();
   const { hasHydrated, mode, parsed, shouldShowPrompt } = useRequireDocument("slides");
   const warnings = useDocumentStore((state) => state.warnings);
   const activeIndex = useSlidesSessionStore((state) => state.activeIndex);
@@ -179,16 +180,12 @@ export default function SlidesPage() {
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-3">
                   <Badge className="w-fit" tone="accent">
-                    Slides Mode
+                    {t.slides.badge}
                   </Badge>
                   <Badge tone="outline">{deck.meta.theme}</Badge>
                   <Badge tone="outline">{deck.meta.aspectRatio}</Badge>
                 </div>
                 <CardTitle>{deck.meta.title}</CardTitle>
-                <CardDescription>
-                  鍵盤切頁、overview、speaker mode、fullscreen 與 print export
-                  都在這個模式內完成。
-                </CardDescription>
               </CardHeader>
               <CardContent className="border-t border-[var(--border)] pt-5">
                 <UploadTriggerButton />
@@ -208,7 +205,7 @@ export default function SlidesPage() {
           ) : (
             <Card className="border-[var(--border-strong)] bg-[var(--surface-strong)]">
               <CardContent className="mt-0 py-8 text-sm text-[var(--muted-foreground)]">
-                目前沒有可顯示的投影片。請確認 markdown 內容包含有效分頁。
+                {t.slides.noSlides}
               </CardContent>
             </Card>
           )}
