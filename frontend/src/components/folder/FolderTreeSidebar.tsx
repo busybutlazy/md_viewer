@@ -7,9 +7,10 @@ import { useToast } from "@/components/ui/Toast";
 import { getRouteByDocumentMode } from "@/lib/document-routes";
 import {
   type FSAccessAdapter,
+  clearPersistedFSAccessDirectory,
   restoreFSAccessDirectory,
 } from "@/lib/fs/fs-access-adapter";
-import { subscribeToFSAccessChanged } from "@/lib/fs/fs-access-events";
+import { notifyFSAccessChanged, subscribeToFSAccessChanged } from "@/lib/fs/fs-access-events";
 import type { FileNode } from "@/lib/fs/types";
 import { countFileNodes, filterFileNodes } from "@/lib/folder/tree";
 import { useDocumentStore } from "@/lib/store/document";
@@ -26,9 +27,11 @@ export function FolderTreeSidebar() {
   const [isReady, setIsReady] = useState(false);
   const closeDrawer = useFolderSessionStore((state) => state.closeDrawer);
   const isDrawerOpen = useFolderSessionStore((state) => state.isDrawerOpen);
+  const isSidebarCollapsed = useFolderSessionStore((state) => state.isSidebarCollapsed);
   const openDrawer = useFolderSessionStore((state) => state.openDrawer);
   const searchQuery = useFolderSessionStore((state) => state.searchQuery);
   const setSearchQuery = useFolderSessionStore((state) => state.setSearchQuery);
+  const toggleSidebarCollapsed = useFolderSessionStore((state) => state.toggleSidebarCollapsed);
   const currentPath = useDocumentStore((state) => state.source?.path);
   const loadDocumentFromAdapter = useDocumentStore((state) => state.loadDocumentFromAdapter);
   const clearDocument = useDocumentStore((state) => state.clearDocument);
@@ -125,6 +128,16 @@ export function FolderTreeSidebar() {
     });
   }
 
+  async function unmountFolder() {
+    await clearPersistedFSAccessDirectory();
+    clearDocument();
+    clearExamSession();
+    resetSlidesSession();
+    closeDrawer();
+    notifyFSAccessChanged();
+    router.push("/");
+  }
+
   async function openFile(path: string) {
     if (!adapter) {
       return;
@@ -148,6 +161,7 @@ export function FolderTreeSidebar() {
       onFileCreate={(path, markdown) => void createFile(path, markdown)}
       onFileDelete={(path) => void deleteFile(path)}
       onRefresh={() => void refreshTree()}
+      onUnmount={() => void unmountFolder()}
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
     />
@@ -163,8 +177,38 @@ export function FolderTreeSidebar() {
         Files
       </button>
 
-      <aside className="hidden h-[calc(100vh-80px)] w-80 shrink-0 border-r border-[var(--border)] bg-[var(--surface)] lg:sticky lg:top-[80px] lg:block">
-        {content}
+      <aside
+        className={[
+          "hidden h-[calc(100vh-80px)] shrink-0 border-r border-[var(--border)] bg-[var(--surface)] transition-[width] duration-200 lg:sticky lg:top-[80px] lg:block",
+          isSidebarCollapsed ? "w-10" : "w-80",
+        ].join(" ")}
+      >
+        {isSidebarCollapsed ? (
+          <div className="flex h-full flex-col items-center pt-3">
+            <button
+              aria-label="Expand sidebar"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              onClick={toggleSidebarCollapsed}
+              title="Expand sidebar"
+              type="button"
+            >
+              ›
+            </button>
+          </div>
+        ) : (
+          <div className="relative flex h-full flex-col">
+            <button
+              aria-label="Collapse sidebar"
+              className="absolute right-2 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-lg text-sm text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+              onClick={toggleSidebarCollapsed}
+              title="Collapse sidebar"
+              type="button"
+            >
+              ‹
+            </button>
+            {content}
+          </div>
+        )}
       </aside>
 
       {isDrawerOpen ? (
@@ -201,6 +245,7 @@ interface FolderTreeContentProps {
   onFileDelete: (path: string) => void;
   onFileOpen: (path: string) => void;
   onRefresh: () => void;
+  onUnmount: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }
@@ -215,12 +260,13 @@ function FolderTreeContent({
   onFileDelete,
   onFileOpen,
   onRefresh,
+  onUnmount,
   searchQuery,
   setSearchQuery,
 }: FolderTreeContentProps) {
   return (
     <div className="flex h-full flex-col">
-      <div className="space-y-3 border-b border-[var(--border)] p-4">
+      <div className="space-y-3 border-b border-[var(--border)] p-4 pr-9">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-[var(--foreground)]">
@@ -242,6 +288,7 @@ function FolderTreeContent({
             </Button>
           </div>
         </div>
+        <EjectButton onUnmount={onUnmount} />
         <label className="block">
           <span className="sr-only">Search markdown files</span>
           <input
@@ -437,6 +484,46 @@ function NewFileDialog({ onCreate }: NewFileDialogProps) {
         </div>
       ) : null}
     </>
+  );
+}
+
+interface EjectButtonProps {
+  onUnmount: () => void;
+}
+
+function EjectButton({ onUnmount }: EjectButtonProps) {
+  const [confirming, setConfirming] = useState(false);
+
+  if (confirming) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-[var(--muted-foreground)]">卸載資料夾？</span>
+        <button
+          className="rounded-lg px-2 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] dark:text-red-300 dark:hover:bg-red-950/30"
+          onClick={() => { setConfirming(false); onUnmount(); }}
+          type="button"
+        >
+          確認
+        </button>
+        <button
+          className="rounded-lg px-2 py-1 text-xs text-[var(--muted-foreground)] hover:bg-[var(--surface-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+          onClick={() => setConfirming(false)}
+          type="button"
+        >
+          取消
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      className="w-full rounded-lg px-2 py-1.5 text-left text-xs text-[var(--muted-foreground)] transition hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] dark:hover:bg-red-950/30 dark:hover:text-red-300"
+      onClick={() => setConfirming(true)}
+      type="button"
+    >
+      ⏏ 卸載資料夾
+    </button>
   );
 }
 

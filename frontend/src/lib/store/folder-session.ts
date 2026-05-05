@@ -6,11 +6,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface FolderSessionState {
   expandedPaths: string[];
   isDrawerOpen: boolean;
+  isSidebarCollapsed: boolean;
   searchQuery: string;
   closeDrawer: () => void;
   openDrawer: () => void;
   setSearchQuery: (query: string) => void;
   toggleExpanded: (path: string) => void;
+  toggleSidebarCollapsed: () => void;
 }
 
 export const useFolderSessionStore = create<FolderSessionState>()(
@@ -18,6 +20,7 @@ export const useFolderSessionStore = create<FolderSessionState>()(
     (set) => ({
       expandedPaths: [],
       isDrawerOpen: false,
+      isSidebarCollapsed: false,
       searchQuery: "",
       closeDrawer: () => set({ isDrawerOpen: false }),
       openDrawer: () => set({ isDrawerOpen: true }),
@@ -28,11 +31,14 @@ export const useFolderSessionStore = create<FolderSessionState>()(
             ? state.expandedPaths.filter((item) => item !== path)
             : [...state.expandedPaths, path],
         })),
+      toggleSidebarCollapsed: () =>
+        set((state) => ({ isSidebarCollapsed: !state.isSidebarCollapsed })),
     }),
     {
       name: "mrp-folder-session",
       partialize: (state) => ({
         expandedPaths: state.expandedPaths,
+        isSidebarCollapsed: state.isSidebarCollapsed,
         searchQuery: state.searchQuery,
       }),
       storage: createJSONStorage(() => sessionStorage),
