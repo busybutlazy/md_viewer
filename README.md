@@ -26,6 +26,30 @@ docker compose run --rm app pnpm test
 docker compose run --rm app pnpm build
 ```
 
+## 正式部署（Production）
+
+適用於 Raspberry Pi 或伺服器環境。使用獨立的 production compose，會在 container 啟動時完整編譯，使用者連線後即時回應。
+
+**首次啟動（含 build）：**
+
+```bash
+docker compose -f docker-compose.product.yml up -d --build
+```
+
+之後重開機會自動恢復運行，無需額外設定。
+
+**重新部署（更新程式碼後）：**
+
+```bash
+docker compose -f docker-compose.product.yml up -d --build
+```
+
+**停止服務：**
+
+```bash
+docker compose -f docker-compose.product.yml down
+```
+
 ## Phase 1 + 1.5 Features
 
 - 首頁支援拖放或選取 `.md`、`.markdown`、`.txt`
