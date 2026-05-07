@@ -112,7 +112,7 @@ export default function EditPage() {
     } finally {
       setIsSaving(false);
     }
-  }, [content, handleDownload, pushToast, source, updateMarkdown]);
+  }, [content, handleDownload, pushToast, source, t, updateMarkdown]);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {

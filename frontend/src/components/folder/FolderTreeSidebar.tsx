@@ -54,7 +54,7 @@ export function FolderTreeSidebar() {
       const result = await restoreFSAccessDirectory();
       if (cancelled) return;
 
-      if (result.reason === "not-supported") {
+      if (result.status === "unavailable" && result.reason === "not-supported") {
         setIsSupported(false);
         setIsReady(true);
         return;
