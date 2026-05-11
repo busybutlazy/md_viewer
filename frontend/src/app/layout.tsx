@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_TC } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader, Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
 import { AppShell } from "@/components/ui/AppShell";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import { LocaleProvider } from "@/lib/i18n";
 import "./globals.css";
+
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  display: "swap",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const notoSerifTc = Noto_Serif_TC({
+  variable: "--font-noto-serif-tc",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -50,7 +65,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${inter.variable} ${notoSansTc.variable} ${jetBrainsMono.variable} min-h-screen font-sans text-[var(--foreground)] antialiased`}
+        className={`${newsreader.variable} ${notoSerifTc.variable} ${inter.variable} ${notoSansTc.variable} ${jetBrainsMono.variable} min-h-screen text-[var(--foreground)] antialiased`}
       >
         <LocaleProvider>
           <ThemeProvider>

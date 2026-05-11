@@ -107,6 +107,7 @@ export const zh = {
   },
   sampleCards: {
     tryIt: "試試看",
+    tryItLoaded: "換個範例",
     template: "範本",
     items: [
       {

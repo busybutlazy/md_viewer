@@ -117,7 +117,7 @@ export default function ExamPage() {
     .map((question) => questionDisplayNumbers[question.id]);
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <main className="warmth-theme mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="space-y-6">
         <ExamProgressBar
           answeredCount={answeredCount}
@@ -170,6 +170,14 @@ export default function ExamPage() {
               />
             );
           })}
+        </div>
+
+        {/* Bottom submit row */}
+        <div className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-strong)] px-5 py-4">
+          <p className="text-sm text-[var(--muted-foreground)]">
+            {t.exam.progress(unansweredNumbers.length, answeredCount)}
+          </p>
+          <Button onClick={() => setIsSubmitDialogOpen(true)}>{t.exam.submit}</Button>
         </div>
       </div>
 

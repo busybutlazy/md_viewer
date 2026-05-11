@@ -1,3 +1,6 @@
+"use client";
+
+import { useLayoutEffect, useRef, useState } from "react";
 import { MarkdownView } from "@/components/markdown/MarkdownView";
 import type { Slide, SlideDeck } from "@/lib/parsers/types";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
@@ -8,6 +11,12 @@ interface SlideFrameProps {
   isActive?: boolean;
   slide: Slide;
 }
+
+const VIRTUAL_WIDTH = 1280;
+const VIRTUAL_HEIGHTS: Record<string, number> = {
+  "16:9": 720,
+  "4:3": 960,
+};
 
 const ASPECT_RATIO_CLASSES = {
   "16:9": "aspect-[16/9]",
@@ -24,9 +33,31 @@ const THEME_CLASSES = {
 
 export function SlideFrame({ deck, isActive = false, slide }: SlideFrameProps) {
   const headings = extractMarkdownHeadings(slide.content);
+  const frameRef = useRef<HTMLElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useLayoutEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+
+    const update = (width: number) => {
+      setScale(width / VIRTUAL_WIDTH);
+    };
+
+    update(el.getBoundingClientRect().width);
+
+    const ro = new ResizeObserver(([entry]) => {
+      update(entry.contentRect.width);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const virtualHeight = VIRTUAL_HEIGHTS[deck.meta.aspectRatio] ?? 720;
 
   return (
     <article
+      ref={frameRef}
       className={cn(
         "slide-frame relative w-full overflow-hidden rounded-[2.5rem] border border-[var(--border-strong)] shadow-[var(--shadow-soft)]",
         ASPECT_RATIO_CLASSES[deck.meta.aspectRatio],
@@ -36,15 +67,26 @@ export function SlideFrame({ deck, isActive = false, slide }: SlideFrameProps) {
       data-slide-theme={deck.meta.theme}
     >
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_30%)]" />
-      <div className="slide-surface relative flex h-full flex-col justify-between p-8 sm:p-10 lg:p-14">
-        <div className="slide-markdown max-w-none flex-1">
-          <MarkdownView headings={headings} markdown={slide.content} />
-        </div>
-        <div className="mt-6 flex items-center justify-between text-sm text-current/70">
-          <span>{deck.meta.title}</span>
-          <span>
-            {slide.index + 1} / {deck.slides.length}
-          </span>
+
+      {/* Virtual canvas: always 1280px wide, scaled down to fit the container */}
+      <div
+        className="absolute left-0 top-0 origin-top-left"
+        style={{
+          width: VIRTUAL_WIDTH,
+          height: virtualHeight,
+          transform: `scale(${scale})`,
+        }}
+      >
+        <div className="slide-surface relative flex h-full flex-col justify-between px-[72px] py-[60px]">
+          <div className="slide-markdown max-w-none flex-1">
+            <MarkdownView headings={headings} markdown={slide.content} />
+          </div>
+          <div className="mt-6 flex items-center justify-between text-sm text-current/70">
+            <span>{deck.meta.title}</span>
+            <span>
+              {slide.index + 1} / {deck.slides.length}
+            </span>
+          </div>
         </div>
       </div>
     </article>

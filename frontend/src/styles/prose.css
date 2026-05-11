@@ -30,7 +30,7 @@
 .mrp-prose hr {
   margin-block: 2.5rem;
   border: 0;
-  border-top: 1px solid var(--border-strong);
+  border-top: 1.5px solid var(--foreground);
 }
 
 .mrp-prose ul,
@@ -52,10 +52,10 @@
 
 .mrp-prose blockquote {
   margin-block: 2rem;
-  border-left: 4px solid var(--accent);
-  background: color-mix(in srgb, var(--accent-soft) 65%, var(--surface));
-  border-radius: 0 1.5rem 1.5rem 0;
-  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--border-ink);
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  color: var(--ink-soft);
+  font-style: italic;
 }
 
 .mrp-prose table {
@@ -115,4 +115,56 @@
 .mrp-prose h5,
 .mrp-prose h6 {
   color: var(--foreground);
+  font-family: var(--font-newsreader), var(--font-noto-serif-tc), serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* === Magazine reading variant === */
+.mrp-prose-magazine {
+  font-family: var(--font-newsreader), var(--font-noto-serif-tc), serif;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.mrp-prose-magazine h1 {
+  font-size: 2rem;
+  border-top: 1.5px solid var(--foreground);
+  padding-top: 1.5rem;
+  margin-top: 3rem;
+}
+
+.mrp-prose-magazine h2 {
+  font-size: 1.375rem;
+  border-top: 1px solid var(--border-strong);
+  padding-top: 1rem;
+  margin-top: 2.5rem;
+}
+
+.mrp-prose-magazine h3 {
+  font-size: 1.125rem;
+  margin-top: 2rem;
+}
+
+.mrp-prose-magazine blockquote {
+  border-left: 3px solid var(--border-ink);
+  background: none;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.125rem;
+  border-radius: 0;
+}
+
+.mrp-prose-magazine :not(pre) > code {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.875rem;
+  padding: 0.1em 0.4em;
+  background: var(--background-deep, var(--background));
+  color: var(--accent-strong);
+}
+
+.mrp-prose-magazine hr {
+  border-top: 1.5px solid var(--foreground);
 }

@@ -89,11 +89,11 @@ export function FolderAccessStatus() {
         <span className="truncate">{t.folderStatus.label(folderName)}</span>
       </button>
       {isOpen ? (
-        <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-strong)] p-2 shadow-[var(--shadow-soft)]">
-          <Button className="w-full justify-start rounded-xl" disabled={isBusy} onClick={() => void handleSwitchFolder()} variant="ghost">
+        <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-strong)] p-2 shadow-[var(--shadow-soft)]">
+          <Button className="w-full justify-start rounded-[var(--radius-md)]" disabled={isBusy} onClick={() => void handleSwitchFolder()} variant="ghost">
             {t.folderStatus.switch}
           </Button>
-          <Button className="mt-1 w-full justify-start rounded-xl text-red-600 dark:text-red-300" disabled={isBusy} onClick={() => void handleClearFolder()} variant="ghost">
+          <Button className="mt-1 w-full justify-start rounded-[var(--radius-md)] text-red-600 dark:text-red-300" disabled={isBusy} onClick={() => void handleClearFolder()} variant="ghost">
             {t.folderStatus.clear}
           </Button>
         </div>

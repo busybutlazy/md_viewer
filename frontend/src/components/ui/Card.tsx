@@ -9,7 +9,7 @@ export function Card({ children, className, ...props }: CardProps) {
   return (
     <article
       className={cn(
-        "rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] backdrop-blur",
+        "rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface)] shadow-[var(--shadow-card)]",
         className,
       )}
       {...props}
@@ -29,7 +29,7 @@ export function CardHeader({
   ...props
 }: CardHeaderProps) {
   return (
-    <div className={cn("space-y-2", className)} {...props}>
+    <div className={cn("space-y-2 p-6", className)} {...props}>
       {children}
     </div>
   );
@@ -41,7 +41,7 @@ interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 
 export function CardTitle({ children, className, ...props }: CardTitleProps) {
   return (
-    <h3 className={cn("text-xl font-semibold tracking-tight", className)} {...props}>
+    <h3 className={cn("font-serif text-xl font-medium tracking-tight", className)} {...props}>
       {children}
     </h3>
   );
@@ -76,7 +76,7 @@ export function CardContent({
   ...props
 }: CardContentProps) {
   return (
-    <div className={cn("mt-5", className)} {...props}>
+    <div className={cn("mt-0 px-6 pb-6", className)} {...props}>
       {children}
     </div>
   );

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <style>
+      .bg { fill: #ece4d3; }
+      .card { fill: #fffaf0; }
+      .border { fill: none; stroke: rgba(26,23,18,0.16); stroke-width: 1; }
+      .num { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; fill: #6b614e; }
+      .pill { fill: rgba(107,46,21,0.10); }
+      .pill-text { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: #4d1f0d; }
+      .card-title { font-size: 26px; font-weight: 500; fill: #1a1712; }
+      .card-desc { font-size: 13px; fill: #3a342a; line-height: 1.65; }
+      .accent { fill: #6b2e15; }
+      .muted { fill: #6b614e; }
+      .sep { stroke: rgba(26,23,18,0.32); stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1200" height="560" />
+
+  <!-- Header row -->
+  <text x="60" y="52" font-family="'JetBrains Mono','Courier New',monospace" font-size="10" font-weight="700" letter-spacing="0.28em" fill="#4d1f0d" text-transform="uppercase">MARKDOWN READER PRO · FOUR MODES</text>
+  <line x1="60" y1="68" x2="1140" y2="68" stroke="#1a1712" stroke-width="1.5"/>
+
+  <!-- Grid: 2 × 2, each card 520 × 192 with 20px gap -->
+
+  <!-- Card 1: Reading -->
+  <rect x="60" y="90" width="520" height="192" rx="8" class="card border"/>
+  <rect x="60" y="90" width="520" height="192" rx="8" fill="none" stroke="rgba(26,23,18,0.16)" stroke-width="1"/>
+  <text x="84" y="124" class="num">01</text>
+  <rect x="486" y="106" width="70" height="22" rx="11" class="pill"/>
+  <text x="521" y="121" class="pill-text" text-anchor="middle">READ</text>
+  <text x="84" y="164" class="card-title">閱讀模式</text>
+  <text x="84" y="190" class="card-desc">沉浸式長文排版，目錄自動生成，</text>
+  <text x="84" y="208" class="card-desc">閱讀進度追蹤，print-magazine 風格。</text>
+  <text x="84" y="265" class="card-desc" fill="#6b614e">→ frontmatter: (無 type, 或 type: reading)</text>
+
+  <!-- Card 2: Exam -->
+  <rect x="620" y="90" width="520" height="192" rx="8" class="card"/>
+  <rect x="620" y="90" width="520" height="192" rx="8" fill="none" stroke="rgba(26,23,18,0.16)" stroke-width="1"/>
+  <text x="644" y="124" class="num">02</text>
+  <rect x="1046" y="106" width="70" height="22" rx="11" class="pill"/>
+  <text x="1081" y="121" class="pill-text" text-anchor="middle">EXAM</text>
+  <text x="644" y="164" class="card-title">考試模式</text>
+  <text x="644" y="190" class="card-desc">單選 / 複選、計時器、自動批改，</text>
+  <text x="644" y="208" class="card-desc">錯題詳解，一份 markdown 就是一份考卷。</text>
+  <text x="644" y="265" class="card-desc" fill="#6b614e">→ frontmatter: type: quiz</text>
+
+  <!-- Card 3: Slides -->
+  <rect x="60" y="302" width="520" height="192" rx="8" fill="#1a1712"/>
+  <rect x="60" y="302" width="520" height="192" rx="8" fill="none" stroke="rgba(26,23,18,0.32)" stroke-width="1"/>
+  <text x="84" y="336" class="num" fill="rgba(242,236,224,0.45)">03</text>
+  <rect x="470" y="318" width="86" height="22" rx="11" fill="rgba(107,46,21,0.3)"/>
+  <text x="513" y="333" font-family="'JetBrains Mono','Courier New',monospace" font-size="11" font-weight="700" letter-spacing="0.06em" fill="rgba(242,236,224,0.7)" text-anchor="middle">SLIDES</text>
+  <text x="84" y="376" class="card-title" fill="#f2ece0">簡報模式</text>
+  <text x="84" y="402" font-size="13" fill="rgba(242,236,224,0.65)">用 --- 切換投影片，講者備忘、概覽，</text>
+  <text x="84" y="420" font-size="13" fill="rgba(242,236,224,0.65)">全螢幕一鍵切換，支援 PDF 匯出。</text>
+  <text x="84" y="477" font-size="13" fill="rgba(242,236,224,0.35)">→ frontmatter: type: slides</text>
+
+  <!-- Card 4: Edit -->
+  <rect x="620" y="302" width="520" height="192" rx="8" class="card"/>
+  <rect x="620" y="302" width="520" height="192" rx="8" fill="none" stroke="rgba(26,23,18,0.16)" stroke-width="1"/>
+  <text x="644" y="336" class="num">04</text>
+  <rect x="1046" y="318" width="70" height="22" rx="11" class="pill"/>
+  <text x="1081" y="333" class="pill-text" text-anchor="middle">EDIT</text>
+  <text x="644" y="376" class="card-title">編輯模式</text>
+  <text x="644" y="402" class="card-desc">左欄編輯右欄即時預覽，語法高亮，</text>
+  <text x="644" y="420" class="card-desc">授權資料夾後可直接存回磁碟。</text>
+  <text x="644" y="477" class="card-desc" fill="#6b614e">→ frontmatter: type: edit（或手動切換）</text>
+
+  <!-- Bottom separator -->
+  <line x1="60" y1="516" x2="1140" y2="516" stroke="rgba(26,23,18,0.16)" stroke-width="1"/>
+  <text x="60" y="538" font-family="'JetBrains Mono','Courier New',monospace" font-size="10" fill="#6b614e" letter-spacing="0.12em">同一份 .md 檔案，frontmatter 決定模式。</text>
+</svg>

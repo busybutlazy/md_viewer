@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 280" width="1200" height="280" font-family="Georgia, 'Times New Roman', serif">
+  <rect width="1200" height="280" fill="#1a1712"/>
+  <!-- Subtle gradient -->
+  <radialGradient id="g1" cx="15%" cy="0%" r="55%">
+    <stop offset="0%" stop-color="#6b2e15" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#1a1712" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g2" cx="85%" cy="100%" r="45%">
+    <stop offset="0%" stop-color="#3a2010" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#1a1712" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="280" fill="url(#g1)"/>
+  <rect width="1200" height="280" fill="url(#g2)"/>
+
+  <!-- Top rule -->
+  <line x1="60" y1="52" x2="1140" y2="52" stroke="rgba(242,236,224,0.12)" stroke-width="1"/>
+
+  <!-- Eyebrow -->
+  <text x="60" y="40" font-family="'JetBrains Mono','Courier New',monospace" font-size="10" font-weight="700" letter-spacing="0.32em" fill="rgba(242,236,224,0.35)">OPEN SOURCE · NEXT.JS · TAILWIND CSS · FILE SYSTEM ACCESS API</text>
+
+  <!-- Main title -->
+  <text x="60" y="150" font-size="72" font-weight="500" letter-spacing="-0.025em" fill="#f2ece0">Markdown</text>
+  <text x="60" y="222" font-size="72" font-weight="500" letter-spacing="-0.025em" fill="#f2ece0">Reader <tspan font-style="italic" fill="#6b2e15">Pro</tspan></text>
+
+  <!-- Right column -->
+  <text x="780" y="108" font-size="14" fill="rgba(242,236,224,0.5)" font-family="'JetBrains Mono','Courier New',monospace" letter-spacing="0.06em">FOUR MODES</text>
+  <line x1="780" y1="120" x2="1080" y2="120" stroke="rgba(242,236,224,0.12)" stroke-width="1"/>
+
+  <text x="780" y="152" font-size="15" fill="rgba(242,236,224,0.75)">01 · Reading</text>
+  <text x="780" y="178" font-size="15" fill="rgba(242,236,224,0.75)">02 · Exam</text>
+  <text x="780" y="204" font-size="15" fill="rgba(242,236,224,0.75)">03 · Slides</text>
+  <text x="780" y="230" font-size="15" fill="rgba(242,236,224,0.75)">04 · Edit</text>
+
+  <!-- Bottom rule + tagline -->
+  <line x1="60" y1="250" x2="1140" y2="250" stroke="rgba(242,236,224,0.12)" stroke-width="1"/>
+  <text x="60" y="268" font-size="12" fill="rgba(242,236,224,0.3)" font-family="'JetBrains Mono','Courier New',monospace" letter-spacing="0.1em">同一份 .md，四種呈現方式。frontmatter 自動決定模式。</text>
+</svg>

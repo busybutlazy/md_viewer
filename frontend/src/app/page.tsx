@@ -1,23 +1,20 @@
 import { Suspense } from "react";
 import { HomeHero } from "@/components/home/HomeHero";
-import { NewDocumentCard } from "@/components/home/NewDocumentDialog";
 import { SampleCards } from "@/components/home/SampleCards";
 import { UploadPanel } from "@/components/home/UploadPanel";
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-      <HomeHero />
-
-      <section className="mb-14">
-        <div className="grid gap-4 lg:grid-cols-[2fr_3fr] lg:items-stretch">
-          <NewDocumentCard />
-          <Suspense fallback={null}>
-            <UploadPanel />
-          </Suspense>
-        </div>
+    <main className="mx-auto w-full max-w-[1280px] px-6 py-14 lg:px-8">
+      {/* Hero: text left + drop zone right */}
+      <section className="mb-[72px] grid grid-cols-1 items-end gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <HomeHero />
+        <Suspense fallback={null}>
+          <UploadPanel />
+        </Suspense>
       </section>
 
+      {/* Mode cards + templates */}
       <SampleCards />
     </main>
   );

@@ -1,4 +1,7 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import { isRelativeImageSrc, resolveImageUrl } from "@/lib/fs/image-resolver";
 
 interface ProseImageProps {
   alt?: string;
@@ -7,23 +10,34 @@ interface ProseImageProps {
 }
 
 export function ProseImage({ alt, src, title }: ProseImageProps) {
-  if (!src) {
-    return null;
-  }
+  const isAbsolute = src ? !isRelativeImageSrc(src) : false;
+  const [resolvedSrc, setResolvedSrc] = useState<string | undefined>(
+    isAbsolute ? src : undefined,
+  );
+
+  useEffect(() => {
+    if (!src || !isRelativeImageSrc(src)) return;
+
+    let cancelled = false;
+    resolveImageUrl(src).then((url) => {
+      if (!cancelled && url) setResolvedSrc(url);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [src]);
+
+  if (!resolvedSrc) return null;
 
   return (
-    <figure className="my-10 overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface-strong)] shadow-[var(--shadow-soft)]">
-      <div className="relative aspect-[16/9] w-full bg-[var(--surface)]">
-        <Image
-          alt={alt ?? title ?? ""}
-          className="object-cover"
-          fill
-          loading="lazy"
-          sizes="(min-width: 1024px) 960px, 100vw"
-          src={src}
-          unoptimized
-        />
-      </div>
+    <figure className="my-10 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-strong)] shadow-[var(--shadow-soft)]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        alt={alt ?? title ?? ""}
+        className="block h-auto w-full"
+        loading="lazy"
+        src={resolvedSrc}
+      />
       {(alt || title) ? (
         <figcaption className="border-t border-[var(--border)] px-5 py-4 text-sm leading-7 text-[var(--muted-foreground)]">
           {alt ?? title}

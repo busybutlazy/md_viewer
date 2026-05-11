@@ -6,14 +6,6 @@ import { SlideNavigator } from "@/components/slides/SlideNavigator";
 import { SlideOverview } from "@/components/slides/SlideOverview";
 import { SpeakerNotes } from "@/components/slides/SpeakerNotes";
 import { WarningBanner } from "@/components/document/WarningBanner";
-import { Badge } from "@/components/ui/Badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-
 import { useRequireDocument } from "@/components/document/ModeGuard";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
@@ -168,48 +160,80 @@ export default function SlidesPage() {
 
   return (
     <div
-      className="min-h-[calc(100vh-80px)]"
+      className="slides-dark min-h-[calc(100vh-80px)]"
       onMouseMove={() => setChromeVisible(true)}
       ref={containerRef}
+      style={{ background: "#0d0c0a", color: "#f2ece0" }}
     >
-      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-6">
-          <div className={cn("slides-chrome transition", chromeVisible ? "opacity-100" : "opacity-0")}>
-            <WarningBanner warnings={warnings} />
-            <Card className="border-[var(--border-strong)] bg-[var(--surface-strong)]">
-              <CardHeader>
-                <div className="flex flex-wrap items-center gap-3">
-                  <Badge className="w-fit" tone="accent">
-                    {t.slides.badge}
-                  </Badge>
-                  <Badge tone="outline">{deck.meta.theme}</Badge>
-                  <Badge tone="outline">{deck.meta.aspectRatio}</Badge>
-                </div>
-                <CardTitle>{deck.meta.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="border-t border-[var(--border)] pt-5">
-                <UploadTriggerButton />
-              </CardContent>
-            </Card>
-          </div>
-
-          {currentSlide ? (
-            <div className={cn("grid gap-6", isSpeakerMode ? "xl:grid-cols-[minmax(0,1fr)_22rem]" : "")}>
-              <div>
-                <SlideFrame deck={deck} isActive slide={currentSlide} />
-              </div>
-              {isSpeakerMode ? (
-                <SpeakerNotes currentSlide={currentSlide} nextSlide={nextSlide} />
+      <main className="mx-auto w-full max-w-[1640px] px-6 pb-36 pt-6">
+        {/* Meta strip */}
+        <div
+          className={cn(
+            "slides-chrome mb-5 transition duration-300",
+            chromeVisible ? "opacity-100" : "opacity-0 pointer-events-none",
+          )}
+        >
+          <WarningBanner warnings={warnings} />
+          <div
+            className="flex items-center justify-between gap-4 px-5 py-3"
+            style={{
+              borderRadius: "var(--radius-lg, 6px)",
+              background: "rgba(242,236,224,0.04)",
+              border: "1px solid rgba(242,236,224,0.08)",
+            }}
+          >
+            <div className="flex min-w-0 flex-1 items-center gap-4">
+              <span
+                className="flex-shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.2em]"
+                style={{ color: "rgba(242,236,224,0.4)" }}
+              >
+                {t.slides.badge}
+              </span>
+              <span
+                className="min-w-0 truncate font-serif text-base font-medium"
+                style={{ color: "#f2ece0" }}
+              >
+                {deck.meta.title}
+              </span>
+              {deck.meta.theme ? (
+                <span
+                  className="flex-shrink-0 font-mono text-[10px] uppercase tracking-[0.1em]"
+                  style={{ color: "rgba(242,236,224,0.4)" }}
+                >
+                  {deck.meta.theme}
+                </span>
               ) : null}
             </div>
-          ) : (
-            <Card className="border-[var(--border-strong)] bg-[var(--surface-strong)]">
-              <CardContent className="mt-0 py-8 text-sm text-[var(--muted-foreground)]">
-                {t.slides.noSlides}
-              </CardContent>
-            </Card>
-          )}
+            <div className="flex flex-shrink-0 items-center gap-3">
+              <span
+                className="font-mono text-[12px]"
+                style={{ color: "rgba(242,236,224,0.5)" }}
+              >
+                <strong style={{ color: "#f2ece0" }}>{safeActiveIndex + 1}</strong>
+                {" / "}
+                {totalSlides}
+              </span>
+              <UploadTriggerButton />
+            </div>
+          </div>
         </div>
+
+        {/* Slide area */}
+        {currentSlide ? (
+          <div className={cn("grid gap-5", isSpeakerMode ? "xl:grid-cols-[minmax(0,1.85fr)_minmax(0,1fr)]" : "")}>
+            <SlideFrame deck={deck} isActive slide={currentSlide} />
+            {isSpeakerMode ? (
+              <SpeakerNotes currentSlide={currentSlide} nextSlide={nextSlide} />
+            ) : null}
+          </div>
+        ) : (
+          <div
+            className="py-16 text-center text-sm"
+            style={{ color: "rgba(242,236,224,0.45)" }}
+          >
+            {t.slides.noSlides}
+          </div>
+        )}
       </main>
 
       <SlideOverview

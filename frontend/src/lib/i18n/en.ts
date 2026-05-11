@@ -109,6 +109,7 @@ export const en: typeof zh = {
   },
   sampleCards: {
     tryIt: "Try it",
+    tryItLoaded: "Try sample",
     template: "Template",
     items: [
       {

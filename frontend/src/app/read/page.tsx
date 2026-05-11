@@ -7,13 +7,6 @@ import { ReadingProgress } from "@/components/markdown/ReadingProgress";
 import { TableOfContents } from "@/components/markdown/TableOfContents";
 import { WarningBanner } from "@/components/document/WarningBanner";
 import { useRequireDocument } from "@/components/document/ModeGuard";
-import { Badge } from "@/components/ui/Badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
 import { extractMarkdownHeadings } from "@/lib/markdown/headings";
 import { UploadPrompt } from "@/components/document/UploadPrompt";
 import { UploadTriggerButton } from "@/components/ui/UploadTriggerButton";
@@ -37,77 +30,88 @@ export default function ReadPage() {
   if (shouldShowPrompt) return <UploadPrompt />;
   if (mode !== "reading" || !parsed || !("content" in parsed)) return null;
 
+  const title = parsed.meta.title ?? fileName ?? t.read.untitled;
+  const author = frontmatter?.author;
+  const date = frontmatter?.date;
+  const tags = frontmatter?.tags ?? [];
+
   return (
     <>
       <ReadingProgress />
-      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_18rem]">
-          <div className="space-y-6">
-            <Card className="overflow-hidden border-[var(--border-strong)] bg-[var(--surface-strong)]">
-              <CardHeader className="space-y-3">
-                <Badge className="w-fit" tone="accent">
-                  {t.read.badge}
-                </Badge>
-                <CardTitle className="max-w-4xl text-3xl sm:text-5xl">
-                  {parsed.meta.title ?? fileName ?? t.read.untitled}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-4 border-t border-[var(--border)] pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                {fileName ? (
-                  <p className="text-sm text-[var(--muted-foreground)]">
-                    {t.read.file}{" "}
-                    <span className="font-semibold text-[var(--foreground)]">
-                      {fileName}
-                    </span>
-                  </p>
+      <main className="mx-auto w-full max-w-[1280px] px-6 py-12 lg:px-8">
+        <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_14rem]">
+
+          {/* Main article area */}
+          <article>
+            {/* Masthead — editorial header */}
+            <header className="mb-10">
+              {/* Kicker */}
+              <p className="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.32em] text-[var(--accent-strong)]">
+                {t.read.badge} · {fileName}
+              </p>
+
+              {/* Title */}
+              <h1
+                className="mb-6 font-serif font-medium leading-[1.05] tracking-[-0.02em]"
+                style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
+              >
+                {title}
+              </h1>
+
+              {/* Horizontal rule — print masthead vibe */}
+              <div className="mb-5 border-t-[1.5px] border-[var(--foreground)]" />
+
+              {/* Meta row */}
+              <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+                {author ? (
+                  <span>
+                    {t.read.author} <strong className="text-[var(--foreground)]">{author}</strong>
+                  </span>
                 ) : null}
-                {frontmatter?.author ? (
-                  <p className="text-sm text-[var(--muted-foreground)]">
-                    {t.read.author}{" "}
-                    <span className="font-semibold text-[var(--foreground)]">
-                      {frontmatter.author}
-                    </span>
-                  </p>
+                {date ? (
+                  <span>
+                    {t.read.date} <strong className="text-[var(--foreground)]">{date}</strong>
+                  </span>
                 ) : null}
-                {frontmatter?.date ? (
-                  <p className="text-sm text-[var(--muted-foreground)]">
-                    {t.read.date}{" "}
-                    <span className="font-semibold text-[var(--foreground)]">
-                      {frontmatter.date}
-                    </span>
-                  </p>
-                ) : null}
-                {frontmatter?.tags?.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {frontmatter.tags.map((tag) => (
-                      <Badge key={tag} tone="outline">
+                {tags.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-block border border-[var(--border-strong)] px-2 py-0.5 text-[10px]"
+                      >
                         {tag}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
                 ) : null}
-                <UploadTriggerButton />
-                <Link
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] px-5 text-sm font-semibold transition hover:bg-[var(--surface)]"
-                  href="/edit"
-                >
-                  {t.read.edit}
-                </Link>
-              </CardContent>
-            </Card>
+                <div className="ml-auto flex gap-2">
+                  <UploadTriggerButton />
+                  <Link
+                    className="inline-flex min-h-8 items-center border border-[var(--border-strong)] px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--muted-foreground)] transition hover:text-[var(--foreground)]"
+                    href="/edit"
+                  >
+                    {t.read.edit}
+                  </Link>
+                </div>
+              </div>
+
+              {/* Second rule */}
+              <div className="mt-5 border-t border-[var(--border-strong)]" />
+            </header>
 
             <WarningBanner warnings={warnings} />
 
-            <Card className="border-[var(--border-strong)] bg-[var(--surface-strong)] p-0">
-              <CardContent className="mt-0 px-5 py-8 sm:px-8 lg:px-12">
-                <MarkdownView headings={headings} markdown={parsed.content} />
-              </CardContent>
-            </Card>
-          </div>
+            {/* Reading content — serif prose */}
+            <div className="mrp-prose mrp-prose-magazine">
+              <MarkdownView headings={headings} markdown={parsed.content} />
+            </div>
+          </article>
 
-          <div className="xl:block">
+          {/* TOC sidebar */}
+          <aside className="hidden xl:block">
             <TableOfContents headings={headings} />
-          </div>
+          </aside>
         </div>
       </main>
     </>

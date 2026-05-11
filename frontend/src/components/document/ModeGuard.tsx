@@ -11,16 +11,17 @@ export function useRequireDocument(expectedMode?: DocumentMode) {
     setMounted(true);
   }, []);
 
-  const hasHydrated = useDocumentStore((state) => state.hasHydrated);
+  const storeHydrated = useDocumentStore((state) => state.hasHydrated);
   const mode = useDocumentStore((state) => state.mode);
   const parsed = useDocumentStore((state) => state.parsed);
 
-  // Defer content until mounted to prevent SSR/CSR hydration mismatch
-  const ready = mounted && hasHydrated;
-
+  // Once mounted, show UploadPrompt for any of: store not yet hydrated,
+  // no document loaded, or document mode doesn't match expected mode.
+  // This prevents a permanent blank page if store hydration is delayed.
   const shouldShowPrompt =
-    ready &&
-    (!mode || !parsed || (expectedMode !== undefined && mode !== expectedMode));
+    mounted &&
+    (!storeHydrated || !mode || !parsed || (expectedMode !== undefined && mode !== expectedMode));
 
-  return { hasHydrated: ready, mode, parsed, shouldShowPrompt };
+  // hasHydrated: false during SSR/initial render (returns null in pages), true after mount
+  return { hasHydrated: mounted, mode, parsed, shouldShowPrompt };
 }

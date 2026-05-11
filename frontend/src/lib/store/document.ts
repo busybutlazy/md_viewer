@@ -2,6 +2,8 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { FSAccessAdapter } from "@/lib/fs/fs-access-adapter";
+import { clearImageCache, setImageAdapter } from "@/lib/fs/image-resolver";
 import type { FileSystemAdapter, FileSystemAdapterType } from "@/lib/fs/types";
 import { parseDocument } from "@/lib/parsers/parse-document";
 import type {
@@ -89,7 +91,10 @@ export const useDocumentStore = create<DocumentState>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
-      clearDocument: () => set({ ...INITIAL_STATE, hasHydrated: true }),
+      clearDocument: () => {
+        clearImageCache();
+        set({ ...INITIAL_STATE, hasHydrated: true });
+      },
       loadDocumentFromAdapter: async (adapter, path) => {
         const nodes = await adapter.list();
         const fileName = path ?? nodes.find((node) => node.kind === "file")?.path;
@@ -104,6 +109,12 @@ export const useDocumentStore = create<DocumentState>()(
           fileName,
           markdown,
         });
+
+        if (adapter instanceof FSAccessAdapter) {
+          setImageAdapter(adapter, fileName);
+        } else {
+          setImageAdapter(undefined, undefined);
+        }
 
         set({
           ...parsedState,

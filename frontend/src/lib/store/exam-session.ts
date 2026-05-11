@@ -24,6 +24,7 @@ interface ExamSessionState extends ExamSessionSnapshot {
     optionId: string;
     questionId: string;
   }) => void;
+  startRetrySession: (quiz: Quiz, retryQuestionIds: string[]) => void;
   submitSession: (input?: { autoSubmitted?: boolean }) => void;
 }
 
@@ -125,6 +126,36 @@ export const useExamSessionStore = create<ExamSessionState>()(
           },
           hasHydrated: true,
         }));
+      },
+      startRetrySession: (quiz, retryQuestionIds) => {
+        const retrySet = new Set(retryQuestionIds);
+        const retryQuestions = shuffleArray(
+          quiz.questions.filter((q) => retrySet.has(q.id)),
+        );
+        const startedAt = Date.now();
+        const questionOrder = retryQuestions.map((q) => q.id);
+        const optionOrder = Object.fromEntries(
+          retryQuestions.map((q) => [
+            q.id,
+            shuffleArray(q.options).map((opt) => opt.id),
+          ]),
+        );
+
+        set({
+          answers: {},
+          autoSubmitted: false,
+          deadlineAt:
+            typeof quiz.meta.timeLimit === "number" && quiz.meta.timeLimit > 0
+              ? startedAt + quiz.meta.timeLimit * 1000
+              : undefined,
+          hasHydrated: true,
+          optionOrder,
+          questionOrder,
+          // Keep the same quizId so initializeSession on /exam won't reset this session
+          quizId: createQuizId(quiz),
+          startedAt,
+          submittedAt: undefined,
+        });
       },
       submitSession: ({ autoSubmitted = false } = {}) => {
         if (get().submittedAt) {

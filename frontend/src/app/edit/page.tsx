@@ -127,13 +127,13 @@ export default function EditPage() {
 
   const headings = useMemo(() => extractMarkdownHeadings(content), [content]);
 
-  if (!mounted || !hasHydrated) return null;
+  if (!mounted) return null;
   if (!storedMarkdown) return <UploadPrompt />;
 
   const displayName = fileName ?? "Untitled";
 
   return (
-    <main className="flex h-[calc(100vh-64px)] flex-col">
+    <main className="warmth-theme flex h-[calc(100vh-64px)] flex-col">
       <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-2">
         <p className="min-w-0 truncate text-sm font-medium text-[var(--foreground)]">
           {isDirty ? (

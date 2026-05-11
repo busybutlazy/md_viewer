@@ -43,6 +43,11 @@ export class FSAccessAdapter implements FileSystemAdapter {
     return file.text();
   }
 
+  async readBlob(path: string): Promise<Blob> {
+    const fileHandle = await this.getFileHandle(path);
+    return fileHandle.getFile();
+  }
+
   async write(path: string, content: string): Promise<void> {
     const fileHandle = await this.getFileHandle(path, { create: true });
     const writable = await fileHandle.createWritable();
