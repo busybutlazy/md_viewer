@@ -31,3 +31,7 @@ test-results/
 
 codex-wake.sh
 .claude/settings.local.json
+
+tmp_files
+error_list/
+redesign/
